@@ -5,20 +5,42 @@
 // Define fonts
 @font-face {
   font-family: "Nobile";
-  src: url(../../../assets/fonts/Nobile-Regular.ttf);
+  src: url(../assets/fonts/Nobile-Regular.ttf);
   font-weight: 400;
 }
 
 @font-face {
   font-family: "Nobile";
-  src: url(../../../assets/fonts/Nobile-Medium.ttf);
+  src: url(../assets/fonts/Nobile-Medium.ttf);
   font-weight: 500;
 }
 
 @font-face {
   font-family: "Nobile";
-  src: url(../../../assets/fonts/Nobile-Bold.ttf);
+  src: url(../assets/fonts/Nobile-Bold.ttf);
   font-weight: 700;
+}
+
+// Italics
+@font-face {
+  font-family: "Nobile";
+  src: url(../assets/fonts/Nobile-Italic.ttf);
+  font-weight: 400;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "Nobile";
+  src: url(../assets/fonts/Nobile-MediumItalic.ttf);
+  font-weight: 500;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "Nobile";
+  src: url(../assets/fonts/Nobile-BoldItalic.ttf);
+  font-weight: 700;
+  font-style: italic;
 }
 
 $font-stack: "Nobile", Verdana, sans-serif;
