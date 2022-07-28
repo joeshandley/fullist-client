@@ -23,13 +23,22 @@ function App() {
   useEffect(() => {
     // if (map.current) return; // initialise map only once
     const map = new mapboxgl.Map({
-      container: mapContainer.current,
+      // container: mapContainer.current,
+      container: "map",
       style: "mapbox://styles/mapbox/streets-v11",
       center: [lng, lat],
       zoom: zoom,
     });
     map.addControl(new mapboxgl.NavigationControl());
-  }, [lng, lat, zoom]);
+    map.on("click", (e) => {
+      console.log(
+        `A click event has occurred at ${e.lngLat.lng}, ${e.lngLat.lat}`
+      );
+      map.flyTo({
+        center: [e.lngLat.lng, e.lngLat.lat],
+      });
+    });
+  }); // , [lng, lat, zoom]
 
   // Code for getting current location
   // from https://dev.to/codebucks/how-to-get-user-s-location-in-react-js-1691
@@ -41,9 +50,13 @@ function App() {
         `https://api.postcodes.io/postcodes/${e.target.postcode.value}`
       );
       if (postcodeData) {
-        setLng(postcodeData.data.result.longitude);
-        setLat(postcodeData.data.result.latitude);
-        setZoom(13);
+        // map.flyTo([
+        //   postcodeData.data.result.longitude,
+        //   postcodeData.data.result.latitude,
+        // ]);
+        // setLng(postcodeData.data.result.longitude);
+        // setLat(postcodeData.data.result.latitude);
+        // setZoom(13);
       }
     } catch (err) {
       console.log(`Error: `, err);
@@ -59,7 +72,8 @@ function App() {
         <img src={logo} alt="" />
         <h2>llist.</h2>
       </div>
-      <div ref={mapContainer} className="map-container" />
+      {/* <div ref={mapContainer} className="map-container" /> */}
+      <div id="map" className="map-container"></div>
       <form action="submit" onSubmit={postcodeSubmit}>
         <input name="postcode"></input>
         <button type="submit">Submit postcode</button>
