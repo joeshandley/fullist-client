@@ -25,18 +25,3 @@ h2 {
   // font-weight: 400;
   padding-bottom: 2px;
 }
-
-.map-container {
-  width: 600px;
-  height: 350px;
-}
-
-.button {
-  &--hide {
-    display: none;
-  }
-
-  &--show {
-    display: inline-block;
-  }
-}
