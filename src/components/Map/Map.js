@@ -29,12 +29,12 @@ export default function () {
     map.addControl(new mapboxgl.NavigationControl());
     // Add animation when user enters postcode
     document
-      .getElementById("submitPostcode")
-      .addEventListener("click", async (e) => {
+      .getElementById("postcode-form")
+      .addEventListener("submit", async (e) => {
         e.preventDefault();
         try {
           const postcodeData = await axios.get(
-            `https://api.postcodes.io/postcodes/${e.target.parentElement.postcode.value}`
+            `https://api.postcodes.io/postcodes/${e.target.postcode.value}`
           );
           if (postcodeData) {
             map.flyTo({
@@ -55,11 +55,9 @@ export default function () {
     // TODO: change class names
     <>
       <div id="map" className="map-container"></div>
-      <form action="submit">
-        {/* onSubmit={postcodeSubmit} */}
+      <form id="postcode-form" action="submit">
         <input name="postcode" className="postcode-input"></input>
-        <button id="submitPostcode">
-          {/* type="submit" */}
+        <button id="submitPostcode" type="submit">
           Submit postcode
         </button>
       </form>
