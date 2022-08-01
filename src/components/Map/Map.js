@@ -8,7 +8,7 @@ import "./Map.scss";
 
 // Much of the code for this component was adapted from https://docs.mapbox.com/help/tutorials/building-a-store-locator
 
-export default function () {
+const Map = () => {
   // TODO: use token from .env file
   // mapboxgl.accessToken = process.env.MAP_TOKEN;
   mapboxgl.accessToken =
@@ -32,15 +32,13 @@ export default function () {
           coordinates: [-0.083964, 51.526649],
         },
         properties: {
-          supermarket: "Sainsbury's",
-          phoneFormatted: "(202) 234-7336",
-          phone: "2022347336",
-          address: "1471 P St NW",
-          city: "Washington DC",
-          country: "United States",
-          crossStreet: "at 15th St NW",
-          postalCode: "20005",
-          state: "D.C.",
+          supermarket: "Sainsbury's Local",
+          //   phoneFormatted: "(202) 234-7336",
+          //   phone: "2022347336",
+          address: "245 Old St",
+          city: "London",
+          country: "UK",
+          postcode: "EC1V 9EY",
         },
       },
       {
@@ -50,32 +48,29 @@ export default function () {
           coordinates: [-0.08262, 51.525691],
         },
         properties: {
-          supermarket: "Co-operative",
-          phoneFormatted: "(202) 507-8357",
-          phone: "2025078357",
-          address: "2221 I St NW",
-          city: "Washington DC",
-          country: "United States",
-          crossStreet: "at 22nd St NW",
-          postalCode: "20037",
-          state: "D.C.",
+          supermarket: "Co-op Food",
+          //   phoneFormatted: "(202) 507-8357",
+          //   phone: "2025078357",
+          address: "76-80 Great Eastern St",
+          city: "London",
+          country: "UK",
+          postcode: "EC2A 3JL",
         },
       },
       {
         type: "Feature",
         geometry: {
           type: "Point",
-          coordinates: [-0.0907917, 51.5257821],
+          coordinates: [-0.077415, 51.524535],
         },
         properties: {
-          phoneFormatted: "(202) 387-9338",
-          phone: "2023879338",
-          address: "1512 Connecticut Ave NW",
-          city: "Washington DC",
-          country: "United States",
-          crossStreet: "at Dupont Circle",
-          postalCode: "20036",
-          state: "D.C.",
+          supermarket: "Tesco Express",
+          //   phoneFormatted: "(202) 387-9338",
+          //   phone: "2023879338",
+          address: "179 Shoreditch High St",
+          city: "London",
+          country: "UK",
+          postcode: "E1 6HP",
         },
       },
       {
@@ -85,14 +80,13 @@ export default function () {
           coordinates: [-0.0888176, 51.5255285],
         },
         properties: {
-          phoneFormatted: "(202) 337-9338",
-          phone: "2023379338",
+          supermarket: "Co-operative",
+          //   phoneFormatted: "(202) 337-9338",
+          //   phone: "2023379338",
           address: "3333 M St NW",
-          city: "Washington DC",
-          country: "United States",
-          crossStreet: "at 34th St NW",
-          postalCode: "20007",
-          state: "D.C.",
+          city: "London",
+          country: "UK",
+          postcode: "20007",
         },
       },
       {
@@ -102,14 +96,13 @@ export default function () {
           coordinates: [-0.0875945, 51.5256753],
         },
         properties: {
-          phoneFormatted: "(202) 547-9338",
-          phone: "2025479338",
+          supermarket: "Co-operative",
+          //   phoneFormatted: "(202) 547-9338",
+          //   phone: "2025479338",
           address: "221 Pennsylvania Ave SE",
-          city: "Washington DC",
-          country: "United States",
-          crossStreet: "btwn 2nd & 3rd Sts. SE",
-          postalCode: "20003",
-          state: "D.C.",
+          city: "London",
+          country: "UK",
+          postcode: "20003",
         },
       },
     ],
@@ -179,7 +172,9 @@ export default function () {
 
     const popup = new mapboxgl.Popup({ closeOnClick: false })
       .setLngLat(location.geometry.coordinates)
-      .setHTML(`<h3>Sweetgreen</h3><h4>${location.properties.address}</h4>`)
+      .setHTML(
+        `<h3>${location.properties.supermarket}</h3><h4>${location.properties.address}, ${location.properties.postcode}</h4>`
+      )
       .addTo(map);
   }
 
@@ -258,32 +253,8 @@ export default function () {
       });
     });
 
-    addMarkers(map);
-
-    // map.on("click", (event) => {
-    //   /* Determine if a feature in the "locations" layer exists at that point. */
-    //   const features = map.queryRenderedFeatures(event.point, {
-    //     layers: ["locations"],
-    //   });
-    //   if (!features.length) return;
-
-    //   const clickedPoint = features[0];
-
-    //   flyToShop(clickedPoint, map);
-    //   createPopUp(clickedPoint, map);
-
-    //   /* Highlight listing in sidebar (and remove highlight for all other listings) */
-    //   const activeItem = document.getElementsByClassName("active");
-    //   if (activeItem[0]) {
-    //     activeItem[0].classList.remove("active");
-    //   }
-    //   const listing = document.getElementById(
-    //     `listing-${clickedPoint.properties.id}`
-    //   );
-    //   listing.classList.add("active");
-    // });
-
     buildLocationList(shops, map);
+    addMarkers(map);
 
     // Add animation to fly to the user-entered postcode
     document
@@ -330,4 +301,6 @@ export default function () {
       </form>
     </>
   );
-}
+};
+
+export default Map;
