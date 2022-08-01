@@ -6,6 +6,7 @@ import mapboxgl from "mapbox-gl";
 import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
 import "@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css";
 
+import Logo from "../Logo/Logo";
 import "./Map.scss";
 
 /**
@@ -428,6 +429,9 @@ const Map = () => {
           Submit postcode
         </button>
       </form>
+      <div className="logo-container">
+        <Logo fillColor="#000000" />
+      </div>
     </>
   );
 };
