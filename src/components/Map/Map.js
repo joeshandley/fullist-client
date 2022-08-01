@@ -31,6 +31,7 @@ const Map = () => {
   const [lng, setLng] = useState(-0.080984);
   const [lat, setLat] = useState(51.526167);
   const [zoom, setZoom] = useState(14);
+  const [isPopupClicked, setIsPopupClicked] = useState(false);
 
   const shops = {
     type: "FeatureCollection",
@@ -168,12 +169,20 @@ const Map = () => {
     }
   };
 
-  function flyToShop(location, map) {
+  function flyToShop(coords, map) {
     map.flyTo({
-      center: location.geometry.coordinates,
+      center: coords,
       zoom: 15,
     });
   }
+
+  // TODO: delete -- old version when marker was passed
+  //   function flyToShop(location, map) {
+  //     map.flyTo({
+  //       center: location.geometry.coordinates,
+  //       zoom: 15,
+  //     });
+  //   }
 
   function createPopUp(location, map) {
     const popUps = document.getElementsByClassName("mapboxgl-popup");
@@ -295,14 +304,10 @@ const Map = () => {
           { method: "GET" }
         );
         const json = await query.json();
-        console.log(json.features[0].properties.retailer);
-        // Use the response to populate the 'tilequery' source
         map.getSource("tilequery").setData(json);
-        console.log(map.getSource("tilequery"));
       });
 
       map.addSource("tilequery", {
-        // Add a new source to the map style: https://docs.mapbox.com/mapbox-gl-js/api/#map#addsource
         type: "geojson",
         data: {
           type: "FeatureCollection",
@@ -313,12 +318,12 @@ const Map = () => {
         if (error) throw error;
         map.addImage("fullist-icon", image, { sdf: true });
         map.addLayer({
-          id: "test-stores",
+          id: "shopMarkers",
           source: "tilequery",
           type: "symbol",
           layout: {
             "icon-image": "fullist-icon",
-            "icon-size": 0.5,
+            "icon-size": 0.2,
           },
           paint: {
             "icon-color": [
@@ -374,84 +379,63 @@ const Map = () => {
         });
       });
 
-      map.addLayer({
-        id: "tilequery-points",
-        type: "circle",
-        source: "tilequery", // Set the layer source
-        paint: {
-          "circle-stroke-color": "white",
-          "circle-stroke-width": {
-            // Set the stroke width of each circle: https://docs.mapbox.com/mapbox-gl-js/style-spec/#paint-circle-circle-stroke-width
-            stops: [
-              [0, 0.1],
-              [18, 3],
-            ],
-            base: 5,
-          },
-          "circle-radius": {
-            // Set the radius of each circle, as well as its size at each zoom level: https://docs.mapbox.com/mapbox-gl-js/style-spec/#paint-circle-circle-radius
-            stops: [
-              [12, 5],
-              [22, 180],
-            ],
-            base: 5,
-          },
-          "circle-color": [
-            // Specify the color each circle should be
-            "match", // Use the 'match' expression: https://docs.mapbox.com/mapbox-gl-js/style-spec/#expressions-match
-            ["get", "retailer"],
-            "Aldi",
-            "#001E5E",
-            "Amazon",
-            "#77bc1f",
-            "Asda",
-            "#78BE20",
-            "Booths",
-            "#383a36",
-            "Budgens",
-            "#204133",
-            "Costco",
-            "#E31837",
-            "Dunnes Stores",
-            "#000000",
-            "Farmfoods",
-            "#ffff54",
-            "Heron",
-            "#fadd4b",
-            "Iceland",
-            "#D2212E",
-            "Lidl",
-            "#015AA2",
-            "Makro",
-            "#fce94e",
-            "Marks and Spencer",
-            "#202020",
-            "Mere",
-            "#ffffff",
-            "Morrisons",
-            "#00563F",
-            "Planet Organic",
-            "#ffffff",
-            "Sainsburys",
-            "#ED8B01",
-            "Spar",
-            "#ec1b24",
-            "Tesco",
-            "#EE1C2E",
-            "The Co-operative Group",
-            "#00a1cc",
-            "Waitrose",
-            "#578626",
-            "Whole Foods Market",
-            "#146642",
-            "#ffffff", // any other store type
-          ],
-        },
+      const popup = new mapboxgl.Popup();
+
+      map.on("mouseenter", "shopMarkers", (event) => {
+        map.getCanvas().style.cursor = "pointer";
+        const properties = event.features[0].properties;
+        const coordinates = new mapboxgl.LngLat(
+          properties.long,
+          properties.lat
+        );
+
+        const content = `<h3>Test for now</h3><h4>Test again, use $ and {} in future</h4>
+        `; // <p>${(obj.distance / 1609.344).toFixed(2)} mi. from location</p>
+        // TODO: put in function? Search for all uses
+        popup
+          .setLngLat(coordinates) // Set the popup at the given coordinates
+          .setHTML(content) // Set the popup contents equal to the HTML elements you created
+          .addTo(map); // Add the popup to the map
+      });
+
+      map.on("mouseleave", "shopMarkers", () => {
+        if (!isPopupClicked) {
+          map.getCanvas().style.cursor = "";
+          popup.remove();
+        }
+      });
+
+      map.on("click", "shopMarkers", (event) => {
+        const properties = event.features[0].properties;
+        const coordinates = new mapboxgl.LngLat(
+          properties.long,
+          properties.lat
+        );
+        flyToShop(coordinates, map);
+        const content = `<h3>Test for now</h3><h4>Test again, use $ and {} in future</h4>`;
+
+        popup
+          .setLngLat(coordinates) // Set the popup at the given coordinates
+          .setHTML(content) // Set the popup contents equal to the HTML elements you created
+          .addTo(map); // Add the popup to the map
+        // createPopUp(marker, map);
+
+        // TODO: add to highlight shop in side bar
+        // const activeItem = document.getElementsByClassName("active");
+        // event.stopPropagation();
+        // if (activeItem[0]) {
+        //   activeItem[0].classList.remove("active");
+        // }
+        // const listing = document.getElementById(
+        //   `listing-${marker.properties.id}`
+        // );
+        // listing.classList.add("active");
+        setIsPopupClicked(true);
       });
     });
 
     buildLocationList(shops, map);
-    addMarkers(map);
+    // addMarkers(map);
 
     // Add animation to fly to the user-entered postcode
     document
