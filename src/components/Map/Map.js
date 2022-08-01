@@ -3,16 +3,24 @@ import axios from "axios";
 // Imports for Mapbox
 import "mapbox-gl/dist/mapbox-gl.css";
 import mapboxgl from "mapbox-gl";
+import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
+import "@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css";
 
 import "./Map.scss";
 
-// Much of the code for this component was adapted from https://docs.mapbox.com/help/tutorials/building-a-store-locator
+/**
+ * Much of the code for this component was adapted from the below Mapbox tutorials:
+ * https://docs.mapbox.com/help/tutorials/building-a-store-locator
+ * https://docs.mapbox.com/help/tutorials/tilequery-healthy-food-finder
+ */
 
 const Map = () => {
   // TODO: use token from .env file
   // mapboxgl.accessToken = process.env.MAP_TOKEN;
   mapboxgl.accessToken =
     "pk.eyJ1Ijoiam9lc2hhbmRsZXkiLCJhIjoiY2w2M3Rrc2I2MjVpZzNnb2EzaG5xNjF5NyJ9.LszKClP9qlQ3m4jXCzDudg";
+
+  const tilesetId = "joeshandley.6hwufhbg";
 
   // TODO: set coords according to user location
   //   const [lng, setLng] = useState(-0.125);
@@ -250,6 +258,127 @@ const Map = () => {
       map.addSource("places", {
         type: "geojson",
         data: shops,
+      });
+      const geocoder = new MapboxGeocoder({
+        // Initialize the geocoder
+        accessToken: mapboxgl.accessToken, // Set the access token
+        mapboxgl: mapboxgl, // Set the mapbox-gl instance
+        zoom: 13, // Set the zoom level for geocoding results
+        placeholder: "Enter an address or place name", // This placeholder text will display in the search bar
+        bbox: [-1, 50, 1, 52], // TODO: make bounding box dynamic
+      });
+      // Add the geocoder to the map
+      map.addControl(geocoder, "top-left"); // Add the search box to the top left
+      // TODO: is this unnecessary?
+      const marker = new mapboxgl.Marker({ color: "#008000" }); // Create a new green marker
+
+      geocoder.on("result", async (event) => {
+        // When the geocoder returns a result
+        const point = event.result.center; // Capture the result coordinates
+        const tileset = tilesetId; // replace this with the ID of the tileset you created
+        const radius = 2000; // 1609 meters is roughly equal to one mile
+        const limit = 10; // The maximum amount of results to return
+
+        marker.setLngLat(point).addTo(map); // Add the marker to the map at the result coordinates
+
+        // TODO: use axios
+        // const query = await axios.get(
+        //   `https://api.mapbox.com/v4/${tileset}/tilequery/${point[0]},${point[1]}.json?radius=${radius}&limit=${limit}&access_token=${mapboxgl.accessToken}`
+        // );
+        // console.log(query);
+        // map.getSource("tilequery").setData(query);
+
+        const query = await fetch(
+          `https://api.mapbox.com/v4/${tileset}/tilequery/${point[0]},${point[1]}.json?radius=${radius}&limit=${limit}&access_token=${mapboxgl.accessToken}`,
+          { method: "GET" }
+        );
+        const json = await query.json();
+        // Use the response to populate the 'tilequery' source
+        map.getSource("tilequery").setData(json);
+      });
+
+      map.addSource("tilequery", {
+        // Add a new source to the map style: https://docs.mapbox.com/mapbox-gl-js/api/#map#addsource
+        type: "geojson",
+        data: {
+          type: "FeatureCollection",
+          features: [],
+        },
+      });
+
+      map.addLayer({
+        id: "tilequery-points",
+        type: "circle",
+        source: "tilequery", // Set the layer source
+        paint: {
+          "circle-stroke-color": "white",
+          "circle-stroke-width": {
+            // Set the stroke width of each circle: https://docs.mapbox.com/mapbox-gl-js/style-spec/#paint-circle-circle-stroke-width
+            stops: [
+              [0, 0.1],
+              [18, 3],
+            ],
+            base: 5,
+          },
+          "circle-radius": {
+            // Set the radius of each circle, as well as its size at each zoom level: https://docs.mapbox.com/mapbox-gl-js/style-spec/#paint-circle-circle-radius
+            stops: [
+              [12, 5],
+              [22, 180],
+            ],
+            base: 5,
+          },
+          "circle-color": [
+            // Specify the color each circle should be
+            "match", // Use the 'match' expression: https://docs.mapbox.com/mapbox-gl-js/style-spec/#expressions-match
+            ["get", "retailer"], // Use the result 'STORE_TYPE' property
+            "Aldi",
+            "#008000",
+            "Amazon",
+            "#008000",
+            "Asda",
+            "#008000",
+            "Booths",
+            "#008000",
+            "Budgens",
+            "#008000",
+            "Costco",
+            "#9ACD32",
+            "Dunnes Stores",
+            "#FF8C00",
+            "Farmfoods",
+            "#FF8C00",
+            "Heron",
+            "#FF8C00",
+            "Iceland",
+            "#FF8C00",
+            "Lidl",
+            "#FF8C00",
+            "Makro",
+            "#FF8C00",
+            "Marks and Spencer",
+            "#FF8C00",
+            "Mere",
+            "#FF8C00",
+            "Morrisons",
+            "#FF8C00",
+            "Planet Organic",
+            "#FF8C00",
+            "Sainsburys",
+            "#FF8C00",
+            "Spar",
+            "#FF8C00",
+            "Tesco",
+            "#FF8C00",
+            "The Co-operative Group",
+            "#FF8C00",
+            "Waitrose",
+            "#FF8C00",
+            "Whole Foods Market",
+            "#FF8C00",
+            "#FF0000", // any other store type
+          ],
+        },
       });
     });
 
