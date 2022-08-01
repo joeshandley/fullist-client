@@ -14,21 +14,21 @@ export default function Logo({ fillColor }) {
           d="m352.1 342.57q5.5084 21.558 26.333 20.809"
           fill="none"
           stroke={`${fillColor}`}
-          stroke-width="8px"
+          strokeWidth="8px"
         />
         <path
           transform="matrix(.07753 0 0 .18657 -19.783 -38.493)"
           d="m373.91 363.39h174.54"
           fill="none"
           stroke={`${fillColor}`}
-          stroke-width="8px"
+          strokeWidth="8px"
         />
         <path
           transform="matrix(-.18657 0 0 .18657 76.103 -38.493)"
           d="m261.32 342.57q5.5084 21.558 26.333 20.809"
           fill="none"
           stroke={`${fillColor}`}
-          stroke-width="8px"
+          strokeWidth="8px"
         />
         <line
           transform="matrix(.18657 0 0 .18657 -61.13 -38.493)"
@@ -38,28 +38,28 @@ export default function Logo({ fillColor }) {
           y2="279.88"
           fill="none"
           stroke={`${fillColor}`}
-          stroke-width="8px"
+          strokeWidth="8px"
         />
         <path
           transform="matrix(.13786 0 0 .18657 -27.297 -38.493)"
           d="m213.11 265.83h201.13"
           fill="none"
           stroke={`${fillColor}`}
-          stroke-width="8px"
+          strokeWidth="8px"
         />
         <path
           transform="matrix(.18657 0 0 .18657 -61.13 -38.493)"
           d="m335.3 282.89q-5.2753-17.062 4.515-17.06"
           fill="none"
           stroke={`${fillColor}`}
-          stroke-width="8px"
+          strokeWidth="8px"
         />
         <path
           transform="matrix(-.18657 0 0 .18657 66.354 -38.493)"
           d="m192.35 282.89q-5.2753-17.062 4.515-17.06"
           fill="none"
           stroke={`${fillColor}`}
-          stroke-width="8px"
+          strokeWidth="8px"
         />
         <line
           transform="matrix(-.18657 0 0 .18657 93.684 -39.148)"
@@ -69,46 +69,46 @@ export default function Logo({ fillColor }) {
           y2="285.4"
           fill="none"
           stroke={`${fillColor}`}
-          stroke-width="8px"
+          strokeWidth="8px"
         />
         <path
           transform="matrix(.18657 0 0 .18657 -61.13 -38.493)"
           d="m407.57 283.84h12.288"
           fill="none"
           stroke={`${fillColor}`}
-          stroke-linecap="round"
-          stroke-width="8px"
+          strokeLinecap="round"
+          strokeWidth="8px"
         />
         <path
           transform="matrix(.18657 0 0 .18657 -61.13 -38.493)"
           d="m406.82 283.84v63.448"
           fill="none"
           stroke={`${fillColor}`}
-          stroke-linecap="round"
-          stroke-width="8px"
+          strokeLinecap="round"
+          strokeWidth="8px"
         />
         <path
           transform="matrix(.18657 0 0 .18657 -61.13 -38.493)"
           d="m406.82 347.54h12.288"
           fill="none"
           stroke={`${fillColor}`}
-          stroke-linecap="round"
-          stroke-width="8px"
+          strokeLinecap="round"
+          strokeWidth="8px"
         />
         <path
           transform="matrix(.18657 0 0 .18657 -61.13 -38.493)"
           d="m420.11 284.09v63.448"
           fill="none"
           stroke={`${fillColor}`}
-          stroke-linecap="round"
-          stroke-width="8px"
+          strokeLinecap="round"
+          strokeWidth="8px"
         />
         <g
           transform="matrix(.18657 0 0 .18935 -62.44 -39.607)"
           fill="none"
           stroke={`${fillColor}`}
-          stroke-linecap="round"
-          stroke-width="8px"
+          strokeLinecap="round"
+          strokeWidth="8px"
         >
           <line x1="445.69" x2="463.25" y1="348.28" y2="285.84" />
           <line x1="458.23" x2="475.79" y1="348.28" y2="285.84" />
@@ -119,8 +119,8 @@ export default function Logo({ fillColor }) {
           transform="matrix(-.18657 0 0 .18935 94.322 -39.607)"
           fill="none"
           stroke={`${fillColor}`}
-          stroke-linecap="round"
-          stroke-width="8px"
+          strokeLinecap="round"
+          strokeWidth="8px"
         >
           <line x1="445.69" x2="463.25" y1="348.28" y2="285.84" />
           <line x1="458.23" x2="475.79" y1="348.28" y2="285.84" />
@@ -135,8 +135,8 @@ export default function Logo({ fillColor }) {
           y2="291.37"
           fill="none"
           stroke={`${fillColor}`}
-          stroke-linecap="round"
-          stroke-width="8px"
+          strokeLinecap="round"
+          strokeWidth="8px"
         />
         <line
           transform="matrix(-.18657 0 0 -.18657 89.258 65.207)"
@@ -146,8 +146,8 @@ export default function Logo({ fillColor }) {
           y2="291.11"
           fill="none"
           stroke={`${fillColor}`}
-          stroke-linecap="round"
-          stroke-width="8px"
+          strokeLinecap="round"
+          strokeWidth="8px"
         />
       </svg>
     </>

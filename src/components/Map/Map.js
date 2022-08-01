@@ -7,6 +7,7 @@ import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
 import "@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css";
 
 import Logo from "../Logo/Logo";
+import logoIcon from "../../assets/logos/logo.png";
 import "./Map.scss";
 
 /**
@@ -294,8 +295,10 @@ const Map = () => {
           { method: "GET" }
         );
         const json = await query.json();
+        console.log(json.features[0].properties.retailer);
         // Use the response to populate the 'tilequery' source
         map.getSource("tilequery").setData(json);
+        console.log(map.getSource("tilequery"));
       });
 
       map.addSource("tilequery", {
@@ -305,6 +308,70 @@ const Map = () => {
           type: "FeatureCollection",
           features: [],
         },
+      });
+      map.loadImage(logoIcon, (error, image) => {
+        if (error) throw error;
+        map.addImage("fullist-icon", image, { sdf: true });
+        map.addLayer({
+          id: "test-stores",
+          source: "tilequery",
+          type: "symbol",
+          layout: {
+            "icon-image": "fullist-icon",
+            "icon-size": 0.5,
+          },
+          paint: {
+            "icon-color": [
+              "match",
+              ["get", "retailer"],
+              "Aldi",
+              "#001E5E",
+              "Amazon",
+              "#77bc1f",
+              "Asda",
+              "#78BE20",
+              "Booths",
+              "#383a36",
+              "Budgens",
+              "#204133",
+              "Costco",
+              "#E31837",
+              "Dunnes Stores",
+              "#000000",
+              "Farmfoods",
+              "#ffff54",
+              "Heron",
+              "#fadd4b",
+              "Iceland",
+              "#D2212E",
+              "Lidl",
+              "#015AA2",
+              "Makro",
+              "#fce94e",
+              "Marks and Spencer",
+              "#202020",
+              "Mere",
+              "#ffffff",
+              "Morrisons",
+              "#00563F",
+              "Planet Organic",
+              "#ffffff",
+              "Sainsburys",
+              "#ED8B01",
+              "Spar",
+              "#ec1b24",
+              "Tesco",
+              "#EE1C2E",
+              "The Co-operative Group",
+              "#00a1cc",
+              "Waitrose",
+              "#578626",
+              "Whole Foods Market",
+              "#146642",
+              "#ffffff",
+            ],
+          },
+        });
       });
 
       map.addLayer({
@@ -332,7 +399,7 @@ const Map = () => {
           "circle-color": [
             // Specify the color each circle should be
             "match", // Use the 'match' expression: https://docs.mapbox.com/mapbox-gl-js/style-spec/#expressions-match
-            ["get", "retailer"], // Use the result 'STORE_TYPE' property
+            ["get", "retailer"],
             "Aldi",
             "#001E5E",
             "Amazon",
