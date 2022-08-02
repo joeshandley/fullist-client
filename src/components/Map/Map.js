@@ -16,7 +16,7 @@ import "./Map.scss";
  * https://docs.mapbox.com/help/tutorials/tilequery-healthy-food-finder
  */
 
-// TODO: CLEAN CODE -- so much unnecessary code
+// TODO: delete all console logs
 
 const Map = () => {
   // TODO: use token from .env file
@@ -35,105 +35,132 @@ const Map = () => {
   const [zoom, setZoom] = useState(14);
   const [isPopupClicked, setIsPopupClicked] = useState(false);
 
-  const buildLocationList = (shops, map) => {
-    const listings = document.getElementById("listings");
-    if (listings.firstChild) {
-      while (listings.firstChild) {
-        listings.removeChild(listings.firstChild);
-      }
-    }
-    // TODO: refactor shops.features to add .properties on the end
-    const shopsList = shops.features.map((shop, i) => {
-      const listing = listings.appendChild(document.createElement("div"));
-      listing.id = `listing-${i}`;
-      listing.className = "item";
+  //   const buildLocationList = (shops, map) => {
+  //     const listings = document.getElementById("listings");
 
-      /* Add the link to the individual listing created above. */
-      const link = listing.appendChild(document.createElement("a"));
-      link.href = "#";
-      link.className = "title";
-      link.id = `link-${i}`;
-      link.innerHTML = `${shop.properties.fascia}`;
-      link.addEventListener("click", () => {
-        flyToShop(shop.properties, map);
-        const popup = new mapboxgl.Popup();
-        popup
-          .setLngLat([shop.properties.long, shop.properties.lat])
-          .setHTML(
-            `<h3>${shop.properties.fascia}</h3><h4>${
-              shop.properties.add_one
-            }, ${
-              shop.properties.add_two !== ""
-                ? `${shop.properties.add_two}, `
-                : ""
-            }${shop.properties.town}, ${shop.properties.postcode}</h4>
-        `
-          )
-          .addTo(map);
-        const activeItem = document.getElementsByClassName("active");
-        if (activeItem[0]) {
-          activeItem[0].classList.remove("active");
-        }
-        this.parentNode.classList.add("active");
-      });
+  //     if (listings.firstChild) {
+  //       while (listings.firstChild) {
+  //         listings.removeChild(listings.firstChild);
+  //       }
+  //     }
+  //     // TODO: refactor shops.features to add .properties on the end
+  //     const shopsList = shops.features.map((shop, i) => {
+  //       const listing = listings.appendChild(document.createElement("div"));
+  //       listing.id = `listing-${i}`;
+  //       listing.className = "item";
 
-      /* Add details to the individual listing. */
-      const details = listing.appendChild(document.createElement("div"));
-      details.innerHTML = `${shop.properties.add_one}`;
-      if (shop.properties.add_two) {
-        details.innerHTML += `, ${shop.properties.add_two}`;
-      }
-      // TODO: use the distance calculation when that is needed
-      //   if (shop.properties.distance) {
-      //     const roundedDistance =
-      //       Math.round(shop.properties.distance * 100) / 100;
-      //     details.innerHTML += `<div><strong>${roundedDistance} miles away</strong></div>`;
-      //   }
-    });
+  //       /* Add the link to the individual listing created above. */
+  //       const link = listing.appendChild(document.createElement("a"));
+  //       link.href = "#";
+  //       link.className = "title";
+  //       link.id = `link-${i}`;
+  //       link.innerHTML = `${shop.properties.fascia}`;
+  //       link.addEventListener("click", () => {
+  //         console.log(shop.properties);
+  //         flyToShop(shop.properties, map);
 
-    // for (const shop of shops.features) {
-    //   /* Add a new listing section to the sidebar. */
-    //   const listings = document.getElementById("listings");
-    //   const listing = listings.appendChild(document.createElement("div"));
-    //   /* Assign a unique `id` to the listing. */
-    //   listing.id = `listing-${shop.properties.id}`;
-    //   /* Assign the `item` class to each listing for styling. */
-    //   listing.className = "item";
+  //         // const popUps = document.getElementsByClassName("mapboxgl-popup");
+  //         // // if (popUps[0]) popUps[0].remove();
 
-    //   /* Add the link to the individual listing created above. */
-    //   const link = listing.appendChild(document.createElement("a"));
-    //   link.href = "#";
-    //   link.className = "title";
-    //   link.id = `link-${shop.properties.id}`;
-    //   link.innerHTML = `${shop.properties.address}`;
-    //   link.addEventListener("click", function () {
-    //     for (const feature of shops.features) {
-    //       if (this.id === `link-${feature.properties.id}`) {
-    //         flyToShop(feature, map);
-    //         createPopUp(feature, map);
-    //       }
-    //     }
-    //     const activeItem = document.getElementsByClassName("active");
-    //     if (activeItem[0]) {
-    //       activeItem[0].classList.remove("active");
-    //     }
-    //     this.parentNode.classList.add("active");
-    //   });
+  //         // const popup = new mapboxgl.Popup();
 
-    //   /* Add details to the individual listing. */
-    //   const details = listing.appendChild(document.createElement("div"));
-    //   details.innerHTML = `${shop.properties.city}`;
-    //   if (shop.properties.phone) {
-    //     details.innerHTML += ` · ${shop.properties.phoneFormatted}`;
-    //   }
-    //   // TODO: use the distance calculation when that is needed
-    //   if (shop.properties.distance) {
-    //     const roundedDistance =
-    //       Math.round(shop.properties.distance * 100) / 100;
-    //     details.innerHTML += `<div><strong>${roundedDistance} miles away</strong></div>`;
-    //   }
-    // }
-  };
+  //         // // const content = `<h3>${shop.properties.fascia}</h3><h4>${
+  //         // //   shop.properties.add_one
+  //         // // }, ${
+  //         // //   shop.properties.add_two !== "" ? `${shop.properties.add_two}, ` : ""
+  //         // // }${shop.properties.town}, ${shop.properties.postcode}</h4>
+  //         // // `;
+
+  //         // popup
+  //         //   .setLngLat([shop.properties.long, shop.properties.lat]) // Set the popup at the given coordinates
+  //         //   .setHTML("test") // Set the popup contents equal to the HTML elements you created
+  //         //   .addTo(map);
+
+  //         // createPopUp(shop.properties, map);
+
+  //         /** Check if there is already a popup on the map and if so, remove it */
+  //         // if (popUps[0]) popUps[0].remove();
+
+  //         // popup
+  //         //   .setLngLat([shop.properties.long, shop.properties.lat])
+  //         //   .setHTML(
+  //         //     `<h3>${shop.properties.fascia}</h3><h4>${
+  //         //       shop.properties.add_one
+  //         //     }, ${
+  //         //       shop.properties.add_two !== ""
+  //         //         ? `${shop.properties.add_two}, `
+  //         //         : ""
+  //         //     }${shop.properties.town}, ${shop.properties.postcode}</h4>
+  //         // `
+  //         //   )
+  //         //   .addTo(map);
+  //         setIsPopupClicked(true);
+
+  //         // TODO: add to highlight shop in side bar
+  //         // const activeItem = document.getElementsByClassName("active");
+  //         // if (activeItem[0]) {
+  //         //   activeItem[0].classList.remove("active");
+  //         // }
+  //         // this.parentNode.classList.add("active");
+  //       });
+
+  //       /* Add details to the individual listing. */
+  //       const details = listing.appendChild(document.createElement("div"));
+  //       details.innerHTML = `${shop.properties.add_one}`;
+  //       if (shop.properties.add_two) {
+  //         details.innerHTML += `, ${shop.properties.add_two}`;
+  //       }
+  //       // TODO: use the distance calculation when that is needed
+  //       //   if (shop.properties.distance) {
+  //       //     const roundedDistance =
+  //       //       Math.round(shop.properties.distance * 100) / 100;
+  //       //     details.innerHTML += `<div><strong>${roundedDistance} miles away</strong></div>`;
+  //       //   }
+  //     });
+
+  //     // for (const shop of shops.features) {
+  //     //   /* Add a new listing section to the sidebar. */
+  //     //   const listings = document.getElementById("listings");
+  //     //   const listing = listings.appendChild(document.createElement("div"));
+  //     //   /* Assign a unique `id` to the listing. */
+  //     //   listing.id = `listing-${shop.properties.id}`;
+  //     //   /* Assign the `item` class to each listing for styling. */
+  //     //   listing.className = "item";
+
+  //     //   /* Add the link to the individual listing created above. */
+  //     //   const link = listing.appendChild(document.createElement("a"));
+  //     //   link.href = "#";
+  //     //   link.className = "title";
+  //     //   link.id = `link-${shop.properties.id}`;
+  //     //   link.innerHTML = `${shop.properties.address}`;
+  //     //   link.addEventListener("click", function () {
+  //     //     for (const feature of shops.features) {
+  //     //       if (this.id === `link-${feature.properties.id}`) {
+  //     //         flyToShop(feature, map);
+  //     //         createPopUp(feature, map);
+  //     //       }
+  //     //     }
+  //     //     const activeItem = document.getElementsByClassName("active");
+  //     //     if (activeItem[0]) {
+  //     //       activeItem[0].classList.remove("active");
+  //     //     }
+  //     //     this.parentNode.classList.add("active");
+  //     //   });
+
+  //     //   /* Add details to the individual listing. */
+  //     //   const details = listing.appendChild(document.createElement("div"));
+  //     //   details.innerHTML = `${shop.properties.city}`;
+  //     //   if (shop.properties.phone) {
+  //     //     details.innerHTML += ` · ${shop.properties.phoneFormatted}`;
+  //     //   }
+  //     //   // TODO: use the distance calculation when that is needed
+  //     //   if (shop.properties.distance) {
+  //     //     const roundedDistance =
+  //     //       Math.round(shop.properties.distance * 100) / 100;
+  //     //     details.innerHTML += `<div><strong>${roundedDistance} miles away</strong></div>`;
+  //     //   }
+  //     // }
+  //   };
 
   // TODO: delete -- old version when marker was passed
   //   function flyToShop(coords, map) {
@@ -150,18 +177,22 @@ const Map = () => {
     });
   }
 
-  function createPopUp(location, map) {
-    const popUps = document.getElementsByClassName("mapboxgl-popup");
-    /** Check if there is already a popup on the map and if so, remove it */
-    if (popUps[0]) popUps[0].remove();
+  //   function createPopUp(shop, map) {
+  //     const popUps = document.getElementsByClassName("mapboxgl-popup");
+  //     /** Check if there is already a popup on the map and if so, remove it */
+  //     if (popUps[0]) popUps[0].remove();
 
-    const popup = new mapboxgl.Popup({ closeOnClick: false })
-      .setLngLat(location.geometry.coordinates)
-      .setHTML(
-        `<h3>${location.properties.supermarket}</h3><h4>${location.properties.address}, ${location.properties.postcode}</h4>`
-      )
-      .addTo(map);
-  }
+  //     // const popup = new mapboxgl.Popup({ closeOnClick: false })
+  //     //   .setLngLat([shop.long, shop.lat])
+  //     //   .setHTML(
+  //     //     `<h3>${shop.fascia}</h3><h4>${shop.add_one}, ${
+  //     //       shop.add_two !== "" ? `${shop.add_two}, ` : ""
+  //     //     }${shop.town}, ${shop.postcode}</h4>
+  //     //     `
+  //     //   )
+  //     //   .addTo(map);
+  //     // console.log("popup");
+  //   }
 
   // TODO: use this function for distance between two points
   //   function getDistanceInKm(lat1, lng1, lat2, lng2) {
@@ -269,9 +300,11 @@ const Map = () => {
         const response = await axios.get(
           `https://api.mapbox.com/v4/${tileset}/tilequery/${point[0]},${point[1]}.json?radius=${radius}&limit=${limit}&access_token=${mapboxgl.accessToken}`
         );
+
         await map.getSource("shopLocations").setData(response.data);
 
-        buildLocationList(map.getSource("shopLocations")._data, map);
+        // TODO: add back if using sidebar
+        // buildLocationList(map.getSource("shopLocations")._data, map);
       });
 
       map.loadImage(logoIcon, (error, image) => {
@@ -348,15 +381,11 @@ const Map = () => {
           properties.long,
           properties.lat
         );
-        const content = `<h3>${event.features[0].properties.fascia}</h3><h4>${
-          event.features[0].properties.add_one
-        }, ${
-          event.features[0].properties.add_two !== ""
-            ? `${event.features[0].properties.add_two}, `
-            : ""
-        }${event.features[0].properties.town}, ${
-          event.features[0].properties.postcode
-        }</h4>
+        const content = `<h3>${properties.fascia}</h3><h4>${
+          properties.add_one
+        }, ${properties.add_two !== "" ? `${properties.add_two}, ` : ""}${
+          properties.town
+        }, ${properties.postcode}</h4>
         `; // <p>${(obj.distance / 1609.344).toFixed(2)} mi. from location</p>
         // TODO: put in function? Search for all uses
         popup.setLngLat(coordinates).setHTML(content).addTo(map);
@@ -379,10 +408,15 @@ const Map = () => {
         }, ${properties.postcode}</h4>
         `;
 
+        const coordinates = new mapboxgl.LngLat(
+          properties.long,
+          properties.lat
+        );
         popup
-          .setLngLat([properties.long, properties.lat]) // Set the popup at the given coordinates
+          .setLngLat(coordinates) // Set the popup at the given coordinates
           .setHTML(content) // Set the popup contents equal to the HTML elements you created
           .addTo(map); // Add the popup to the map
+
         // createPopUp(marker, map);
 
         // TODO: add to highlight shop in side bar
@@ -398,10 +432,6 @@ const Map = () => {
         setIsPopupClicked(true);
       });
     });
-    // setTimeout(() => {
-    //   console.log(map.getSource("shopLocations")._data);
-    // }, 5000);
-
     // buildLocationList(shops, map);
     // addMarkers(map);
 
@@ -434,12 +464,12 @@ const Map = () => {
     // TODO: change class names
     <>
       <div className="container">
-        <div className="map__sidebar">
+        {/* <div className="map__sidebar">
           <div className="heading">
             <h1>Nearest Shops</h1>
           </div>
           <div id="listings" className="listings"></div>
-        </div>
+        </div> */}
         <div id="map" className="map__container"></div>
       </div>
       <form id="postcode-form" action="submit" className="map__form">

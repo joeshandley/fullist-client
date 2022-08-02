@@ -5,15 +5,20 @@
   margin: 1rem;
 }
 
-.map__sidebar {
-  width: 30%;
-  overflow: hidden;
-  border-right: 1px solid rgba(0, 0, 0, 0.25);
-  background-color: white;
-}
+// TODO: add back if using sidebar
+// .map__sidebar {
+//   width: 30%;
+//   overflow: hidden;
+//   border-right: 1px solid rgba(0, 0, 0, 0.25);
+//   background-color: white;
+// }
+
+// .map__container {
+//   width: 70%;
+// }
 
 .map__container {
-  width: 70%;
+  width: 100%;
 }
 
 .heading {
