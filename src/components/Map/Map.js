@@ -33,7 +33,7 @@ const Map = () => {
   //   const [zoom, setZoom] = useState(10);
   const [lng, setLng] = useState(-0.080984);
   const [lat, setLat] = useState(51.526167);
-  const [zoom, setZoom] = useState(14);
+  const [zoom, setZoom] = useState(12);
   const [isPopupClicked, setIsPopupClicked] = useState(false);
 
   const buildShopList = (shops, map) => {
@@ -246,6 +246,7 @@ const Map = () => {
       style: "mapbox://styles/mapbox/streets-v11",
       center: [lng, lat],
       zoom: zoom,
+      minZoom: 3.5,
     });
     map.addControl(new mapboxgl.NavigationControl());
 
@@ -261,14 +262,15 @@ const Map = () => {
       const geocoder = new MapboxGeocoder({
         accessToken: mapboxgl.accessToken,
         mapboxgl: mapboxgl,
-        zoom: 13,
+        // zoom: 12,
         placeholder: "Enter an address or place name",
         bbox: [-7.57216793459, 49.959999905, 1.68153079591, 58.6350001085], // TODO: make bounding box dynamic
       });
       map.addControl(geocoder, "top-left");
 
       // TODO: is this unnecessary?
-      const marker = new mapboxgl.Marker({ color: "#008000" });
+      // TODO: I think this is necessary, but need to
+      const marker = new mapboxgl.Marker({ color: "#33bc6a" });
 
       geocoder.on("result", async (event) => {
         // When the geocoder returns a result
