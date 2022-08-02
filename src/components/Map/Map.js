@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 // Imports for Mapbox
 import "mapbox-gl/dist/mapbox-gl.css";
@@ -7,7 +7,7 @@ import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
 import "@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css";
 
 import Logo from "../Logo/Logo";
-import logoIcon from "../../assets/logos/logo.png";
+import logoIcon from "../../assets/logos/logo-filled.png";
 import "./Map.scss";
 
 /**
@@ -15,6 +15,8 @@ import "./Map.scss";
  * https://docs.mapbox.com/help/tutorials/building-a-store-locator
  * https://docs.mapbox.com/help/tutorials/tilequery-healthy-food-finder
  */
+
+// TODO: CLEAN CODE -- so much unnecessary code
 
 const Map = () => {
   // TODO: use token from .env file
@@ -323,7 +325,7 @@ const Map = () => {
           type: "symbol",
           layout: {
             "icon-image": "fullist-icon",
-            "icon-size": 0.2,
+            "icon-size": 0.25,
           },
           paint: {
             "icon-color": [
