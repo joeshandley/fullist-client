@@ -127,28 +127,35 @@ const Map = () => {
   });
 
   const buildLocationList = (shops, map) => {
-    for (const shop of shops.features) {
-      /* Add a new listing section to the sidebar. */
-      const listings = document.getElementById("listings");
+    const listings = document.getElementById("listings");
+    // TODO: refactor shops.features to add .properties on the end
+    const shopsList = shops.features.map((shop, i) => {
       const listing = listings.appendChild(document.createElement("div"));
-      /* Assign a unique `id` to the listing. */
-      listing.id = `listing-${shop.properties.id}`;
-      /* Assign the `item` class to each listing for styling. */
+      listing.id = `listing-${i}`;
       listing.className = "item";
 
       /* Add the link to the individual listing created above. */
       const link = listing.appendChild(document.createElement("a"));
       link.href = "#";
       link.className = "title";
-      link.id = `link-${shop.properties.id}`;
-      link.innerHTML = `${shop.properties.address}`;
-      link.addEventListener("click", function () {
-        for (const feature of shops.features) {
-          if (this.id === `link-${feature.properties.id}`) {
-            flyToShop(feature, map);
-            createPopUp(feature, map);
-          }
-        }
+      link.id = `link-${i}`;
+      link.innerHTML = `${shop.properties.fascia}`;
+      link.addEventListener("click", () => {
+        flyToShop(shop.properties, map);
+        const popup = new mapboxgl.Popup();
+        popup
+          .setLngLat([shop.properties.long, shop.properties.lat])
+          .setHTML(
+            `<h3>${shop.properties.fascia}</h3><h4>${
+              shop.properties.add_one
+            }, ${
+              shop.properties.add_two !== ""
+                ? `${shop.properties.add_two}, `
+                : ""
+            }${shop.properties.town}, ${shop.properties.postcode}</h4>
+        `
+          )
+          .addTo(map);
         const activeItem = document.getElementsByClassName("active");
         if (activeItem[0]) {
           activeItem[0].classList.remove("active");
@@ -158,33 +165,76 @@ const Map = () => {
 
       /* Add details to the individual listing. */
       const details = listing.appendChild(document.createElement("div"));
-      details.innerHTML = `${shop.properties.city}`;
-      if (shop.properties.phone) {
-        details.innerHTML += ` · ${shop.properties.phoneFormatted}`;
+      details.innerHTML = `${shop.properties.add_one}`;
+      if (shop.properties.add_two) {
+        details.innerHTML += `, ${shop.properties.add_two}`;
       }
       // TODO: use the distance calculation when that is needed
-      if (shop.properties.distance) {
-        const roundedDistance =
-          Math.round(shop.properties.distance * 100) / 100;
-        details.innerHTML += `<div><strong>${roundedDistance} miles away</strong></div>`;
-      }
-    }
+      //   if (shop.properties.distance) {
+      //     const roundedDistance =
+      //       Math.round(shop.properties.distance * 100) / 100;
+      //     details.innerHTML += `<div><strong>${roundedDistance} miles away</strong></div>`;
+      //   }
+    });
+
+    // for (const shop of shops.features) {
+    //   /* Add a new listing section to the sidebar. */
+    //   const listings = document.getElementById("listings");
+    //   const listing = listings.appendChild(document.createElement("div"));
+    //   /* Assign a unique `id` to the listing. */
+    //   listing.id = `listing-${shop.properties.id}`;
+    //   /* Assign the `item` class to each listing for styling. */
+    //   listing.className = "item";
+
+    //   /* Add the link to the individual listing created above. */
+    //   const link = listing.appendChild(document.createElement("a"));
+    //   link.href = "#";
+    //   link.className = "title";
+    //   link.id = `link-${shop.properties.id}`;
+    //   link.innerHTML = `${shop.properties.address}`;
+    //   link.addEventListener("click", function () {
+    //     for (const feature of shops.features) {
+    //       if (this.id === `link-${feature.properties.id}`) {
+    //         flyToShop(feature, map);
+    //         createPopUp(feature, map);
+    //       }
+    //     }
+    //     const activeItem = document.getElementsByClassName("active");
+    //     if (activeItem[0]) {
+    //       activeItem[0].classList.remove("active");
+    //     }
+    //     this.parentNode.classList.add("active");
+    //   });
+
+    //   /* Add details to the individual listing. */
+    //   const details = listing.appendChild(document.createElement("div"));
+    //   details.innerHTML = `${shop.properties.city}`;
+    //   if (shop.properties.phone) {
+    //     details.innerHTML += ` · ${shop.properties.phoneFormatted}`;
+    //   }
+    //   // TODO: use the distance calculation when that is needed
+    //   if (shop.properties.distance) {
+    //     const roundedDistance =
+    //       Math.round(shop.properties.distance * 100) / 100;
+    //     details.innerHTML += `<div><strong>${roundedDistance} miles away</strong></div>`;
+    //   }
+    // }
   };
 
-  function flyToShop(coords, map) {
-    map.flyTo({
-      center: coords,
-      zoom: 15,
-    });
-  }
-
   // TODO: delete -- old version when marker was passed
-  //   function flyToShop(location, map) {
+  //   function flyToShop(coords, map) {
   //     map.flyTo({
-  //       center: location.geometry.coordinates,
+  //       center: coords,
   //       zoom: 15,
   //     });
   //   }
+
+  function flyToShop(shop, map) {
+    map.flyTo({
+      center: [shop.long, shop.lat],
+      zoom: 15,
+    });
+  }
 
   function createPopUp(location, map) {
     const popUps = document.getElementsByClassName("mapboxgl-popup");
@@ -310,7 +360,9 @@ const Map = () => {
         const response = await axios.get(
           `https://api.mapbox.com/v4/${tileset}/tilequery/${point[0]},${point[1]}.json?radius=${radius}&limit=${limit}&access_token=${mapboxgl.accessToken}`
         );
-        map.getSource("shopLocations").setData(response.data);
+        await map.getSource("shopLocations").setData(response.data);
+
+        buildLocationList(map.getSource("shopLocations")._data, map);
       });
 
       map.loadImage(logoIcon, (error, image) => {
@@ -398,10 +450,7 @@ const Map = () => {
         }</h4>
         `; // <p>${(obj.distance / 1609.344).toFixed(2)} mi. from location</p>
         // TODO: put in function? Search for all uses
-        popup
-          .setLngLat(coordinates) // Set the popup at the given coordinates
-          .setHTML(content) // Set the popup contents equal to the HTML elements you created
-          .addTo(map); // Add the popup to the map
+        popup.setLngLat(coordinates).setHTML(content).addTo(map);
       });
 
       map.on("mouseleave", "shopMarkers", () => {
@@ -413,24 +462,16 @@ const Map = () => {
 
       map.on("click", "shopMarkers", (event) => {
         const properties = event.features[0].properties;
-        const coordinates = new mapboxgl.LngLat(
-          properties.long,
-          properties.lat
-        );
-        flyToShop(coordinates, map);
-        const content = `<h3>${event.features[0].properties.fascia}</h3><h4>${
-          event.features[0].properties.add_one
-        }, ${
-          event.features[0].properties.add_two !== ""
-            ? `${event.features[0].properties.add_two}, `
-            : ""
-        }${event.features[0].properties.town}, ${
-          event.features[0].properties.postcode
-        }</h4>
+        flyToShop(properties, map);
+        const content = `<h3>${properties.fascia}</h3><h4>${
+          properties.add_one
+        }, ${properties.add_two !== "" ? `${properties.add_two}, ` : ""}${
+          properties.town
+        }, ${properties.postcode}</h4>
         `;
 
         popup
-          .setLngLat(coordinates) // Set the popup at the given coordinates
+          .setLngLat([properties.long, properties.lat]) // Set the popup at the given coordinates
           .setHTML(content) // Set the popup contents equal to the HTML elements you created
           .addTo(map); // Add the popup to the map
         // createPopUp(marker, map);
@@ -448,8 +489,11 @@ const Map = () => {
         setIsPopupClicked(true);
       });
     });
+    // setTimeout(() => {
+    //   console.log(map.getSource("shopLocations")._data);
+    // }, 5000);
 
-    buildLocationList(shops, map);
+    // buildLocationList(shops, map);
     // addMarkers(map);
 
     // Add animation to fly to the user-entered postcode
