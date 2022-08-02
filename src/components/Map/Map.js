@@ -418,7 +418,16 @@ const Map = () => {
           properties.lat
         );
         flyToShop(coordinates, map);
-        const content = `<h3>Test for now</h3><h4>Test again, use $ and {} in future</h4>`;
+        const content = `<h3>${event.features[0].properties.fascia}</h3><h4>${
+          event.features[0].properties.add_one
+        }, ${
+          event.features[0].properties.add_two !== ""
+            ? `${event.features[0].properties.add_two}, `
+            : ""
+        }${event.features[0].properties.town}, ${
+          event.features[0].properties.postcode
+        }</h4>
+        `;
 
         popup
           .setLngLat(coordinates) // Set the popup at the given coordinates
