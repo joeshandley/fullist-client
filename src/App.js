@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import Logo from "./components/Logo/Logo";
+import Header from "./components/Header/Header";
 import Map from "./components/Map/Map";
 import logo from "./assets/logos/logo.svg";
 import "./App.scss";
@@ -13,16 +13,9 @@ function App() {
   return (
     // TODO: change class names to BEM
     <>
-      <h1>Test</h1>
-      <p>Add content here</p>
-      <Logo />
-      {/* <div className="logo-container">
-        <h2>F</h2>
-        <img src={logo} alt="" />
-        <h2>llist.</h2>
-      </div> */}
-      <Map unit={unit} />
-      <form className="map__units">
+      <Header />
+      {/* <Map unit={unit} /> */}
+      {/* <form className="map__units">
         <label>
           <input
             id="kmRadio"
@@ -51,7 +44,7 @@ function App() {
           />
           miles
         </label>
-      </form>
+      </form> */}
     </>
   );
 }
