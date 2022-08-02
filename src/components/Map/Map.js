@@ -35,99 +35,13 @@ const Map = () => {
   const [zoom, setZoom] = useState(14);
   const [isPopupClicked, setIsPopupClicked] = useState(false);
 
-  const shops = {
-    type: "FeatureCollection",
-    features: [
-      {
-        type: "Feature",
-        geometry: {
-          type: "Point",
-          coordinates: [-0.083964, 51.526649],
-        },
-        properties: {
-          supermarket: "Sainsbury's Local",
-          //   phoneFormatted: "(202) 234-7336",
-          //   phone: "2022347336",
-          address: "245 Old St",
-          city: "London",
-          country: "UK",
-          postcode: "EC1V 9EY",
-        },
-      },
-      {
-        type: "Feature",
-        geometry: {
-          type: "Point",
-          coordinates: [-0.08262, 51.525691],
-        },
-        properties: {
-          supermarket: "Co-op Food",
-          //   phoneFormatted: "(202) 507-8357",
-          //   phone: "2025078357",
-          address: "76-80 Great Eastern St",
-          city: "London",
-          country: "UK",
-          postcode: "EC2A 3JL",
-        },
-      },
-      {
-        type: "Feature",
-        geometry: {
-          type: "Point",
-          coordinates: [-0.077415, 51.524535],
-        },
-        properties: {
-          supermarket: "Tesco Express",
-          //   phoneFormatted: "(202) 387-9338",
-          //   phone: "2023879338",
-          address: "179 Shoreditch High St",
-          city: "London",
-          country: "UK",
-          postcode: "E1 6HP",
-        },
-      },
-      {
-        type: "Feature",
-        geometry: {
-          type: "Point",
-          coordinates: [-0.0888176, 51.5255285],
-        },
-        properties: {
-          supermarket: "Co-operative",
-          //   phoneFormatted: "(202) 337-9338",
-          //   phone: "2023379338",
-          address: "3333 M St NW",
-          city: "London",
-          country: "UK",
-          postcode: "20007",
-        },
-      },
-      {
-        type: "Feature",
-        geometry: {
-          type: "Point",
-          coordinates: [-0.0875945, 51.5256753],
-        },
-        properties: {
-          supermarket: "Co-operative",
-          //   phoneFormatted: "(202) 547-9338",
-          //   phone: "2025479338",
-          address: "221 Pennsylvania Ave SE",
-          city: "London",
-          country: "UK",
-          postcode: "20003",
-        },
-      },
-    ],
-  };
-  // TODO: add an id into the data myself?
-  // Although, if I want to make this dynamic and have a proximity algorithm, maybe no hard code. Can do both?
-  shops.features.forEach(function (shop, i) {
-    shop.properties.id = i;
-  });
-
   const buildLocationList = (shops, map) => {
     const listings = document.getElementById("listings");
+    if (listings.firstChild) {
+      while (listings.firstChild) {
+        listings.removeChild(listings.firstChild);
+      }
+    }
     // TODO: refactor shops.features to add .properties on the end
     const shopsList = shops.features.map((shop, i) => {
       const listing = listings.appendChild(document.createElement("div"));
@@ -318,12 +232,6 @@ const Map = () => {
     map.addControl(new mapboxgl.NavigationControl());
 
     map.on("load", () => {
-      // TODO: delete this source
-      map.addSource("places", {
-        type: "geojson",
-        data: shops,
-      });
-
       map.addSource("shopLocations", {
         type: "geojson",
         data: {
@@ -334,12 +242,13 @@ const Map = () => {
 
       const geocoder = new MapboxGeocoder({
         accessToken: mapboxgl.accessToken,
-        mapboxgl: mapboxgl, // Set the mapbox-gl instance
+        mapboxgl: mapboxgl,
         zoom: 13,
         placeholder: "Enter an address or place name",
-        bbox: [-1, 50, 1, 52], // TODO: make bounding box dynamic
+        bbox: [-7.57216793459, 49.959999905, 1.68153079591, 58.6350001085], // TODO: make bounding box dynamic
       });
       map.addControl(geocoder, "top-left");
+
       // TODO: is this unnecessary?
       const marker = new mapboxgl.Marker({ color: "#008000" });
 
