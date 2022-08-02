@@ -6,7 +6,6 @@ import mapboxgl from "mapbox-gl";
 import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
 import "@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css";
 
-import Logo from "../Logo/Logo";
 import logoIcon from "../../assets/logos/logo-filled.png";
 import supermarketColours from "../../data/SupermarketColours.json";
 import "./Map.scss";
@@ -19,7 +18,7 @@ import "./Map.scss";
 
 // TODO: delete all console logs
 
-const Map = () => {
+const Map = (props) => {
   // TODO: use token from .env file
   // mapboxgl.accessToken = process.env.MAP_TOKEN;
   mapboxgl.accessToken =
@@ -90,10 +89,21 @@ const Map = () => {
         // this.parentNode.classList.add("active");
       });
 
-      const shopDistance =
-        Math.floor(shop.properties.tilequery.distance / 100) / 10;
       const distance = listing.appendChild(document.createElement("div"));
-      distance.innerHTML = `${shopDistance}km`;
+      if (props.unit === "km") {
+        const shopDistance =
+          Math.floor(shop.properties.tilequery.distance / 100) / 10;
+        distance.innerHTML = `${shopDistance} km`;
+      }
+      if (props.unit === "miles") {
+        const shopDistance =
+          Math.floor((shop.properties.tilequery.distance * 0.621371) / 100) /
+          10;
+        distance.innerHTML = `${shopDistance} miles`;
+        if (shopDistance === 1) {
+          distance.innerHTML = `${shopDistance} mile`;
+        }
+      }
 
       /* Add details to the individual listing. */
       const details = listing.appendChild(document.createElement("div"));
@@ -245,133 +255,139 @@ const Map = () => {
 
   // Create map on page load
   useEffect(() => {
-    const map = new mapboxgl.Map({
-      container: "map",
-      style: "mapbox://styles/mapbox/streets-v11",
-      center: [lng, lat],
-      zoom: zoom,
-      minZoom: 3.5,
-    });
-    map.addControl(new mapboxgl.NavigationControl());
-
-    map.on("load", () => {
-      map.addSource("shopLocations", {
-        type: "geojson",
-        data: {
-          type: "FeatureCollection",
-          features: [],
-        },
+    if (!mapboxgl.supported()) {
+      alert(
+        "Your browser does not support Mapbox GL, please use a different browser to access this website"
+      );
+    } else {
+      const map = new mapboxgl.Map({
+        container: "map",
+        style: "mapbox://styles/mapbox/streets-v11",
+        center: [lng, lat],
+        zoom: zoom,
+        minZoom: 3.5,
       });
+      map.addControl(new mapboxgl.NavigationControl());
 
-      const geocoder = new MapboxGeocoder({
-        accessToken: mapboxgl.accessToken,
-        mapboxgl: mapboxgl,
-        // zoom: 12,
-        placeholder: "Enter an address or place name",
-        bbox: [-7.57216793459, 49.959999905, 1.68153079591, 58.6350001085], // Bounding box for the UK, found here: https://gist.github.com/graydon/11198540
-      });
-      map.addControl(geocoder, "top-left");
-
-      // TODO: is this unnecessary?
-      // TODO: I think this is necessary, but need to change default marker colour
-      const marker = new mapboxgl.Marker({ color: "#33bc6a" });
-
-      geocoder.on("result", async (event) => {
-        const point = event.result.center; // Capture the result coordinates
-        const tileset = tilesetId;
-        const radius = 2000; // TODO: make this dynamic according to user selection
-        const limit = 10; // The maximum amount of results to return
-
-        marker.setLngLat(point).addTo(map); // Add the marker to the map at the result coordinates
-
-        /**
-         * GET request for custom supermarket location data tileset
-         * Data obtained from: https://geolytix.com/blog/geolytix-supermarket-retail-points-2/
-         */
-
-        const response = await axios.get(
-          `https://api.mapbox.com/v4/${tileset}/tilequery/${point[0]},${point[1]}.json?radius=${radius}&limit=${limit}&access_token=${mapboxgl.accessToken}`
-        );
-        await map.getSource("shopLocations").setData(response.data);
-        buildShopList(map.getSource("shopLocations")._data, map);
-      });
-
-      map.loadImage(logoIcon, (error, image) => {
-        if (error) throw error;
-        map.addImage("fullist-icon", image, { sdf: true });
-        map.addLayer({
-          id: "shopMarkers",
-          source: "shopLocations",
-          type: "symbol",
-          layout: {
-            "icon-image": "fullist-icon",
-            "icon-size": 0.25,
+      map.on("load", () => {
+        map.addSource("shopLocations", {
+          type: "geojson",
+          data: {
+            type: "FeatureCollection",
+            features: [],
           },
-          paint: supermarketColours,
+        });
+
+        const geocoder = new MapboxGeocoder({
+          accessToken: mapboxgl.accessToken,
+          mapboxgl: mapboxgl,
+          // zoom: 12,
+          placeholder: "Enter an address or place name",
+          bbox: [-7.57216793459, 49.959999905, 1.68153079591, 58.6350001085], // Bounding box for the UK, found here: https://gist.github.com/graydon/11198540
+        });
+        map.addControl(geocoder, "top-left");
+
+        // TODO: is this unnecessary?
+        // TODO: I think this is necessary, but need to change default marker colour
+        const marker = new mapboxgl.Marker({ color: "#33bc6a" });
+
+        geocoder.on("result", async (event) => {
+          const point = event.result.center; // Capture the result coordinates
+          const tileset = tilesetId;
+          const radius = 2000; // TODO: make this dynamic according to user selection
+          const limit = 10; // The maximum amount of results to return
+
+          marker.setLngLat(point).addTo(map); // Add the marker to the map at the result coordinates
+
+          /**
+           * GET request for custom supermarket location data tileset
+           * Data obtained from: https://geolytix.com/blog/geolytix-supermarket-retail-points-2/
+           */
+
+          const response = await axios.get(
+            `https://api.mapbox.com/v4/${tileset}/tilequery/${point[0]},${point[1]}.json?radius=${radius}&limit=${limit}&access_token=${mapboxgl.accessToken}`
+          );
+          await map.getSource("shopLocations").setData(response.data);
+          buildShopList(map.getSource("shopLocations")._data, map);
+        });
+
+        map.loadImage(logoIcon, (error, image) => {
+          if (error) throw error;
+          map.addImage("fullist-icon", image, { sdf: true });
+          map.addLayer({
+            id: "shopMarkers",
+            source: "shopLocations",
+            type: "symbol",
+            layout: {
+              "icon-image": "fullist-icon",
+              "icon-size": 0.25,
+            },
+            paint: supermarketColours,
+          });
+        });
+
+        const popup = new mapboxgl.Popup();
+
+        map.on("mouseenter", "shopMarkers", (event) => {
+          map.getCanvas().style.cursor = "pointer";
+          const properties = event.features[0].properties;
+          const coordinates = new mapboxgl.LngLat(
+            properties.long,
+            properties.lat
+          );
+          const content = `<h3>${properties.fascia}</h3><h4>${
+            properties.add_one
+          }, ${properties.add_two !== "" ? `${properties.add_two}, ` : ""}${
+            properties.town
+          }, ${properties.postcode}</h4>
+        `;
+          // TODO: put in function? Search for all uses
+          popup.setLngLat(coordinates).setHTML(content).addTo(map);
+        });
+
+        map.on("mouseleave", "shopMarkers", () => {
+          if (!isPopupClicked) {
+            map.getCanvas().style.cursor = "";
+            popup.remove();
+          }
+        });
+
+        map.on("click", "shopMarkers", (event) => {
+          const properties = event.features[0].properties;
+          flyToShop(properties, map);
+          const content = `<h3>${properties.fascia}</h3><h4>${
+            properties.add_one
+          }, ${properties.add_two !== "" ? `${properties.add_two}, ` : ""}${
+            properties.town
+          }, ${properties.postcode}</h4>
+        `;
+
+          const coordinates = new mapboxgl.LngLat(
+            properties.long,
+            properties.lat
+          );
+          popup
+            .setLngLat(coordinates) // Set the popup at the given coordinates
+            .setHTML(content) // Set the popup contents equal to the HTML elements you created
+            .addTo(map); // Add the popup to the map
+
+          // createPopUp(marker, map);
+
+          // TODO: add to highlight shop in side bar
+          // const activeItem = document.getElementsByClassName("active");
+          // event.stopPropagation();
+          // if (activeItem[0]) {
+          //   activeItem[0].classList.remove("active");
+          // }
+          // const listing = document.getElementById(
+          //   `listing-${marker.properties.id}`
+          // );
+          // listing.classList.add("active");
+          setIsPopupClicked(true);
         });
       });
-
-      const popup = new mapboxgl.Popup();
-
-      map.on("mouseenter", "shopMarkers", (event) => {
-        map.getCanvas().style.cursor = "pointer";
-        const properties = event.features[0].properties;
-        const coordinates = new mapboxgl.LngLat(
-          properties.long,
-          properties.lat
-        );
-        const content = `<h3>${properties.fascia}</h3><h4>${
-          properties.add_one
-        }, ${properties.add_two !== "" ? `${properties.add_two}, ` : ""}${
-          properties.town
-        }, ${properties.postcode}</h4>
-        `;
-        // TODO: put in function? Search for all uses
-        popup.setLngLat(coordinates).setHTML(content).addTo(map);
-      });
-
-      map.on("mouseleave", "shopMarkers", () => {
-        if (!isPopupClicked) {
-          map.getCanvas().style.cursor = "";
-          popup.remove();
-        }
-      });
-
-      map.on("click", "shopMarkers", (event) => {
-        const properties = event.features[0].properties;
-        flyToShop(properties, map);
-        const content = `<h3>${properties.fascia}</h3><h4>${
-          properties.add_one
-        }, ${properties.add_two !== "" ? `${properties.add_two}, ` : ""}${
-          properties.town
-        }, ${properties.postcode}</h4>
-        `;
-
-        const coordinates = new mapboxgl.LngLat(
-          properties.long,
-          properties.lat
-        );
-        popup
-          .setLngLat(coordinates) // Set the popup at the given coordinates
-          .setHTML(content) // Set the popup contents equal to the HTML elements you created
-          .addTo(map); // Add the popup to the map
-
-        // createPopUp(marker, map);
-
-        // TODO: add to highlight shop in side bar
-        // const activeItem = document.getElementsByClassName("active");
-        // event.stopPropagation();
-        // if (activeItem[0]) {
-        //   activeItem[0].classList.remove("active");
-        // }
-        // const listing = document.getElementById(
-        //   `listing-${marker.properties.id}`
-        // );
-        // listing.classList.add("active");
-        setIsPopupClicked(true);
-      });
-    });
-  });
+    }
+  }, [props.unit]);
 
   return (
     // TODO: change class names
@@ -384,9 +400,6 @@ const Map = () => {
           <div id="listings" className="listings"></div>
         </div>
         <div id="map" className="map__container"></div>
-      </div>
-      <div className="logo-container">
-        <Logo fillColor="#000000" />
       </div>
     </>
   );
