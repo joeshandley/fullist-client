@@ -44,16 +44,16 @@ const Map = (props) => {
       }
     }
     // TODO: refactor shops.features to add .properties on the end
-    const shopsList = shops.features.map((shop, i) => {
+    const shopsList = shops.features.map((shop) => {
       const listing = listings.appendChild(document.createElement("div"));
-      listing.id = `listing-${i}`;
+      listing.id = `listing-${shop.properties.id}`;
       listing.className = "item";
 
       /* Add the link to the individual listing created above. */
       const link = listing.appendChild(document.createElement("a"));
       link.href = "#";
       link.className = "title";
-      link.id = `link-${i}`;
+      link.id = `link-${shop.properties.id}`;
       link.innerHTML = `${shop.properties.fascia}`;
       link.addEventListener("click", (event) => {
         flyToShop(shop.properties, map);
@@ -299,16 +299,13 @@ const Map = (props) => {
 
           // createPopUp(marker, map);
 
-          // TODO: add to highlight shop in side bar
-          // const activeItem = document.getElementsByClassName("active");
-          // event.stopPropagation();
-          // if (activeItem[0]) {
-          //   activeItem[0].classList.remove("active");
-          // }
-          // const listing = document.getElementById(
-          //   `listing-${marker.properties.id}`
-          // );
-          // listing.classList.add("active");
+          const activeItem = document.getElementsByClassName("active");
+          if (activeItem[0]) {
+            activeItem[0].classList.remove("active");
+          }
+          const listing = document.getElementById(`listing-${properties.id}`);
+          listing.classList.add("active");
+
           setIsPopupClicked(true);
         });
       });
