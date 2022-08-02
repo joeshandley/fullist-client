@@ -268,10 +268,20 @@ const Map = () => {
     map.addControl(new mapboxgl.NavigationControl());
 
     map.on("load", () => {
+      // TODO: delete this source
       map.addSource("places", {
         type: "geojson",
         data: shops,
       });
+
+      map.addSource("shopLocations", {
+        type: "geojson",
+        data: {
+          type: "FeatureCollection",
+          features: [],
+        },
+      });
+
       const geocoder = new MapboxGeocoder({
         accessToken: mapboxgl.accessToken,
         mapboxgl: mapboxgl, // Set the mapbox-gl instance
@@ -279,8 +289,7 @@ const Map = () => {
         placeholder: "Enter an address or place name",
         bbox: [-1, 50, 1, 52], // TODO: make bounding box dynamic
       });
-      // Add the geocoder to the map
-      map.addControl(geocoder, "top-left"); // Add the search box to the top left
+      map.addControl(geocoder, "top-left");
       // TODO: is this unnecessary?
       const marker = new mapboxgl.Marker({ color: "#008000" });
 
@@ -293,33 +302,23 @@ const Map = () => {
 
         marker.setLngLat(point).addTo(map); // Add the marker to the map at the result coordinates
 
-        // TODO: use axios
+        /**
+         * GET request for custom supermarket location data, retrieved from:
+         * https://geolytix.com/blog/geolytix-supermarket-retail-points-2/
+         */
+
         const response = await axios.get(
           `https://api.mapbox.com/v4/${tileset}/tilequery/${point[0]},${point[1]}.json?radius=${radius}&limit=${limit}&access_token=${mapboxgl.accessToken}`
         );
-        // const query = await fetch(
-        //   `https://api.mapbox.com/v4/${tileset}/tilequery/${point[0]},${point[1]}.json?radius=${radius}&limit=${limit}&access_token=${mapboxgl.accessToken}`,
-        //   { method: "GET" }
-        // );
-        // const json = await query2.json();
-        // map.getSource("tilequery").setData(json);
-        console.log(response.data);
-        map.getSource("tilequery").setData(response.data);
+        map.getSource("shopLocations").setData(response.data);
       });
 
-      map.addSource("tilequery", {
-        type: "geojson",
-        data: {
-          type: "FeatureCollection",
-          features: [],
-        },
-      });
       map.loadImage(logoIcon, (error, image) => {
         if (error) throw error;
         map.addImage("fullist-icon", image, { sdf: true });
         map.addLayer({
           id: "shopMarkers",
-          source: "tilequery",
+          source: "shopLocations",
           type: "symbol",
           layout: {
             "icon-image": "fullist-icon",
@@ -388,8 +387,15 @@ const Map = () => {
           properties.long,
           properties.lat
         );
-
-        const content = `<h3>Test for now</h3><h4>Test again, use $ and {} in future</h4>
+        const content = `<h3>${event.features[0].properties.fascia}</h3><h4>${
+          event.features[0].properties.add_one
+        }, ${
+          event.features[0].properties.add_two !== ""
+            ? `${event.features[0].properties.add_two}, `
+            : ""
+        }${event.features[0].properties.town}, ${
+          event.features[0].properties.postcode
+        }</h4>
         `; // <p>${(obj.distance / 1609.344).toFixed(2)} mi. from location</p>
         // TODO: put in function? Search for all uses
         popup
