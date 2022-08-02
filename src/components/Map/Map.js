@@ -200,61 +200,62 @@ const Map = () => {
   }
 
   // TODO: use this function for distance between two points
-  function getDistanceInKm(lat1, lng1, lat2, lng2) {
-    const R = 6371; // Radius of the earth in km
-    const dLat = deg2rad(lat2 - lat1); // deg2rad below
-    const dLng = deg2rad(lng2 - lng1);
-    const a =
-      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-      Math.cos(deg2rad(lat1)) *
-        Math.cos(deg2rad(lat2)) *
-        Math.sin(dLng / 2) *
-        Math.sin(dLng / 2);
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    const d = R * c; // Distance in km
-    return d;
-  }
+  //   function getDistanceInKm(lat1, lng1, lat2, lng2) {
+  //     const R = 6371; // Radius of the earth in km
+  //     const dLat = deg2rad(lat2 - lat1); // deg2rad below
+  //     const dLng = deg2rad(lng2 - lng1);
+  //     const a =
+  //       Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+  //       Math.cos(deg2rad(lat1)) *
+  //         Math.cos(deg2rad(lat2)) *
+  //         Math.sin(dLng / 2) *
+  //         Math.sin(dLng / 2);
+  //     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  //     const d = R * c; // Distance in km
+  //     return d;
+  //   }
 
-  function deg2rad(deg) {
-    return deg * (Math.PI / 180);
-  }
+  //   function deg2rad(deg) {
+  //     return deg * (Math.PI / 180);
+  //   }
 
-  function addMarkers(map) {
-    /* For each feature in the GeoJSON object above: */
-    for (const marker of shops.features) {
-      /* Create a div element for the marker. */
-      const el = document.createElement("div");
-      /* Assign a unique `id` to the marker. */
-      el.id = `marker-${marker.properties.id}`;
-      /* Assign the `marker` class to each marker for styling. */
-      el.className = "marker";
+  // TODO: delete this old marker code
+  //   function addMarkers(map) {
+  //     /* For each feature in the GeoJSON object above: */
+  //     for (const marker of shops.features) {
+  //       /* Create a div element for the marker. */
+  //       const el = document.createElement("div");
+  //       /* Assign a unique `id` to the marker. */
+  //       el.id = `marker-${marker.properties.id}`;
+  //       /* Assign the `marker` class to each marker for styling. */
+  //       el.className = "marker";
 
-      el.addEventListener("click", (e) => {
-        /* Fly to the point */
-        flyToShop(marker, map);
-        /* Close all other popups and display popup for clicked store */
-        createPopUp(marker, map);
-        /* Highlight listing in sidebar */
-        const activeItem = document.getElementsByClassName("active");
-        e.stopPropagation();
-        if (activeItem[0]) {
-          activeItem[0].classList.remove("active");
-        }
-        const listing = document.getElementById(
-          `listing-${marker.properties.id}`
-        );
-        listing.classList.add("active");
-      });
+  //       el.addEventListener("click", (e) => {
+  //         /* Fly to the point */
+  //         flyToShop(marker, map);
+  //         /* Close all other popups and display popup for clicked store */
+  //         createPopUp(marker, map);
+  //         /* Highlight listing in sidebar */
+  //         const activeItem = document.getElementsByClassName("active");
+  //         e.stopPropagation();
+  //         if (activeItem[0]) {
+  //           activeItem[0].classList.remove("active");
+  //         }
+  //         const listing = document.getElementById(
+  //           `listing-${marker.properties.id}`
+  //         );
+  //         listing.classList.add("active");
+  //       });
 
-      /**
-       * Create a marker using the div element
-       * defined above and add it to the map.
-       **/
-      new mapboxgl.Marker(el, { offset: [0, -23] })
-        .setLngLat(marker.geometry.coordinates)
-        .addTo(map);
-    }
-  }
+  //       /**
+  //        * Create a marker using the div element
+  //        * defined above and add it to the map.
+  //        **/
+  //       new mapboxgl.Marker(el, { offset: [0, -23] })
+  //         .setLngLat(marker.geometry.coordinates)
+  //         .addTo(map);
+  //     }
+  //   }
 
   // Create map on page load
   useEffect(() => {
@@ -264,7 +265,6 @@ const Map = () => {
       center: [lng, lat],
       zoom: zoom,
     });
-    // Add navigation controls
     map.addControl(new mapboxgl.NavigationControl());
 
     map.on("load", () => {
@@ -273,40 +273,38 @@ const Map = () => {
         data: shops,
       });
       const geocoder = new MapboxGeocoder({
-        // Initialize the geocoder
-        accessToken: mapboxgl.accessToken, // Set the access token
+        accessToken: mapboxgl.accessToken,
         mapboxgl: mapboxgl, // Set the mapbox-gl instance
-        zoom: 13, // Set the zoom level for geocoding results
-        placeholder: "Enter an address or place name", // This placeholder text will display in the search bar
+        zoom: 13,
+        placeholder: "Enter an address or place name",
         bbox: [-1, 50, 1, 52], // TODO: make bounding box dynamic
       });
       // Add the geocoder to the map
       map.addControl(geocoder, "top-left"); // Add the search box to the top left
       // TODO: is this unnecessary?
-      const marker = new mapboxgl.Marker({ color: "#008000" }); // Create a new green marker
+      const marker = new mapboxgl.Marker({ color: "#008000" });
 
       geocoder.on("result", async (event) => {
         // When the geocoder returns a result
         const point = event.result.center; // Capture the result coordinates
-        const tileset = tilesetId; // replace this with the ID of the tileset you created
-        const radius = 2000; // 1609 meters is roughly equal to one mile
+        const tileset = tilesetId;
+        const radius = 2000;
         const limit = 10; // The maximum amount of results to return
 
         marker.setLngLat(point).addTo(map); // Add the marker to the map at the result coordinates
 
         // TODO: use axios
-        // const query = await axios.get(
-        //   `https://api.mapbox.com/v4/${tileset}/tilequery/${point[0]},${point[1]}.json?radius=${radius}&limit=${limit}&access_token=${mapboxgl.accessToken}`
-        // );
-        // console.log(query);
-        // map.getSource("tilequery").setData(query);
-
-        const query = await fetch(
-          `https://api.mapbox.com/v4/${tileset}/tilequery/${point[0]},${point[1]}.json?radius=${radius}&limit=${limit}&access_token=${mapboxgl.accessToken}`,
-          { method: "GET" }
+        const response = await axios.get(
+          `https://api.mapbox.com/v4/${tileset}/tilequery/${point[0]},${point[1]}.json?radius=${radius}&limit=${limit}&access_token=${mapboxgl.accessToken}`
         );
-        const json = await query.json();
-        map.getSource("tilequery").setData(json);
+        // const query = await fetch(
+        //   `https://api.mapbox.com/v4/${tileset}/tilequery/${point[0]},${point[1]}.json?radius=${radius}&limit=${limit}&access_token=${mapboxgl.accessToken}`,
+        //   { method: "GET" }
+        // );
+        // const json = await query2.json();
+        // map.getSource("tilequery").setData(json);
+        console.log(response.data);
+        map.getSource("tilequery").setData(response.data);
       });
 
       map.addSource("tilequery", {
