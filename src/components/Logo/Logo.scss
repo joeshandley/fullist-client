@@ -1,0 +1,15 @@
+@use "../../partials/variables" as *;
+
+.logo-container {
+  display: flex;
+  //   align-items: flex-end;
+  color: $fullist-green;
+  margin-top: 10px;
+  margin-left: 10px;
+}
+
+h2 {
+  color: $fullist-green;
+  // font-weight: 400;
+  padding-bottom: 2px;
+}

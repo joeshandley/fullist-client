@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 
+import Logo from "./components/Logo/Logo";
 import Map from "./components/Map/Map";
 import logo from "./assets/logos/logo.svg";
 import "./App.scss";
@@ -14,11 +15,12 @@ function App() {
     <>
       <h1>Test</h1>
       <p>Add content here</p>
-      <div className="logo-container">
+      <Logo />
+      {/* <div className="logo-container">
         <h2>F</h2>
         <img src={logo} alt="" />
         <h2>llist.</h2>
-      </div>
+      </div> */}
       <Map unit={unit} />
       <form className="map__units">
         <label>
