@@ -58,7 +58,6 @@ const Map = () => {
       link.innerHTML = `${shop.properties.fascia}`;
       link.addEventListener("click", () => {
         flyToShop(shop.properties, map);
-
         // TODO: add this to open popup on sidebar click
         // const popUps = document.getElementsByClassName("mapboxgl-popup");
         // // if (popUps[0]) popUps[0].remove();
@@ -90,6 +89,11 @@ const Map = () => {
         // }
         // this.parentNode.classList.add("active");
       });
+
+      const shopDistance =
+        Math.floor(shop.properties.tilequery.distance / 100) / 10;
+      const distance = listing.appendChild(document.createElement("div"));
+      distance.innerHTML = `${shopDistance}km`;
 
       /* Add details to the individual listing. */
       const details = listing.appendChild(document.createElement("div"));
@@ -264,32 +268,30 @@ const Map = () => {
         mapboxgl: mapboxgl,
         // zoom: 12,
         placeholder: "Enter an address or place name",
-        bbox: [-7.57216793459, 49.959999905, 1.68153079591, 58.6350001085], // TODO: make bounding box dynamic
+        bbox: [-7.57216793459, 49.959999905, 1.68153079591, 58.6350001085], // Bounding box for the UK, found here: https://gist.github.com/graydon/11198540
       });
       map.addControl(geocoder, "top-left");
 
       // TODO: is this unnecessary?
-      // TODO: I think this is necessary, but need to
+      // TODO: I think this is necessary, but need to change default marker colour
       const marker = new mapboxgl.Marker({ color: "#33bc6a" });
 
       geocoder.on("result", async (event) => {
-        // When the geocoder returns a result
         const point = event.result.center; // Capture the result coordinates
         const tileset = tilesetId;
-        const radius = 2000;
+        const radius = 2000; // TODO: make this dynamic according to user selection
         const limit = 10; // The maximum amount of results to return
 
         marker.setLngLat(point).addTo(map); // Add the marker to the map at the result coordinates
 
         /**
-         * GET request for custom supermarket location data, retrieved from:
-         * https://geolytix.com/blog/geolytix-supermarket-retail-points-2/
+         * GET request for custom supermarket location data tileset
+         * Data obtained from: https://geolytix.com/blog/geolytix-supermarket-retail-points-2/
          */
 
         const response = await axios.get(
           `https://api.mapbox.com/v4/${tileset}/tilequery/${point[0]},${point[1]}.json?radius=${radius}&limit=${limit}&access_token=${mapboxgl.accessToken}`
         );
-
         await map.getSource("shopLocations").setData(response.data);
         buildShopList(map.getSource("shopLocations")._data, map);
       });
@@ -323,7 +325,7 @@ const Map = () => {
         }, ${properties.add_two !== "" ? `${properties.add_two}, ` : ""}${
           properties.town
         }, ${properties.postcode}</h4>
-        `; // <p>${(obj.distance / 1609.344).toFixed(2)} mi. from location</p>
+        `;
         // TODO: put in function? Search for all uses
         popup.setLngLat(coordinates).setHTML(content).addTo(map);
       });
