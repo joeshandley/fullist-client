@@ -8,6 +8,7 @@ import "@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css";
 
 import Logo from "../Logo/Logo";
 import logoIcon from "../../assets/logos/logo-filled.png";
+import supermarketColours from "../../data/SupermarketColours.json";
 import "./Map.scss";
 
 /**
@@ -35,7 +36,7 @@ const Map = () => {
   const [zoom, setZoom] = useState(14);
   const [isPopupClicked, setIsPopupClicked] = useState(false);
 
-  const buildLocationList = (shops, map) => {
+  const buildShopList = (shops, map) => {
     const listings = document.getElementById("listings");
 
     if (listings.firstChild) {
@@ -288,9 +289,7 @@ const Map = () => {
         );
 
         await map.getSource("shopLocations").setData(response.data);
-
-        // TODO: add back if using sidebar
-        buildLocationList(map.getSource("shopLocations")._data, map);
+        buildShopList(map.getSource("shopLocations")._data, map);
       });
 
       map.loadImage(logoIcon, (error, image) => {
@@ -304,57 +303,7 @@ const Map = () => {
             "icon-image": "fullist-icon",
             "icon-size": 0.25,
           },
-          paint: {
-            "icon-color": [
-              "match",
-              ["get", "retailer"],
-              "Aldi",
-              "#001E5E",
-              "Amazon",
-              "#77bc1f",
-              "Asda",
-              "#78BE20",
-              "Booths",
-              "#383a36",
-              "Budgens",
-              "#204133",
-              "Costco",
-              "#E31837",
-              "Dunnes Stores",
-              "#000000",
-              "Farmfoods",
-              "#ffff54",
-              "Heron",
-              "#fadd4b",
-              "Iceland",
-              "#D2212E",
-              "Lidl",
-              "#015AA2",
-              "Makro",
-              "#fce94e",
-              "Marks and Spencer",
-              "#202020",
-              "Mere",
-              "#ffffff",
-              "Morrisons",
-              "#00563F",
-              "Planet Organic",
-              "#ffffff",
-              "Sainsburys",
-              "#ED8B01",
-              "Spar",
-              "#ec1b24",
-              "Tesco",
-              "#EE1C2E",
-              "The Co-operative Group",
-              "#00a1cc",
-              "Waitrose",
-              "#578626",
-              "Whole Foods Market",
-              "#146642",
-              "#ffffff",
-            ],
-          },
+          paint: supermarketColours,
         });
       });
 
@@ -418,32 +367,6 @@ const Map = () => {
         setIsPopupClicked(true);
       });
     });
-    // buildLocationList(shops, map);
-    // addMarkers(map);
-
-    // Add animation to fly to the user-entered postcode
-    document
-      .getElementById("postcode-form")
-      .addEventListener("submit", async (e) => {
-        e.preventDefault();
-        try {
-          const postcodeData = await axios.get(
-            `https://api.postcodes.io/postcodes/${e.target.postcode.value}`
-          );
-          if (postcodeData) {
-            map.flyTo({
-              center: [
-                postcodeData.data.result.longitude,
-                postcodeData.data.result.latitude,
-              ],
-              zoom: 12,
-              essential: true,
-            });
-          }
-        } catch (err) {
-          console.log(`Error: `, err);
-        }
-      });
   });
 
   return (
@@ -458,12 +381,6 @@ const Map = () => {
         </div>
         <div id="map" className="map__container"></div>
       </div>
-      <form id="postcode-form" action="submit" className="map__form">
-        <input name="postcode" className="postcode-input"></input>
-        <button id="submitPostcode" type="submit">
-          Submit postcode
-        </button>
-      </form>
       <div className="logo-container">
         <Logo fillColor="#000000" />
       </div>
