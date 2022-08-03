@@ -32,9 +32,9 @@ const Home = () => {
         <Swiper
           slidesPerView={"auto"}
           spaceBetween={80}
-          // pagination={{
-          //   clickable: true,
-          // }}
+          pagination={{
+            clickable: true,
+          }}
           modules={[Pagination]}
           className="home__slides"
         >
@@ -45,7 +45,7 @@ const Home = () => {
                 alt="grocery item"
                 className="home__slide-image"
               />
-              {/* <p className="home__slides-text">Stitching repairs</p> */}
+              <p className="home__slide-text">Gala Apples</p>
             </div>
           </SwiperSlide>
           <SwiperSlide>
@@ -55,7 +55,7 @@ const Home = () => {
                 alt="grocery item"
                 className="home__slide-image"
               />
-              {/* <p className="home__slides-text">Stitching repairs</p> */}
+              <p className="home__slide-text">Lemonade</p>
             </div>
           </SwiperSlide>
           <SwiperSlide>
@@ -65,7 +65,7 @@ const Home = () => {
                 alt="grocery item"
                 className="home__slide-image"
               />
-              {/* <p className="home__slides-text">Stitching repairs</p> */}
+              <p className="home__slide-text">Baguette</p>
             </div>
           </SwiperSlide>
         </Swiper>
@@ -89,7 +89,7 @@ const Home = () => {
                 alt="grocery item"
                 className="home__slide-image"
               />
-              {/* <p className="home__slides-text">Stitching repairs</p> */}
+              <p className="home__slide-text">Spaghetti Bolognase</p>
             </div>
           </SwiperSlide>
           <SwiperSlide>
@@ -99,7 +99,7 @@ const Home = () => {
                 alt="grocery item"
                 className="home__slide-image"
               />
-              {/* <p className="home__slides-text">Stitching repairs</p> */}
+              <p className="home__slide-text">Summer Salad</p>
             </div>
           </SwiperSlide>
           <SwiperSlide>
@@ -109,7 +109,7 @@ const Home = () => {
                 alt="grocery item"
                 className="home__slide-image"
               />
-              {/* <p className="home__slides-text">Stitching repairs</p> */}
+              <p className="home__slide-text">Apple Crumble</p>
             </div>
           </SwiperSlide>
         </Swiper>
