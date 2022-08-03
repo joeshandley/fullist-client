@@ -1,4 +1,5 @@
 @use "../../partials/variables" as *;
+@use "../../partials/typography" as *;
 
 .logo-container {
   display: flex;
@@ -9,6 +10,7 @@
 }
 
 h2 {
+  font-family: "Nobile";
   color: $fullist-green;
   // font-weight: 400;
   padding-bottom: 2px;
