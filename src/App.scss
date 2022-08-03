@@ -1,14 +1,10 @@
 @use "./partials/resets" as *;
+@use "./partials/variables" as *;
+@use "./partials/mixins" as *;
 @use "./partials/typography" as *;
 
 body {
-  background-color: #e5d0cc; //$fullist-pink
-}
-
-img {
-  height: 30px;
-  margin-top: -7px;
-  margin-left: 2px;
+  background-color: $fullist-white;
 }
 
 // .logo-container {

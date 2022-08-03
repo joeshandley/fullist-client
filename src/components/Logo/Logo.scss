@@ -1,17 +1,25 @@
 @use "../../partials/variables" as *;
 @use "../../partials/typography" as *;
 
-.logo-container {
-  display: flex;
-  //   align-items: flex-end;
-  color: $fullist-green;
-  margin-top: 10px;
-  margin-left: 10px;
-}
+.logo {
+  &__container {
+    display: flex;
+    //   align-items: flex-end;
+    color: $fullist-green;
+    margin-left: 1rem;
+  }
 
-h2 {
-  font-family: "Nobile";
-  color: $fullist-green;
-  // font-weight: 400;
-  padding-bottom: 2px;
+  &__text {
+    font-family: "Nobile";
+    font-size: 2.8rem;
+    color: $fullist-green;
+    // font-weight: 400;
+    padding-bottom: 2px;
+  }
+
+  &__image {
+    height: 26px;
+    margin-top: -4px;
+    margin-left: 2px;
+  }
 }
