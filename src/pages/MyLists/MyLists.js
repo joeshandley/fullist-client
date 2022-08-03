@@ -1,9 +1,13 @@
 import { EditText } from "react-edit-text";
 import "react-edit-text/dist/index.css";
+import ListItem from "../../components/ListItem/ListItem";
 
 import "./MyLists.scss";
 
 const MyLists = () => {
+  // TODO: change this temp item name
+  const itemName = "Apple";
+
   return (
     <main className="lists">
       <nav className="lists__nav">
@@ -35,28 +39,7 @@ const MyLists = () => {
       <a href="/lists/search" className="lists__add">
         Add item
       </a>
-      <div className="lists__item">
-        <EditText
-          name="age"
-          type="number"
-          style={{
-            width: "3rem",
-            border: "1px solid #1c0f13",
-            borderRadius: "5px",
-            textAlign: "center",
-          }}
-          defaultValue="1"
-        />
-        <div className="lists__item-check-container">
-          <input
-            className="lists__item-check"
-            type="checkbox"
-            id="item1"
-            name="item1"
-          />
-          <label className="lists__item-name">Apple</label>
-        </div>
-      </div>
+      <ListItem name={itemName} />
     </main>
   );
 };

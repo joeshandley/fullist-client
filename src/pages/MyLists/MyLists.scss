@@ -1,6 +1,8 @@
 @use "../../partials/variables" as *;
 
 .lists {
+  margin: 0 1.2rem;
+
   &__nav {
     display: flex;
     justify-content: space-around;
@@ -8,37 +10,6 @@
   }
 
   &__name-container {
-    margin: 1.2rem;
-  }
-
-  &__item {
-    display: flex;
-    align-items: center;
-    background-color: $fullist-lilac;
-    margin: 1.2rem 1.8rem;
-    padding: 1.2rem;
-    border-radius: 10px;
-  }
-
-  &__item-check-container {
-    display: flex;
-    flex-direction: row-reverse;
-    align-items: center;
-    justify-content: space-between;
-    flex-grow: 1;
-    margin-left: 2.4rem;
-  }
-
-  &__item-check {
-    -ms-transform: scale(1.5);
-    -moz-transform: scale(1.5);
-    -webkit-transform: scale(1.5);
-    -o-transform: scale(1.5);
-    transform: scale(1.5);
-  }
-
-  &__item-check:checked + .lists__item-name {
-    text-decoration: line-through;
-    opacity: 0.5;
+    margin: 1.2rem 0;
   }
 }
