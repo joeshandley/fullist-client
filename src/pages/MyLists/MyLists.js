@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { EditText } from "react-edit-text";
 import "react-edit-text/dist/index.css";
@@ -8,21 +9,25 @@ import "./MyLists.scss";
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
 const MyLists = () => {
+  const [allLists, setAllLists] = useState([]);
+
   const getLists = async () => {
     try {
       const response = await axios.get(`${BACKEND_URL}/lists`);
-      console.log(response);
       if (response) {
-        return response.data.map((list) => {
-          return <p>{list.name}</p>;
+        const lists = response.data.map((list) => {
+          return <h2 key={list.id}>{list.name}</h2>;
         });
+        setAllLists(lists);
       }
     } catch (err) {
       console.log(`Error: `, err);
     }
   };
 
-  const lists = getLists();
+  useEffect(() => {
+    getLists();
+  }, []);
 
   return (
     <main className="lists">
@@ -34,7 +39,7 @@ const MyLists = () => {
           Favourites
         </a>
       </nav>
-      <div>{lists}</div>
+      <div>{allLists}</div>
       <div className="lists__name-container">
         <EditText
           name="list-name"
