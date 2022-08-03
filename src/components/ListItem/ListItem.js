@@ -3,16 +3,17 @@ import { EditText } from "react-edit-text";
 import "react-edit-text/dist/index.css";
 import "./ListItem.scss";
 
-const ListItem = ({ id, name }) => {
+const ListItem = ({ name }) => {
   const [isItemChecked, setIsItemChecked] = useState(false);
 
   return (
-    <div className={`item ${isItemChecked && "item--checked"}`}>
+    <div className={`item${isItemChecked ? " item--checked" : ""}`}>
       <EditText
         name="age"
         type="number"
         style={{
           width: "3rem",
+          backgroundColor: "#fbfbfb",
           border: "1px solid #1c0f13",
           borderRadius: "5px",
           textAlign: "center",
@@ -23,14 +24,12 @@ const ListItem = ({ id, name }) => {
         <input
           className="item__check"
           type="checkbox"
-          id={`${id}-check`}
-          name={id}
           onClick={() => {
             isItemChecked ? setIsItemChecked(false) : setIsItemChecked(true);
           }}
         />
         <label
-          className={`item__name ${isItemChecked && "item__name--checked"}`}
+          className={`item__name${isItemChecked ? " item__name--checked" : ""}`}
         >
           {name}
         </label>

@@ -19,10 +19,9 @@ import "./Map.scss";
 // TODO: delete all console logs
 
 const Map = (props) => {
-  // TODO: use token from .env file
-  // mapboxgl.accessToken = process.env.MAP_TOKEN;
-  mapboxgl.accessToken =
-    "pk.eyJ1Ijoiam9lc2hhbmRsZXkiLCJhIjoiY2w2M3Rrc2I2MjVpZzNnb2EzaG5xNjF5NyJ9.LszKClP9qlQ3m4jXCzDudg";
+  mapboxgl.accessToken = process.env.REACT_APP_MAP_TOKEN;
+  // mapboxgl.accessToken =
+  //   "pk.eyJ1Ijoiam9lc2hhbmRsZXkiLCJhIjoiY2w2M3Rrc2I2MjVpZzNnb2EzaG5xNjF5NyJ9.LszKClP9qlQ3m4jXCzDudg";
 
   const tilesetId = "joeshandley.6hwufhbg";
 
