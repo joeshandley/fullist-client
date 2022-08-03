@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { EditText } from "react-edit-text";
 import "react-edit-text/dist/index.css";
-import List from "../../components/List/List";
+import List from "../List/List";
 
 import "./MyLists.scss";
 
@@ -16,7 +16,11 @@ const MyLists = () => {
       const response = await axios.get(`${BACKEND_URL}/lists`);
       if (response) {
         const lists = response.data.map((list) => {
-          return <h2 key={list.id}>{list.name}</h2>;
+          return (
+            <a key={list.id} href={`/lists/${list.id}`}>
+              <h2>{list.name}</h2>
+            </a>
+          );
         });
         setAllLists(lists);
       }
@@ -40,25 +44,6 @@ const MyLists = () => {
         </a>
       </nav>
       <div>{allLists}</div>
-      <div className="lists__name-container">
-        <EditText
-          name="list-name"
-          placeholder="Enter your list name"
-          style={{ width: "20rem" }}
-          editButtonProps={{
-            style: {
-              marginLeft: "5px",
-              backgroundColor: "#fbfbfb",
-              fill: "#1c0f13",
-            },
-          }}
-          showEditButton
-        />
-      </div>
-      <a href="/lists/search" className="lists__add">
-        Add item to list
-      </a>
-      <List />
     </main>
   );
 };
