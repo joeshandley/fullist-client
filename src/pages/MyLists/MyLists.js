@@ -17,12 +17,21 @@ const MyLists = () => {
           Previous Lists
         </a>
       </nav>
-      <EditText
-        name="list-name"
-        defaultValue="Enter your list name"
-        editButtonProps={{ style: { marginLeft: "5px" } }}
-        showEditButton
-      />
+      <div className="lists__name-container">
+        <EditText
+          name="list-name"
+          placeholder="Enter your list name"
+          style={{ width: "20rem" }}
+          editButtonProps={{
+            style: {
+              marginLeft: "5px",
+              backgroundColor: "#fbfbfb",
+              fill: "#1c0f13",
+            },
+          }}
+          showEditButton
+        />
+      </div>
     </main>
   );
 };
