@@ -15,4 +15,47 @@
     font-size: 3rem;
     color: $fullist-black;
   }
+
+  &__list-buttons {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 2.4rem;
+  }
+
+  &__list-button {
+    background-color: $fullist-green;
+    border-radius: 12px;
+    color: $fullist-black;
+    cursor: pointer;
+    font-size: 1.4rem;
+    padding: 10px 15px;
+    text-align: center;
+    transition: 150ms;
+    width: fit-content;
+
+    &:hover,
+    &:focus {
+      outline: 0;
+      background: $fullist-light-green;
+      box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.2), 0 3px 8px 0 rgba(0, 0, 0, 0.15);
+    }
+  }
+
+  &__new-in,
+  &__recipes {
+    margin: 0 1.2rem;
+  }
+
+  &__subtitle {
+    margin-top: 1.2rem;
+  }
+
+  &__slides {
+    margin-top: 1.2rem;
+  }
+
+  &__slide-image {
+    height: 16rem;
+    border-radius: 10px;
+  }
 }
