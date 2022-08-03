@@ -8,6 +8,10 @@
   padding: 1.2rem;
   border-radius: 10px;
 
+  &--checked {
+    background-color: #d1ccdc80;
+  }
+
   &__check-container {
     display: flex;
     flex-direction: row-reverse;
@@ -25,8 +29,10 @@
     transform: scale(1.5);
   }
 
-  &__check:checked + .item__name {
-    text-decoration: line-through;
-    opacity: 0.5;
+  &__name {
+    &--checked {
+      text-decoration: line-through;
+      opacity: 0.5;
+    }
   }
 }

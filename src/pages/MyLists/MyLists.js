@@ -1,13 +1,10 @@
 import { EditText } from "react-edit-text";
 import "react-edit-text/dist/index.css";
-import ListItem from "../../components/ListItem/ListItem";
+import List from "../../components/List/List";
 
 import "./MyLists.scss";
 
 const MyLists = () => {
-  // TODO: change this temp item name
-  const itemName = "Apple";
-
   return (
     <main className="lists">
       <nav className="lists__nav">
@@ -39,7 +36,7 @@ const MyLists = () => {
       <a href="/lists/search" className="lists__add">
         Add item
       </a>
-      <ListItem name={itemName} />
+      <List />
     </main>
   );
 };

@@ -1,10 +1,13 @@
+import React, { useState } from "react";
 import { EditText } from "react-edit-text";
 import "react-edit-text/dist/index.css";
 import "./ListItem.scss";
 
-const ListItem = ({ name }) => {
+const ListItem = ({ id, name }) => {
+  const [isItemChecked, setIsItemChecked] = useState(false);
+
   return (
-    <div className="item">
+    <div className={`item ${isItemChecked && "item--checked"}`}>
       <EditText
         name="age"
         type="number"
@@ -20,10 +23,17 @@ const ListItem = ({ name }) => {
         <input
           className="item__check"
           type="checkbox"
-          id="item1"
-          name="item1"
+          id={`${id}-check`}
+          name={id}
+          onClick={() => {
+            isItemChecked ? setIsItemChecked(false) : setIsItemChecked(true);
+          }}
         />
-        <label className="item__name">{name}</label>
+        <label
+          className={`item__name ${isItemChecked && "item__name--checked"}`}
+        >
+          {name}
+        </label>
       </div>
     </div>
   );
