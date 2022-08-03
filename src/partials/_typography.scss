@@ -115,5 +115,5 @@ textarea {
 button,
 label {
   font-family: $font-stack;
-  @include font-sizing(1.2rem, 2rem, 700);
+  @include font-sizing(1.6rem, 2.2rem, 700);
 }
