@@ -6,6 +6,10 @@ import "./ListItem.scss";
 const ListItem = ({ name }) => {
   const [isItemChecked, setIsItemChecked] = useState(false);
 
+  if (!name) {
+    name = "";
+  }
+
   return (
     <div className={`item${isItemChecked ? " item--checked" : ""}`}>
       <EditText

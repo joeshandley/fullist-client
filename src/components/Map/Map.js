@@ -17,6 +17,7 @@ import "./Map.scss";
  */
 
 // TODO: delete all console logs
+// TODO: get rid of all DOM manipulation
 
 const Map = (props) => {
   mapboxgl.accessToken = process.env.REACT_APP_MAP_TOKEN;
