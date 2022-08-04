@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { EditText } from "react-edit-text";
 import "react-edit-text/dist/index.css";
 import ListNameItem from "../../components/ListNameItem/ListNameItem";
 
