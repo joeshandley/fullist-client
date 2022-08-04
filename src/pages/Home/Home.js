@@ -89,7 +89,7 @@ const Home = () => {
                 alt="grocery item"
                 className="home__slide-image"
               />
-              <p className="home__slide-text">Spaghetti Bolognase</p>
+              <p className="home__slide-text">Spaghetti Carbonara</p>
             </div>
           </SwiperSlide>
           <SwiperSlide>

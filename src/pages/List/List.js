@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useId } from "react";
 import axios from "axios";
 import { EditText } from "react-edit-text";
 import "react-edit-text/dist/index.css";
@@ -11,7 +11,9 @@ const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const List = (props) => {
   const [list, setList] = useState([]);
   const [listName, setListName] = useState("");
-  const [addItem, setAddItem] = useState(false);
+  const [isItemAdded, setIsItemAdded] = useState(false);
+
+  const id = useId();
 
   const getList = async () => {
     try {
@@ -25,6 +27,22 @@ const List = (props) => {
         });
         setList(list);
       }
+    } catch (err) {
+      console.log(`Error: `, err);
+    }
+  };
+
+  const addItemHandler = async (e) => {
+    console.log(e);
+    try {
+      const response = await axios.post(
+        `${BACKEND_URL}/lists/${props.match.params.id}/add-item`,
+        {
+          name: e.value,
+          quantity: 1,
+        }
+      );
+      console.log(response);
     } catch (err) {
       console.log(`Error: `, err);
     }
@@ -53,15 +71,15 @@ const List = (props) => {
       <div className="list__container">{list}</div>
       <div
         className={`list__item${
-          addItem ? " list__item--show" : " list__item--hide"
+          isItemAdded ? " list__item--show" : " list__item--hide"
         }`}
       >
-        <AddListItem />
+        <AddListItem addItemHandler={addItemHandler} />
       </div>
       <p
         className="list__add-item"
         onClick={() => {
-          setAddItem(true);
+          setIsItemAdded(true);
         }}
       >
         Add item to list

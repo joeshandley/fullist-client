@@ -3,11 +3,11 @@ import { EditText } from "react-edit-text";
 import "react-edit-text/dist/index.css";
 import "./AddListItem.scss";
 
-const AddListItem = () => {
+const AddListItem = ({ addItemHandler }) => {
   return (
     <div className="add-item">
       <EditText
-        name="age"
+        name="quantity"
         type="number"
         style={{
           width: "3rem",
@@ -18,13 +18,11 @@ const AddListItem = () => {
         }}
         defaultValue=""
       />
-      <input
+      <EditText
         className="add-item__name"
-        type="text"
+        name="addItem"
         placeholder="Enter item name"
-        onBlur={() => {
-          // Add function to change this component to a ListItem -- pass down function as prop from List.js
-        }}
+        onSave={(e) => addItemHandler(e)}
       />
     </div>
   );
