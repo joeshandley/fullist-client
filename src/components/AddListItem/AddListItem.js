@@ -35,6 +35,7 @@ const AddListItem = ({ addItemHandler, isAddingItem }) => {
         name="addItem"
         placeholder="Enter item name"
         value={itemText}
+        style={{ margin: "0 2.8rem 0 2rem" }}
         onChange={(e) => handleChange(e)}
         onSave={(e) => addItemHandler(e)}
       />

@@ -4,12 +4,17 @@
   display: flex;
   align-items: center;
   background-color: $fullist-lilac;
-  margin: 1.2rem 1.8rem;
+  margin: 1.2rem 0.8rem;
   padding: 1.2rem;
+  padding-left: 0.8rem;
   border-radius: 10px;
 
   &--checked {
     background-color: #d1ccdc80;
+  }
+
+  &__delete {
+    margin-right: 0.4rem;
   }
 
   &__check-container {
@@ -27,6 +32,7 @@
     -webkit-transform: scale(1.5);
     -o-transform: scale(1.5);
     transform: scale(1.5);
+    margin-left: 0.8rem;
   }
 
   &__name {

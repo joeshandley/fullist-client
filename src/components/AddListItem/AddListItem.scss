@@ -4,11 +4,16 @@
   display: flex;
   align-items: center;
   background-color: $fullist-lilac;
-  margin: 0 1.8rem 1.2rem;
+  margin: 0 0.8rem 1.2rem;
   padding: 1.2rem;
+  padding-left: 2.8rem;
   border-radius: 10px;
 
   &__name {
     margin-left: 2.4rem;
+
+    input {
+      width: 10rem;
+    }
   }
 }

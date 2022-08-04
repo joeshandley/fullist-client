@@ -52,12 +52,15 @@ const List = (props) => {
   };
 
   useEffect(() => {
-    if (isItemAdded) getList();
+    if (isItemAdded) {
+      getList();
+    }
   }, [isItemAdded]);
 
   return (
     <main className="list">
       <EditText
+        className="list__name"
         name="list-name"
         placeholder="Enter your list name"
         defaultValue={listName}
