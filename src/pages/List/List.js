@@ -11,7 +11,8 @@ const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const List = (props) => {
   const [list, setList] = useState([]);
   const [listName, setListName] = useState("");
-  const [isItemAdded, setIsItemAdded] = useState(false);
+  const [isUserAddingItem, setIsUserAddingItem] = useState(false);
+  const [isItemAdded, setItemAdded] = useState(true);
 
   const id = useId();
 
@@ -26,6 +27,7 @@ const List = (props) => {
           return <ListItem key={item.id} name={item.name} />;
         });
         setList(list);
+        setItemAdded(false);
       }
     } catch (err) {
       console.log(`Error: `, err);
@@ -33,7 +35,6 @@ const List = (props) => {
   };
 
   const addItemHandler = async (e) => {
-    console.log(e);
     try {
       const response = await axios.post(
         `${BACKEND_URL}/lists/${props.match.params.id}/add-item`,
@@ -42,6 +43,8 @@ const List = (props) => {
           quantity: 1,
         }
       );
+      setIsUserAddingItem(false);
+      setItemAdded(true);
       console.log(response);
     } catch (err) {
       console.log(`Error: `, err);
@@ -49,8 +52,8 @@ const List = (props) => {
   };
 
   useEffect(() => {
-    getList();
-  }, []);
+    if (isItemAdded) getList();
+  }, [isItemAdded]);
 
   return (
     <main className="list">
@@ -71,15 +74,18 @@ const List = (props) => {
       <div className="list__container">{list}</div>
       <div
         className={`list__item${
-          isItemAdded ? " list__item--show" : " list__item--hide"
+          isUserAddingItem ? " list__item--show" : " list__item--hide"
         }`}
       >
-        <AddListItem addItemHandler={addItemHandler} />
+        <AddListItem
+          addItemHandler={addItemHandler}
+          isAddingItem={isUserAddingItem}
+        />
       </div>
       <p
         className="list__add-item"
         onClick={() => {
-          setIsItemAdded(true);
+          setIsUserAddingItem(true);
         }}
       >
         Add item to list

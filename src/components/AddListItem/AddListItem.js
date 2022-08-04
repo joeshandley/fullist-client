@@ -1,9 +1,21 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { EditText } from "react-edit-text";
 import "react-edit-text/dist/index.css";
 import "./AddListItem.scss";
 
-const AddListItem = ({ addItemHandler }) => {
+const AddListItem = ({ addItemHandler, isAddingItem }) => {
+  const [itemText, setItemText] = useState("");
+
+  useEffect(() => {
+    if (!isAddingItem) {
+      setItemText("");
+    }
+  }, [isAddingItem]);
+
+  const handleChange = (e) => {
+    setItemText(e.target.value);
+  };
+
   return (
     <div className="add-item">
       <EditText
@@ -22,6 +34,8 @@ const AddListItem = ({ addItemHandler }) => {
         className="add-item__name"
         name="addItem"
         placeholder="Enter item name"
+        value={itemText}
+        onChange={(e) => handleChange(e)}
         onSave={(e) => addItemHandler(e)}
       />
     </div>
