@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { EditText } from "react-edit-text";
 import "react-edit-text/dist/index.css";
-import List from "../List/List";
+import ListNameItem from "../../components/ListNameItem/ListNameItem";
 
 import "./MyLists.scss";
 
@@ -16,11 +16,7 @@ const MyLists = () => {
       const response = await axios.get(`${BACKEND_URL}/lists`);
       if (response) {
         const lists = response.data.map((list) => {
-          return (
-            <a key={list.id} href={`/lists/${list.id}`}>
-              <h2>{list.name}</h2>
-            </a>
-          );
+          return <ListNameItem key={list.id} list={list} />;
         });
         setAllLists(lists);
       }
@@ -43,7 +39,7 @@ const MyLists = () => {
           Favourites
         </a>
       </nav>
-      <div>{allLists}</div>
+      <div className="lists__list">{allLists}</div>
     </main>
   );
 };

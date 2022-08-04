@@ -6,10 +6,18 @@
   &__nav {
     display: flex;
     justify-content: space-around;
-    margin-top: 1.2rem;
+    margin: 1.2rem 0;
+    padding-bottom: 0.8rem;
+    border-bottom: 1px solid $fullist-black;
   }
 
   &__name-container {
     margin: 1.2rem 0;
+  }
+
+  &__list {
+    display: flex;
+    flex-direction: column-reverse;
+    margin: 0 1.2rem;
   }
 }

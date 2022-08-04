@@ -86,10 +86,11 @@
 //   background: none;
 // }
 
-::-webkit-scrollbar-thumb {
-  background: #00853e;
-  //   border-radius: 0;
-}
+//TODO: add this back? Need to work out how it doesn't affect whole window
+// ::-webkit-scrollbar-thumb {
+//   background: #00853e;
+//   //   border-radius: 0;
+// }
 
 /* Marker tweaks */
 .mapboxgl-popup-close-button {
