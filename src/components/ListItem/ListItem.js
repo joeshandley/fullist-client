@@ -38,7 +38,7 @@ const ListItem = ({
           editItemHandler(e, id);
         }}
         style={{
-          width: "3rem",
+          width: "3.4rem",
           backgroundColor: "#fbfbfb",
           border: "1px solid #1c0f13",
           borderRadius: "5px",
@@ -46,6 +46,20 @@ const ListItem = ({
         }}
       />
       <div className="item__check-container">
+        <EditText
+          className={`item__name${isItemChecked ? " item__name--checked" : ""}`}
+          name="itemName"
+          type="text"
+          defaultValue={name}
+          onSave={(e) => {
+            editItemHandler(e, id);
+          }}
+          style={{
+            // width: "3rem",
+            // backgroundColor: "#fbfbfb",
+            borderRadius: "5px",
+          }}
+        />
         <input
           className="item__check"
           name="itemName"
@@ -54,11 +68,6 @@ const ListItem = ({
             isItemChecked ? setIsItemChecked(false) : setIsItemChecked(true);
           }}
         />
-        <label
-          className={`item__name${isItemChecked ? " item__name--checked" : ""}`}
-        >
-          {name}
-        </label>
       </div>
     </div>
   );

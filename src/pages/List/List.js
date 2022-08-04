@@ -82,7 +82,7 @@ const List = (props) => {
         `${BACKEND_URL}/lists/${props.match.params.id}/add-item`,
         {
           name: e.value,
-          quantity: 1,
+          quantity: "1",
         }
       );
       setIsUserAddingItem(false);
@@ -140,6 +140,9 @@ const List = (props) => {
         <AddListItem
           addItemHandler={addItemHandler}
           isAddingItem={isUserAddingItem}
+          deleteHandler={() => {
+            setIsUserAddingItem(false);
+          }}
         />
       </div>
       <p

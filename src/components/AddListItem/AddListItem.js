@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { EditText } from "react-edit-text";
 import "react-edit-text/dist/index.css";
+import deleteIcon from "../../assets/icons/delete-icon.svg";
 import "./AddListItem.scss";
 
-const AddListItem = ({ addItemHandler, isAddingItem }) => {
+const AddListItem = ({ addItemHandler, isAddingItem, deleteHandler }) => {
   const [itemText, setItemText] = useState("");
 
   useEffect(() => {
@@ -18,24 +19,20 @@ const AddListItem = ({ addItemHandler, isAddingItem }) => {
 
   return (
     <div className="add-item">
-      <EditText
-        name="quantity"
-        type="number"
-        style={{
-          width: "3rem",
-          backgroundColor: "#fbfbfb",
-          border: "1px solid #1c0f13",
-          borderRadius: "5px",
-          textAlign: "center",
+      <img
+        className="add-item__delete"
+        src={deleteIcon}
+        alt="Delete icon"
+        onClick={() => {
+          deleteHandler();
         }}
-        defaultValue=""
       />
       <EditText
         className="add-item__name"
         name="itemName"
         placeholder="Enter item name"
         value={itemText}
-        style={{ margin: "0 2.8rem 0 2rem" }}
+        style={{ margin: "0 2.8rem 0 5.8rem", minHeight: "3.75rem" }}
         onChange={(e) => handleChange(e)}
         onSave={(e) => addItemHandler(e)}
       />

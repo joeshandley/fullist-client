@@ -6,8 +6,12 @@
   background-color: $fullist-lilac;
   margin: 0 0.8rem 1.2rem;
   padding: 1.2rem;
-  padding-left: 2.8rem;
+  padding-left: 0.8rem;
   border-radius: 10px;
+
+  &__delete {
+    margin-right: 0.4rem;
+  }
 
   &__name {
     margin-left: 2.4rem;
