@@ -1,11 +1,8 @@
 import React, { useState } from "react";
-import axios from "axios";
 import { EditText } from "react-edit-text";
 import "react-edit-text/dist/index.css";
 import deleteIcon from "../../assets/icons/delete-icon.svg";
 import "./ListItem.scss";
-
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
 const ListItem = ({
   id,
@@ -55,8 +52,6 @@ const ListItem = ({
             editItemHandler(e, id);
           }}
           style={{
-            // width: "3rem",
-            // backgroundColor: "#fbfbfb",
             borderRadius: "5px",
           }}
         />

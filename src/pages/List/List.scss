@@ -13,4 +13,19 @@
       display: none;
     }
   }
+
+  &__add-item {
+    margin-left: 2rem;
+  }
+
+  &__check-nearby {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-top: 1.2rem;
+  }
+
+  &__check-title {
+    margin-right: 0.4rem;
+  }
 }

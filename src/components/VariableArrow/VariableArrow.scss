@@ -1,0 +1,39 @@
+@use "../../partials/variables" as *;
+
+.arrow {
+  &:hover g {
+    fill: $fullist-green;
+  }
+  svg {
+    width: 5rem;
+    height: 5rem;
+
+    &:hover {
+      animation: sway 600ms;
+    }
+  }
+
+  g {
+    fill: $fullist-black;
+    cursor: pointer;
+    transition: 200ms;
+  }
+}
+
+@keyframes sway {
+  from {
+    margin-right: 0;
+  }
+
+  20% {
+    margin-right: 0.8rem;
+  }
+
+  70% {
+    margin-right: -0.3rem;
+  }
+
+  to {
+    margin-right: 0;
+  }
+}

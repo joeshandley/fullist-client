@@ -4,6 +4,8 @@ import { EditText } from "react-edit-text";
 import "react-edit-text/dist/index.css";
 import ListItem from "../../components/ListItem/ListItem";
 import AddListItem from "../../components/AddListItem/AddListItem";
+import VariableArrow from "../../components/VariableArrow/VariableArrow";
+// import rightArrow from "../../assets/icons/right-arrow.svg";
 import "./List.scss";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
@@ -13,8 +15,6 @@ const List = (props) => {
   const [itemList, setItemList] = useState([]);
   const [isUserAddingItem, setIsUserAddingItem] = useState(false);
   const [isItemAdded, setItemAdded] = useState(true);
-
-  const id = useId();
 
   const getList = async () => {
     try {
@@ -121,6 +121,7 @@ const List = (props) => {
         onSave={(e) => {
           editListName(e);
         }}
+        showEditButton
         style={{ width: "100%", fontSize: "2.4rem" }}
         editButtonProps={{
           style: {
@@ -129,7 +130,6 @@ const List = (props) => {
             fill: "#1c0f13",
           },
         }}
-        showEditButton
       />
       <div className="list__container">{itemList}</div>
       <div
@@ -151,8 +151,12 @@ const List = (props) => {
           setIsUserAddingItem(true);
         }}
       >
-        Add item to list
+        + Add item to list
       </p>
+      <div className="list__check-nearby">
+        <h3 className="list__check-title">Check your list nearby...</h3>
+        <VariableArrow listId={list.id} />
+      </div>
     </main>
   );
 };
