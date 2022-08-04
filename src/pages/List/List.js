@@ -10,10 +10,9 @@ const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
 const List = (props) => {
   const [list, setList] = useState([]);
-  const [listName, setListName] = useState("");
+  const [itemList, setItemList] = useState([]);
   const [isUserAddingItem, setIsUserAddingItem] = useState(false);
   const [isItemAdded, setItemAdded] = useState(true);
-  const [isItemDeleted, setItemDeleted] = useState(true);
 
   const id = useId();
 
@@ -23,8 +22,7 @@ const List = (props) => {
         `${BACKEND_URL}/lists/${props.match.params.id}`
       );
       if (response) {
-        setListName(response.data.name);
-        const list = response.data.items.map((item) => {
+        const itemList = response.data.items.map((item) => {
           return (
             <ListItem
               key={item.id}
@@ -34,10 +32,22 @@ const List = (props) => {
             />
           );
         });
-        setList(list);
+        setList(response.data);
+        setItemList(itemList);
         setItemAdded(false);
-        setItemDeleted(false);
       }
+    } catch (err) {
+      console.log(`Error: `, err);
+    }
+  };
+
+  const changeListName = async (e) => {
+    try {
+      const response = await axios.patch(
+        `${BACKEND_URL}/lists/${props.match.params.id}`,
+        { name: e.value }
+      );
+      console.log(response);
     } catch (err) {
       console.log(`Error: `, err);
     }
@@ -65,18 +75,18 @@ const List = (props) => {
       const response = await axios.delete(
         `${BACKEND_URL}/lists/${props.match.params.id}/${e.target.parentNode.id}`
       );
-      setItemDeleted(true);
       console.log(response);
+      getList();
     } catch (err) {
       console.log(`Error: ${err}`);
     }
   };
 
   useEffect(() => {
-    if (isItemAdded || isItemDeleted) {
+    if (isItemAdded) {
       getList();
     }
-  }, [isItemAdded, isItemDeleted]);
+  }, [isItemAdded]);
 
   return (
     <main className="list">
@@ -84,8 +94,11 @@ const List = (props) => {
         className="list__name"
         name="list-name"
         placeholder="Enter your list name"
-        defaultValue={listName}
-        style={{ width: "20rem" }}
+        defaultValue={list.name}
+        onSave={(e) => {
+          changeListName(e);
+        }}
+        style={{ width: "100%", fontSize: "2.4rem" }}
         editButtonProps={{
           style: {
             marginLeft: "5px",
@@ -95,7 +108,7 @@ const List = (props) => {
         }}
         showEditButton
       />
-      <div className="list__container">{list}</div>
+      <div className="list__container">{itemList}</div>
       <div
         className={`list__item${
           isUserAddingItem ? " list__item--show" : " list__item--hide"

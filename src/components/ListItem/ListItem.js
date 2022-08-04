@@ -7,7 +7,7 @@ import "./ListItem.scss";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
-const ListItem = ({ id, listId, name, deleteItemHandler }) => {
+const ListItem = ({ id, name, deleteItemHandler }) => {
   const [isItemChecked, setIsItemChecked] = useState(false);
 
   if (!name) {
