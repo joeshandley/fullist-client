@@ -7,23 +7,12 @@ import "./ListItem.scss";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
-const ListItem = ({ id, listId, name }) => {
+const ListItem = ({ id, listId, name, deleteItemHandler }) => {
   const [isItemChecked, setIsItemChecked] = useState(false);
 
   if (!name) {
     name = "";
   }
-
-  const deleteItemHandler = async (e) => {
-    try {
-      const response = await axios.delete(
-        `${BACKEND_URL}/lists/${listId}/${e.target.parentNode.id}`
-      );
-      console.log(response);
-    } catch (err) {
-      console.log(`Error: ${err}`);
-    }
-  };
 
   return (
     <div id={id} className={`item${isItemChecked ? " item--checked" : ""}`}>

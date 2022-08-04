@@ -13,6 +13,7 @@ const List = (props) => {
   const [listName, setListName] = useState("");
   const [isUserAddingItem, setIsUserAddingItem] = useState(false);
   const [isItemAdded, setItemAdded] = useState(true);
+  const [isItemDeleted, setItemDeleted] = useState(true);
 
   const id = useId();
 
@@ -28,13 +29,14 @@ const List = (props) => {
             <ListItem
               key={item.id}
               id={item.id}
-              listId={props.match.params.id}
               name={item.name}
+              deleteItemHandler={deleteItemHandler}
             />
           );
         });
         setList(list);
         setItemAdded(false);
+        setItemDeleted(false);
       }
     } catch (err) {
       console.log(`Error: `, err);
@@ -58,11 +60,23 @@ const List = (props) => {
     }
   };
 
+  const deleteItemHandler = async (e) => {
+    try {
+      const response = await axios.delete(
+        `${BACKEND_URL}/lists/${props.match.params.id}/${e.target.parentNode.id}`
+      );
+      setItemDeleted(true);
+      console.log(response);
+    } catch (err) {
+      console.log(`Error: ${err}`);
+    }
+  };
+
   useEffect(() => {
-    if (isItemAdded) {
+    if (isItemAdded || isItemDeleted) {
       getList();
     }
-  }, [isItemAdded]);
+  }, [isItemAdded, isItemDeleted]);
 
   return (
     <main className="list">
