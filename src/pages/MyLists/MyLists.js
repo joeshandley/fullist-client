@@ -9,6 +9,7 @@ const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
 const MyLists = () => {
   const [allLists, setAllLists] = useState([]);
+  const [sortType, setSortType] = useState("newest");
 
   const getLists = async () => {
     try {
@@ -26,7 +27,7 @@ const MyLists = () => {
 
   useEffect(() => {
     getLists();
-  }, []);
+  }, [sortType]);
 
   return (
     <main className="lists">
@@ -38,7 +39,26 @@ const MyLists = () => {
           Favourites
         </a>
       </nav>
-      <div className="lists__list">{allLists}</div>
+      <div className="lists__top">
+        <h1 className="lists__title">My Lists</h1>
+        <select
+          className="lists__sort"
+          onChange={(e) => {
+            setSortType(e.target.value);
+          }}
+        >
+          <option value="newest">Newest first</option>
+          <option value="oldest">Oldest first</option>
+          {/* <option value="alphabetical">Alphabetical</option> */}
+        </select>
+      </div>
+      <div
+        className={`lists__list ${
+          sortType === "newest" ? "lists__list--newest" : "lists__list--oldest"
+        }`}
+      >
+        {allLists}
+      </div>
     </main>
   );
 };

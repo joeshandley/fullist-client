@@ -11,13 +11,32 @@
     border-bottom: 1px solid $fullist-black;
   }
 
+  &__top {
+    display: flex;
+    justify-content: space-between;
+    margin: 1.6rem 0.8rem 1.2rem;
+  }
+
+  &__sort {
+    width: 12rem;
+    border-radius: 5px;
+    padding-left: 0.4rem;
+  }
+
   &__name-container {
     margin: 1.2rem 0;
   }
 
   &__list {
     display: flex;
-    flex-direction: column-reverse;
     margin: 0 1.2rem;
+
+    &--newest {
+      flex-direction: column-reverse;
+    }
+
+    &--oldest {
+      flex-direction: column;
+    }
   }
 }
