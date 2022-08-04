@@ -24,7 +24,14 @@ const List = (props) => {
       if (response) {
         setListName(response.data.name);
         const list = response.data.items.map((item) => {
-          return <ListItem key={item.id} name={item.name} />;
+          return (
+            <ListItem
+              key={item.id}
+              id={item.id}
+              listId={props.match.params.id}
+              name={item.name}
+            />
+          );
         });
         setList(list);
         setItemAdded(false);
