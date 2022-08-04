@@ -27,7 +27,9 @@ const List = (props) => {
             <ListItem
               key={item.id}
               id={item.id}
+              quantity={item.quantity}
               name={item.name}
+              editItemHandler={editItem}
               deleteItemHandler={deleteItemHandler}
             />
           );
@@ -41,13 +43,34 @@ const List = (props) => {
     }
   };
 
-  const changeListName = async (e) => {
+  const editListName = async (e) => {
     try {
       const response = await axios.patch(
         `${BACKEND_URL}/lists/${props.match.params.id}`,
         { name: e.value }
       );
       console.log(response);
+    } catch (err) {
+      console.log(`Error: `, err);
+    }
+  };
+
+  const editItem = async (e, itemId) => {
+    try {
+      if (e.name === "quantity") {
+        const response = await axios.patch(
+          `${BACKEND_URL}/lists/${props.match.params.id}/${itemId}`,
+          { quantity: e.value }
+        );
+        console.log(response);
+      }
+      if (e.name === "itemName") {
+        const response = await axios.patch(
+          `${BACKEND_URL}/lists/${props.match.params.id}/${itemId}`,
+          { name: e.value }
+        );
+        console.log(response);
+      }
     } catch (err) {
       console.log(`Error: `, err);
     }
@@ -96,7 +119,7 @@ const List = (props) => {
         placeholder="Enter your list name"
         defaultValue={list.name}
         onSave={(e) => {
-          changeListName(e);
+          editListName(e);
         }}
         style={{ width: "100%", fontSize: "2.4rem" }}
         editButtonProps={{

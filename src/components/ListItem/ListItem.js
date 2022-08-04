@@ -7,7 +7,13 @@ import "./ListItem.scss";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
-const ListItem = ({ id, name, deleteItemHandler }) => {
+const ListItem = ({
+  id,
+  quantity,
+  name,
+  editItemHandler,
+  deleteItemHandler,
+}) => {
   const [isItemChecked, setIsItemChecked] = useState(false);
 
   if (!name) {
@@ -25,8 +31,12 @@ const ListItem = ({ id, name, deleteItemHandler }) => {
         }}
       />
       <EditText
-        name="age"
+        name="quantity"
         type="number"
+        defaultValue={quantity}
+        onSave={(e) => {
+          editItemHandler(e, id);
+        }}
         style={{
           width: "3rem",
           backgroundColor: "#fbfbfb",
@@ -34,11 +44,11 @@ const ListItem = ({ id, name, deleteItemHandler }) => {
           borderRadius: "5px",
           textAlign: "center",
         }}
-        defaultValue="1"
       />
       <div className="item__check-container">
         <input
           className="item__check"
+          name="itemName"
           type="checkbox"
           onClick={() => {
             isItemChecked ? setIsItemChecked(false) : setIsItemChecked(true);

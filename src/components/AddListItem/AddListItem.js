@@ -32,7 +32,7 @@ const AddListItem = ({ addItemHandler, isAddingItem }) => {
       />
       <EditText
         className="add-item__name"
-        name="addItem"
+        name="itemName"
         placeholder="Enter item name"
         value={itemText}
         style={{ margin: "0 2.8rem 0 2rem" }}
