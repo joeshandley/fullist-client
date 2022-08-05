@@ -1,11 +1,10 @@
-import { useState, useEffect, useId } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { EditText } from "react-edit-text";
 import "react-edit-text/dist/index.css";
 import ListItem from "../../components/ListItem/ListItem";
 import AddListItem from "../../components/AddListItem/AddListItem";
 import VariableArrow from "../../components/VariableArrow/VariableArrow";
-// import rightArrow from "../../assets/icons/right-arrow.svg";
 import "./List.scss";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
@@ -16,11 +15,11 @@ const List = (props) => {
   const [isUserAddingItem, setIsUserAddingItem] = useState(false);
   const [isItemAdded, setItemAdded] = useState(true);
 
+  const listId = props.match.params.id;
+
   const getList = async () => {
     try {
-      const response = await axios.get(
-        `${BACKEND_URL}/lists/${props.match.params.id}`
-      );
+      const response = await axios.get(`${BACKEND_URL}/lists/${listId}`);
       if (response) {
         const itemList = response.data.items.map((item) => {
           return (
@@ -45,10 +44,9 @@ const List = (props) => {
 
   const editListName = async (e) => {
     try {
-      const response = await axios.patch(
-        `${BACKEND_URL}/lists/${props.match.params.id}`,
-        { name: e.value }
-      );
+      const response = await axios.patch(`${BACKEND_URL}/lists/${listId}`, {
+        name: e.value,
+      });
       console.log(response);
     } catch (err) {
       console.log(`Error: `, err);
@@ -59,14 +57,14 @@ const List = (props) => {
     try {
       if (e.name === "quantity") {
         const response = await axios.patch(
-          `${BACKEND_URL}/lists/${props.match.params.id}/${itemId}`,
+          `${BACKEND_URL}/lists/${listId}/${itemId}`,
           { quantity: e.value }
         );
         console.log(response);
       }
       if (e.name === "itemName") {
         const response = await axios.patch(
-          `${BACKEND_URL}/lists/${props.match.params.id}/${itemId}`,
+          `${BACKEND_URL}/lists/${listId}/${itemId}`,
           { name: e.value }
         );
         console.log(response);
@@ -79,7 +77,7 @@ const List = (props) => {
   const addItemHandler = async (e) => {
     try {
       const response = await axios.post(
-        `${BACKEND_URL}/lists/${props.match.params.id}/add-item`,
+        `${BACKEND_URL}/lists/${listId}/add-item`,
         {
           name: e.value,
           quantity: "1",
@@ -96,7 +94,7 @@ const List = (props) => {
   const deleteItemHandler = async (e) => {
     try {
       const response = await axios.delete(
-        `${BACKEND_URL}/lists/${props.match.params.id}/${e.target.parentNode.id}`
+        `${BACKEND_URL}/lists/${listId}/${e.target.parentNode.id}`
       );
       console.log(response);
       getList();
@@ -128,6 +126,7 @@ const List = (props) => {
             marginLeft: "5px",
             backgroundColor: "#fbfbfb",
             fill: "#1c0f13",
+            cursor: "pointer",
           },
         }}
       />

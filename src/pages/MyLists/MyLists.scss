@@ -3,6 +3,47 @@
 .lists {
   margin: 0 1.2rem;
 
+  &__delete-modal {
+    &--hide {
+      display: none;
+    }
+
+    &--show {
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: #1c0f13b0;
+
+      body {
+        overflow: hidden;
+      }
+    }
+  }
+
+  &__delete-modal-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    top: 30%;
+    width: 70%;
+    height: 30%;
+    margin: auto;
+    z-index: 5;
+    background-color: $fullist-white;
+    opacity: 1;
+    border-radius: 10px;
+    padding: 2.4rem;
+  }
+
+  &__delete-modal-buttons {
+    display: flex;
+    justify-content: space-between;
+  }
+
   &__nav {
     display: flex;
     justify-content: space-around;

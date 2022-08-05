@@ -10,13 +10,41 @@ const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const MyLists = () => {
   const [allLists, setAllLists] = useState([]);
   const [sortType, setSortType] = useState("newest");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [deleteListId, setDeleteListId] = useState("");
+
+  const deleteModalDisplayHandler = (e) => {
+    if (!isModalOpen) {
+      setDeleteListId(e.target.parentNode.id);
+    }
+    isModalOpen ? setIsModalOpen(false) : setIsModalOpen(true);
+  };
+
+  const deleteListHandler = async (listId) => {
+    try {
+      const response = await axios.delete(`${BACKEND_URL}/lists/${listId}`);
+      if (response) {
+        console.log(response);
+        setIsModalOpen(false);
+        setTimeout(() => getLists(), 300);
+      }
+    } catch (err) {
+      console.log(`Error: ${err}`);
+    }
+  };
 
   const getLists = async () => {
     try {
       const response = await axios.get(`${BACKEND_URL}/lists`);
       if (response) {
         const lists = response.data.map((list) => {
-          return <ListNameItem key={list.id} list={list} />;
+          return (
+            <ListNameItem
+              key={list.id}
+              list={list}
+              deleteModalDisplayHandler={deleteModalDisplayHandler}
+            />
+          );
         });
         setAllLists(lists);
       }
@@ -31,6 +59,29 @@ const MyLists = () => {
 
   return (
     <main className="lists">
+      <div
+        className={`lists__delete-modal${isModalOpen ? "--show" : "--hide"}`}
+      >
+        <div className="lists__delete-modal-content">
+          <h2>Are you sure you want to delete this list?</h2>
+          <div className="lists__delete-modal-buttons">
+            <button
+              onClick={() => {
+                deleteModalDisplayHandler();
+              }}
+            >
+              Cancel
+            </button>
+            <button
+              onClick={() => {
+                deleteListHandler(deleteListId);
+              }}
+            >
+              Delete
+            </button>
+          </div>
+        </div>
+      </div>
       <nav className="lists__nav">
         <a className="lists__nav-item" href="/lists/add">
           + New List
