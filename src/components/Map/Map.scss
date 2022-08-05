@@ -1,51 +1,37 @@
-.container {
+@use "../../partials/variables" as *;
+@use "../../partials/typography" as *; // TODO: delete if not needed for font-stack
+
+.map {
   display: flex;
-  width: 600px;
+  flex-direction: column-reverse;
+  width: 100%;
   height: 350px;
-  margin: 1rem;
-}
 
-// TODO: add back if using sidebar
-.map__sidebar {
-  width: 30%;
-  overflow: hidden;
-  border-right: 1px solid rgba(0, 0, 0, 0.25);
-  background-color: white;
-}
-
-.map__container {
-  width: 70%;
-}
-
-// .map__container {
-//   width: 100%;
-// }
-
-.heading {
-  border-bottom: 1px solid #eee;
-  height: 40px;
-  padding: 10px;
-  font-size: 1rem;
-  padding-top: 1rem;
-}
-
-.button {
-  &--hide {
-    display: none;
+  &__sidebar {
+    height: 30%;
+    overflow: hidden;
+    // border-right: 1px solid rgba(0, 0, 0, 0.25); //Add back for other breakpoints
+    background-color: white;
   }
 
-  &--show {
-    display: inline-block;
+  &__container {
+    height: 70%;
   }
-}
+  &__heading {
+    border-bottom: 1px solid #eee;
+    height: 40px;
+    padding: 10px;
+    font-size: 1rem;
+    padding-top: 1rem;
+  }
 
-//TODO: Adjust styling
-.listings {
-  height: 100%;
-  overflow: auto;
-  padding-bottom: 40px;
+  &__shop-list {
+    height: 100%;
+    overflow: auto;
+    padding-bottom: 40px;
+  }
 
-  .item {
+  &__shop-item {
     border-bottom: 1px solid #eee;
     padding: 10px;
     text-decoration: none;
@@ -53,34 +39,30 @@
     :last-child {
       border-bottom: none;
     }
+
+    &--active {
+      background-color: #f8f8f8;
+    }
+  }
+
+  &__shop-title {
+    &:hover {
+      color: #8cc63f; //TODO: change colour
+    }
+
+    &--active {
+      color: #8cc63f;
+    }
   }
 }
 
-// .listings .item .listings .item .title {
-//   display: block;
-//   color: #00853e;
-//   font-weight: 700;
+//TODO: add back scrollbar styling if needed
+// ::-webkit-scrollbar {
+//   width: 4px;
+//   //   height: 3px;
+//   //   border-left: 0;
+//   background: rgba(0, 0, 0, 0.1);
 // }
-
-// .listings .item .title small {
-//   font-weight: 400;
-// }
-
-.listings .item.active .title,
-.listings .item .title:hover {
-  color: #8cc63f;
-}
-
-.listings .item.active {
-  background-color: #f8f8f8;
-}
-
-::-webkit-scrollbar {
-  width: 4px;
-  //   height: 3px;
-  //   border-left: 0;
-  background: rgba(0, 0, 0, 0.1);
-}
 
 // ::-webkit-scrollbar-track {
 //   background: none;
@@ -92,43 +74,46 @@
 //   //   border-radius: 0;
 // }
 
-/* Marker tweaks */
-.mapboxgl-popup-close-button {
-  display: none;
-}
+.mapboxgl-popup {
+  padding-bottom: 2rem;
 
-.mapboxgl-popup-content {
-  font: 400 15px/22px "Source Sans Pro", "Helvetica Neue", sans-serif;
-  padding: 0;
-  width: 180px;
-}
+  &-close-button {
+    display: none;
+  }
 
-.mapboxgl-popup-content h3 {
-  background: #91c949;
-  color: #fff;
-  margin: 0;
-  padding: 10px;
-  border-radius: 3px 3px 0 0;
-  font-weight: 700;
-  margin-top: -15px;
-}
+  &-content {
+    // font: 400 15px/22px "Source Sans Pro", "Helvetica Neue", sans-serif;
+    font-family: inherit;
+    padding: 0;
+    width: 180px;
 
-.mapboxgl-popup-content h4 {
-  margin: 0;
-  padding: 10px;
-  font-weight: 400;
-}
+    h3 {
+      background: $fullist-green;
+      color: $fullist-white;
+      font-size: 1.6rem;
+      margin: 0;
+      padding: 0.8rem;
+      border-radius: 3px 3px 0 0;
+    }
 
-.mapboxgl-popup-content div {
-  padding: 10px;
-}
+    p {
+      margin: 0;
+      padding: 10px;
+      font-weight: 400;
+    }
 
-.mapboxgl-popup-anchor-top > .mapboxgl-popup-content {
-  margin-top: 15px;
-}
+    div {
+      padding: 10px;
+    }
+  }
 
-.mapboxgl-popup-anchor-top > .mapboxgl-popup-tip {
-  border-bottom-color: #91c949;
+  &-anchor-top > .mapboxgl-popup-content {
+    margin-top: 15px;
+  }
+
+  &-anchor-top > .mapboxgl-popup-tip {
+    border-bottom-color: #91c949;
+  }
 }
 
 .marker {
@@ -137,8 +122,4 @@
   height: 32px;
   width: 32px;
   background-image: url("../../assets/logos/logo.svg");
-}
-
-.mapboxgl-popup {
-  padding-bottom: 32px;
 }

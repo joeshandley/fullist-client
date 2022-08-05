@@ -8,7 +8,7 @@ const Locations = () => {
   // TODO: change class names to BEM
 
   return (
-    <main>
+    <main className="locations">
       <h1>Locations</h1>
       <Map unit={unit} />
       <form className="map__units">

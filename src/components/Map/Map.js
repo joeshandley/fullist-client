@@ -47,12 +47,12 @@ const Map = (props) => {
     const shopsList = shops.features.map((shop) => {
       const listing = listings.appendChild(document.createElement("div"));
       listing.id = `listing-${shop.properties.id}`;
-      listing.className = "item";
+      listing.className = "map__shop-item";
 
       /* Add the link to the individual listing created above. */
       const link = listing.appendChild(document.createElement("a"));
       link.href = "#";
-      link.className = "title";
+      link.className = "map__shop-title";
       link.id = `link-${shop.properties.id}`;
       link.innerHTML = `${shop.properties.fascia}`;
       link.addEventListener("click", (event) => {
@@ -79,11 +79,14 @@ const Map = (props) => {
         //   .setHTML("test") // Set the popup contents equal to the HTML elements you created
         //   .addTo(map);
 
-        const activeItem = document.getElementsByClassName("active");
+        //TODO: add active styling to title as well
+        const activeItem = document.getElementsByClassName(
+          "map__shop-item--active"
+        );
         if (activeItem[0]) {
-          activeItem[0].classList.remove("active");
+          activeItem[0].classList.remove("map__shop-item--active");
         }
-        event.target.parentNode.classList.add("active");
+        event.target.parentNode.classList.add("map__shop-item--active");
 
         setIsPopupClicked(true);
       });
@@ -261,11 +264,11 @@ const Map = (props) => {
             properties.long,
             properties.lat
           );
-          const content = `<h3>${properties.fascia}</h3><h4>${
+          const content = `<h3>${properties.fascia}</h3><p>${
             properties.add_one
           }, ${properties.add_two !== "" ? `${properties.add_two}, ` : ""}${
             properties.town
-          }, ${properties.postcode}</h4>
+          }, ${properties.postcode}</p>
         `;
           // TODO: put in function? Search for all uses
           popup.setLngLat(coordinates).setHTML(content).addTo(map);
@@ -281,11 +284,11 @@ const Map = (props) => {
         map.on("click", "shopMarkers", (event) => {
           const properties = event.features[0].properties;
           flyToShop(properties, map);
-          const content = `<h3>${properties.fascia}</h3><h4>${
+          const content = `<h3>${properties.fascia}</h3><p>${
             properties.add_one
           }, ${properties.add_two !== "" ? `${properties.add_two}, ` : ""}${
             properties.town
-          }, ${properties.postcode}</h4>
+          }, ${properties.postcode}</p>
         `;
 
           const coordinates = new mapboxgl.LngLat(
@@ -299,12 +302,14 @@ const Map = (props) => {
 
           // createPopUp(marker, map);
 
-          const activeItem = document.getElementsByClassName("active");
+          const activeItem = document.getElementsByClassName(
+            "map__shop-item--active"
+          );
           if (activeItem[0]) {
-            activeItem[0].classList.remove("active");
+            activeItem[0].classList.remove("map__shop-item--active");
           }
           const listing = document.getElementById(`listing-${properties.id}`);
-          listing.classList.add("active");
+          listing.classList.add("map__shop-item--active");
 
           setIsPopupClicked(true);
         });
@@ -315,12 +320,12 @@ const Map = (props) => {
   return (
     // TODO: change class names
     <>
-      <div className="container">
+      <div className="map">
         <div className="map__sidebar">
-          <div className="heading">
+          <div className="map__heading">
             <h1>Nearest Shops</h1>
           </div>
-          <div id="listings" className="listings"></div>
+          <div id="listings" className="map__shop-list"></div>
         </div>
         <div id="map" className="map__container"></div>
       </div>
