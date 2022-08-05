@@ -214,7 +214,7 @@ const Map = (props) => {
           placeholder: "Enter an address or place name",
           bbox: [-7.57216793459, 49.959999905, 1.68153079591, 58.6350001085], // Bounding box for the UK, found here: https://gist.github.com/graydon/11198540
         });
-        map.addControl(geocoder, "top-left");
+        document.getElementById("geocoder").appendChild(geocoder.onAdd(map));
 
         // TODO: is this unnecessary?
         // TODO: I think this is necessary, but need to change default marker colour
@@ -319,17 +319,16 @@ const Map = (props) => {
 
   return (
     // TODO: change class names
-    <>
-      <div className="map">
-        <div className="map__sidebar">
-          <div className="map__heading">
-            <h1>Nearest Shops</h1>
-          </div>
-          <div id="listings" className="map__shop-list"></div>
+    <div className="map">
+      <div id="geocoder" className="map__geocoder"></div>
+      <div id="map" className="map__container"></div>
+      <div className="map__sidebar">
+        <div className="map__heading">
+          <h2>Nearest Shops</h2>
         </div>
-        <div id="map" className="map__container"></div>
+        <div id="listings" className="map__shop-list"></div>
       </div>
-    </>
+    </div>
   );
 };
 
