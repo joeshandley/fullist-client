@@ -18,12 +18,11 @@ const Home = () => {
         <h1 className="home__hero-text">One trip.&nbsp; No fuss.</h1>
       </div>
       <div className="home__list-buttons">
-        <a class="home__list-button" href="/lists/add">
+        <a className="home__list-button" href="/lists/add">
           + Add New List
         </a>
-        <a class="home__list-button" href="/lists">
-          {/* TODO: In future, get id to link straight to user's latest list */}
-          View Previous Lists
+        <a className="home__list-button" href="/lists">
+          View My Lists
         </a>
       </div>
       <div className="home__new-in">
