@@ -4,6 +4,7 @@ import Header from "./components/Header/Header";
 import Home from "./pages/Home/Home";
 import MyLists from "./pages/MyLists/MyLists";
 import AddList from "./pages/AddList/AddList";
+import Favourites from "./pages/Favourites/Favourites";
 import List from "./pages/List/List";
 import Locations from "./pages/Locations/Locations";
 import "./App.scss";
@@ -16,6 +17,7 @@ const App = () => {
         <Route path="/" exact component={Home} />
         <Route path="/lists" exact component={MyLists} />
         <Route path="/lists/add" exact component={AddList} />
+        <Route path="/lists/favourites" exact component={Favourites} />
         <Route
           path="/lists/:id"
           render={(routerProps) => <List {...routerProps} />}
