@@ -20,12 +20,6 @@ import "./Map.scss";
 // TODO: get rid of all DOM manipulation
 
 const Map = (props) => {
-  mapboxgl.accessToken = process.env.REACT_APP_MAP_TOKEN;
-  // mapboxgl.accessToken =
-  //   "pk.eyJ1Ijoiam9lc2hhbmRsZXkiLCJhIjoiY2w2M3Rrc2I2MjVpZzNnb2EzaG5xNjF5NyJ9.LszKClP9qlQ3m4jXCzDudg";
-
-  const tilesetId = "joeshandley.6hwufhbg";
-
   // TODO: set coords according to user location
   //   const [lng, setLng] = useState(-0.125);
   //   const [lat, setLat] = useState(51.505);
@@ -33,7 +27,12 @@ const Map = (props) => {
   const [lng, setLng] = useState(-0.080984);
   const [lat, setLat] = useState(51.526167);
   const [zoom, setZoom] = useState(12);
+  const [hasUserSearched, setHasUserSearched] = useState(false);
   const [isPopupClicked, setIsPopupClicked] = useState(false);
+
+  mapboxgl.accessToken = process.env.REACT_APP_MAP_TOKEN;
+
+  const tilesetId = "joeshandley.6hwufhbg";
 
   const buildShopList = (shops, map) => {
     const listings = document.getElementById("listings");
@@ -238,6 +237,7 @@ const Map = (props) => {
           );
           await map.getSource("shopLocations").setData(response.data);
           buildShopList(map.getSource("shopLocations")._data, map);
+          setHasUserSearched(true);
         });
 
         map.loadImage(logoIcon, (error, image) => {
@@ -322,7 +322,11 @@ const Map = (props) => {
     <div className="map">
       <div id="geocoder" className="map__geocoder"></div>
       <div id="map" className="map__container"></div>
-      <div className="map__sidebar">
+      <div
+        className={`map__sidebar ${
+          hasUserSearched ? "map__sidebar--show" : "map__sidebar--hide"
+        }`}
+      >
         <div className="map__heading">
           <h2>Nearest Shops</h2>
         </div>

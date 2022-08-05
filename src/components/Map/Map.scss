@@ -15,18 +15,27 @@
     }
   }
 
+  &__container {
+    height: 60%;
+    border-radius: 5px 5px 0 0;
+  }
+
   &__sidebar {
     height: 40%;
     overflow: hidden;
     border: 1px solid $fullist-black;
     background-color: white;
     border-radius: 0 0 5px 5px;
+
+    &--show {
+      display: inline-block;
+    }
+
+    &--hide {
+      display: none;
+    }
   }
 
-  &__container {
-    height: 60%;
-    border-radius: 5px 5px 0 0;
-  }
   &__heading {
     border-bottom: 1px solid #eee;
     height: 40px;
@@ -109,21 +118,32 @@
 
     p {
       margin: 0;
-      padding: 10px;
+      padding: 1rem;
       font-weight: 400;
     }
 
     div {
-      padding: 10px;
+      padding: 1rem;
     }
   }
 
-  &-anchor-top > .mapboxgl-popup-content {
-    margin-top: 15px;
+  &-anchor-top {
+    & > .mapboxgl-popup-content {
+      margin-top: 1.5rem;
+    }
+
+    & > .mapboxgl-popup-tip {
+      border-bottom-color: $fullist-green;
+      margin: 1.5rem 0 -1.5rem;
+    }
   }
 
-  &-anchor-top > .mapboxgl-popup-tip {
-    border-bottom-color: #91c949;
+  &-anchor-top-left,
+  &-anchor-top-right {
+    & > .mapboxgl-popup-tip {
+      border-bottom-color: $fullist-green;
+      margin: 1.5rem 0 -0.2rem;
+    }
   }
 }
 
@@ -133,13 +153,4 @@
   height: 32px;
   width: 32px;
   background-image: url("../../assets/logos/logo.svg");
-}
-
-.geocoder {
-  position: absolute;
-  z-index: 1;
-  width: 50%;
-  left: 50%;
-  margin-left: -25%;
-  top: 10px;
 }
