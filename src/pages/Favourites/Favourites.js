@@ -85,11 +85,11 @@ const Favourites = () => {
         </div>
       </div>
       <nav className="favourites__nav">
-        <a className="favourites__nav-item" href="/favourites/add">
+        <a className="favourites__nav-item" href="/lists/add">
           + New List
         </a>
-        <a className="favourites__nav-item" href="/favourites/favourites">
-          Favourites
+        <a className="favourites__nav-item" href="/lists">
+          All Lists
         </a>
       </nav>
       <div className="favourites__top">
