@@ -16,7 +16,7 @@ const ListNameItem = ({ list, deleteModalDisplayHandler }) => {
       const response = await axios.patch(
         `${BACKEND_URL}/lists/${listId}/favourite`
       );
-      isFavourite ? setIsFavourite(false) : setIsFavourite(true);
+      setIsFavourite(!isFavourite);
       console.log(response);
     } catch (err) {
       console.log(`Error: ${err}`);

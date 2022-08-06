@@ -6,6 +6,7 @@ import mapboxgl from "mapbox-gl";
 import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
 import "@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css";
 
+import MapListItem from "../MapListItem/MapListItem";
 import logoIcon from "../../assets/logos/logo-filled.png";
 import supermarketColours from "../../data/SupermarketColours.json";
 import "./Map.scss";
@@ -16,17 +17,12 @@ import "./Map.scss";
  * https://docs.mapbox.com/help/tutorials/tilequery-healthy-food-finder
  */
 
-// TODO: delete all console logs
-// TODO: get rid of all DOM manipulation
-
-const Map = (props) => {
+const Map = ({ unit }) => {
   // TODO: set coords according to user location
-  //   const [lng, setLng] = useState(-0.125);
-  //   const [lat, setLat] = useState(51.505);
-  //   const [zoom, setZoom] = useState(10);
   const [lng, setLng] = useState(-0.080984);
   const [lat, setLat] = useState(51.526167);
   const [zoom, setZoom] = useState(12);
+  const [shopsList, setShopsList] = useState([]);
   const [hasUserSearched, setHasUserSearched] = useState(false);
   const [isPopupClicked, setIsPopupClicked] = useState(false);
 
@@ -35,127 +31,129 @@ const Map = (props) => {
   const tilesetId = "joeshandley.6hwufhbg";
 
   const buildShopList = (shops, map) => {
-    const listings = document.getElementById("listings");
-
-    if (listings.firstChild) {
-      while (listings.firstChild) {
-        listings.removeChild(listings.firstChild);
-      }
-    }
-    // TODO: refactor shops.features to add .properties on the end
     const shopsList = shops.features.map((shop) => {
-      const listing = listings.appendChild(document.createElement("div"));
-      listing.id = `listing-${shop.properties.id}`;
-      listing.className = "map__shop-item";
-
-      /* Add the link to the individual listing created above. */
-      const link = listing.appendChild(document.createElement("a"));
-      link.href = "#";
-      link.className = "map__shop-title";
-      link.id = `link-${shop.properties.id}`;
-      link.innerHTML = `${shop.properties.fascia}`;
-      link.addEventListener("click", (event) => {
-        flyToShop(shop.properties, map);
-        // TODO: add this to open popup on sidebar click
-        // const popUps = document.getElementsByClassName("mapboxgl-popup");
-        // // if (popUps[0]) popUps[0].remove();
-
-        // const popup = new mapboxgl.Popup();
-
-        // const content = `<h3>${shop.properties.fascia}</h3><h4>${
-        //   shop.properties.add_one
-        // }, ${
-        //   shop.properties.add_two !== "" ? `${shop.properties.add_two}, ` : ""
-        // }${shop.properties.town}, ${shop.properties.postcode}</h4>
-        //   `;
-
-        // const coordinates = new mapboxgl.LngLat(
-        //   shop.properties.long,
-        //   shop.properties.lat
-        // );
-        // popup
-        //   .setLngLat(coordinates) // Set the popup at the given coordinates
-        //   .setHTML("test") // Set the popup contents equal to the HTML elements you created
-        //   .addTo(map);
-
-        //TODO: add active styling to title as well
-        const activeItem = document.getElementsByClassName(
-          "map__shop-item--active"
-        );
-        if (activeItem[0]) {
-          activeItem[0].classList.remove("map__shop-item--active");
-        }
-        event.target.parentNode.classList.add("map__shop-item--active");
-
-        setIsPopupClicked(true);
-      });
-
-      const distance = listing.appendChild(document.createElement("div"));
-      if (props.unit === "km") {
-        const shopDistance =
-          Math.floor(shop.properties.tilequery.distance / 100) / 10;
-        distance.innerHTML = `${shopDistance} km`;
+      let shopDistance = "";
+      if (unit === "km") {
+        shopDistance = `${
+          Math.floor(shop.properties.tilequery.distance / 100) / 10
+        } km`;
       }
-      if (props.unit === "miles") {
-        const shopDistance =
-          Math.floor((shop.properties.tilequery.distance * 0.621371) / 100) /
-          10;
-        distance.innerHTML = `${shopDistance} miles`;
-        if (shopDistance === 1) {
-          distance.innerHTML = `${shopDistance} mile`;
+      if (unit === "miles") {
+        shopDistance = `${
+          Math.floor((shop.properties.tilequery.distance * 0.621371) / 100) / 10
+        } miles`;
+        if (shopDistance === "1 miles") {
+          shopDistance = "1 mile";
         }
       }
-
-      const details = listing.appendChild(document.createElement("div"));
-      details.innerHTML = `${shop.properties.add_one}`;
-      if (shop.properties.add_two) {
-        details.innerHTML += `, ${shop.properties.add_two}`;
-      }
+      return (
+        <MapListItem
+          key={shop.properties.id}
+          shop={shop.properties}
+          distance={shopDistance}
+          map={map}
+          flyToShop={flyToShop}
+        />
+      );
     });
-
-    // for (const shop of shops.features) {
-    //   /* Add a new listing section to the sidebar. */
-    //   const listings = document.getElementById("listings");
-    //   const listing = listings.appendChild(document.createElement("div"));
-    //   /* Assign a unique `id` to the listing. */
-    //   listing.id = `listing-${shop.properties.id}`;
-    //   /* Assign the `item` class to each listing for styling. */
-    //   listing.className = "item";
-
-    //   /* Add the link to the individual listing created above. */
-    //   const link = listing.appendChild(document.createElement("a"));
-    //   link.href = "#";
-    //   link.className = "title";
-    //   link.id = `link-${shop.properties.id}`;
-    //   link.innerHTML = `${shop.properties.address}`;
-    //   link.addEventListener("click", function () {
-    //     for (const feature of shops.features) {
-    //       if (this.id === `link-${feature.properties.id}`) {
-    //         flyToShop(feature, map);
-    //         createPopUp(feature, map);
-    //       }
-    //     }
-    //     const activeItem = document.getElementsByClassName("active");
-    //     if (activeItem[0]) {
-    //       activeItem[0].classList.remove("active");
-    //     }
-    //     this.parentNode.classList.add("active");
-    //   });
-
-    //   /* Add details to the individual listing. */
-    //   const details = listing.appendChild(document.createElement("div"));
-    //   details.innerHTML = `${shop.properties.city}`;
-    //   if (shop.properties.phone) {
-    //     details.innerHTML += ` · ${shop.properties.phoneFormatted}`;
-    //   }
-    //   // TODO: use the distance calculation when that is needed
-    //   if (shop.properties.distance) {
-    //     const roundedDistance =
-    //       Math.round(shop.properties.distance * 100) / 100;
-    //     details.innerHTML += `<div><strong>${roundedDistance} miles away</strong></div>`;
-    //   }
-    // }
+    setShopsList(shopsList);
   };
+  // const listing = listings.appendChild(document.createElement("div"));
+  // listing.id = `listing-${shop.properties.id}`;
+  // listing.className = "map__shop-item";
+
+  /* Add the link to the individual listing created above. */
+  // const link = listing.appendChild(document.createElement("a"));
+  // link.href = "#";
+  // link.className = "map__shop-title";
+  // link.id = `link-${shop.properties.id}`;
+  // link.innerHTML = `${shop.properties.fascia}`;
+  // link.addEventListener("click", (event) => {
+  //   flyToShop(shop.properties, map);
+  // TODO: add this to open popup on sidebar click
+  // const popUps = document.getElementsByClassName("mapboxgl-popup");
+  // // if (popUps[0]) popUps[0].remove();
+
+  // const popup = new mapboxgl.Popup();
+
+  // const content = `<h3>${shop.properties.fascia}</h3><h4>${
+  //   shop.properties.add_one
+  // }, ${
+  //   shop.properties.add_two !== "" ? `${shop.properties.add_two}, ` : ""
+  // }${shop.properties.town}, ${shop.properties.postcode}</h4>
+  //   `;
+
+  // const coordinates = new mapboxgl.LngLat(
+  //   shop.properties.long,
+  //   shop.properties.lat
+  // );
+  // popup
+  //   .setLngLat(coordinates) // Set the popup at the given coordinates
+  //   .setHTML("test") // Set the popup contents equal to the HTML elements you created
+  //   .addTo(map);
+
+  //TODO: add active styling to title as well
+  //   const activeItem = document.getElementsByClassName(
+  //     "map__shop-item--active"
+  //   );
+  //   if (activeItem[0]) {
+  //     activeItem[0].classList.remove("map__shop-item--active");
+  //   }
+  //   event.target.parentNode.classList.add("map__shop-item--active");
+
+  //   setIsPopupClicked(true);
+  // });
+
+  // const distance = listing.appendChild(document.createElement("div"));
+  // if (props.unit === "km") {
+  //   const shopDistance =
+  //     Math.floor(shop.properties.tilequery.distance / 100) / 10;
+  //   distance.innerHTML = `${shopDistance} km`;
+  // }
+  // if (props.unit === "miles") {
+  //   const shopDistance =
+  //     Math.floor((shop.properties.tilequery.distance * 0.621371) / 100) /
+  //     10;
+  //   distance.innerHTML = `${shopDistance} miles`;
+  //   if (shopDistance === 1) {
+  //     distance.innerHTML = `${shopDistance} mile`;
+  //   }
+  // }
+
+  // const details = listing.appendChild(document.createElement("div"));
+  // details.innerHTML = `${shop.properties.add_one}`;
+  // if (shop.properties.add_two) {
+  //   details.innerHTML += `, ${shop.properties.add_two}`;
+  // }
+
+  // for (const shop of shops.features) {
+  //   /* Add a new listing section to the sidebar. */
+  //   const listings = document.getElementById("listings");
+  //   const listing = listings.appendChild(document.createElement("div"));
+  //   /* Assign a unique `id` to the listing. */
+  //   listing.id = `listing-${shop.properties.id}`;
+  //   /* Assign the `item` class to each listing for styling. */
+  //   listing.className = "item";
+
+  //   /* Add the link to the individual listing created above. */
+  //   const link = listing.appendChild(document.createElement("a"));
+  //   link.href = "#";
+  //   link.className = "title";
+  //   link.id = `link-${shop.properties.id}`;
+  //   link.innerHTML = `${shop.properties.address}`;
+  //   link.addEventListener("click", function () {
+  //     for (const feature of shops.features) {
+  //       if (this.id === `link-${feature.properties.id}`) {
+  //         flyToShop(feature, map);
+  //         createPopUp(feature, map);
+  //       }
+  //     }
+  //     const activeItem = document.getElementsByClassName("active");
+  //     if (activeItem[0]) {
+  //       activeItem[0].classList.remove("active");
+  //     }
+  //     this.parentNode.classList.add("active");
+  //   });
 
   function flyToShop(shop, map) {
     map.flyTo({
@@ -315,7 +313,7 @@ const Map = (props) => {
         });
       });
     }
-  }, [props.unit]);
+  }, [unit]);
 
   return (
     // TODO: change class names
@@ -327,10 +325,10 @@ const Map = (props) => {
           hasUserSearched ? "map__sidebar--show" : "map__sidebar--hide"
         }`}
       >
-        <div className="map__heading">
-          <h2>Nearest Shops</h2>
+        <h2 className="map__heading">Nearest Shops</h2>
+        <div id="listings" className="map__shop-list">
+          {shopsList}
         </div>
-        <div id="listings" className="map__shop-list"></div>
       </div>
     </div>
   );

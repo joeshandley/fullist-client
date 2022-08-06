@@ -38,41 +38,14 @@
 
   &__heading {
     border-bottom: 1px solid #eee;
-    height: 40px;
-    padding: 10px;
-    font-size: 1rem;
-    padding-top: 1rem;
+    padding: 0.8rem 1.2rem;
+    font-size: 1.8rem;
   }
 
   &__shop-list {
     height: 100%;
     overflow: auto;
     padding-bottom: 40px;
-  }
-
-  &__shop-item {
-    font-size: 1.4rem;
-    border-bottom: 1px solid #eee;
-    padding: 10px;
-    text-decoration: none;
-
-    :last-child {
-      border-bottom: none;
-    }
-
-    &--active {
-      background-color: #f8f8f8;
-    }
-  }
-
-  &__shop-title {
-    &:hover {
-      color: #8cc63f; //TODO: change colour
-    }
-
-    &--active {
-      color: #8cc63f;
-    }
   }
 }
 
