@@ -16,7 +16,6 @@ import "./Map.scss";
  * https://docs.mapbox.com/help/tutorials/building-a-store-locator
  * https://docs.mapbox.com/help/tutorials/tilequery-healthy-food-finder
  */
-
 const Map = ({ unit }) => {
   // TODO: set coords according to user location
   const [lng, setLng] = useState(-0.080984);
@@ -53,6 +52,7 @@ const Map = ({ unit }) => {
           distance={shopDistance}
           map={map}
           flyToShop={flyToShop}
+          updateActive={updateActive}
         />
       );
     });
@@ -155,12 +155,21 @@ const Map = ({ unit }) => {
   //     this.parentNode.classList.add("active");
   //   });
 
-  function flyToShop(shop, map) {
+  const flyToShop = (shop, map) => {
     map.flyTo({
       center: [shop.long, shop.lat],
       zoom: 15,
     });
-  }
+  };
+
+  const updateActive = (shop) => {
+    const activeItem = document.getElementsByClassName("shop-item--active");
+    if (activeItem[0]) {
+      activeItem[0].classList.remove("shop-item--active");
+    }
+    const listing = document.getElementById(`listing-${shop.id}`);
+    listing.classList.add("shop-item--active");
+  };
 
   //   function createPopUp(shop, map) {
   //     const popUps = document.getElementsByClassName("mapboxgl-popup");
@@ -218,18 +227,17 @@ const Map = ({ unit }) => {
         const marker = new mapboxgl.Marker({ color: "#33bc6a" });
 
         geocoder.on("result", async (event) => {
-          const point = event.result.center; // Capture the result coordinates
+          const point = event.result.center;
           const tileset = tilesetId;
           const radius = 2000; // TODO: make this dynamic according to user selection
           const limit = 10; // The maximum amount of results to return
 
-          marker.setLngLat(point).addTo(map); // Add the marker to the map at the result coordinates
+          marker.setLngLat(point).addTo(map);
 
           /**
            * GET request for custom supermarket location data tileset
            * Data obtained from: https://geolytix.com/blog/geolytix-supermarket-retail-points-2/
            */
-
           const response = await axios.get(
             `https://api.mapbox.com/v4/${tileset}/tilequery/${point[0]},${point[1]}.json?radius=${radius}&limit=${limit}&access_token=${mapboxgl.accessToken}`
           );
@@ -253,11 +261,7 @@ const Map = ({ unit }) => {
           });
         });
 
-        const popup = new mapboxgl.Popup();
-
-        map.on("mouseenter", "shopMarkers", (event) => {
-          map.getCanvas().style.cursor = "pointer";
-          const properties = event.features[0].properties;
+        const createPopUp = (popup, properties, map) => {
           const coordinates = new mapboxgl.LngLat(
             properties.long,
             properties.lat
@@ -268,8 +272,15 @@ const Map = ({ unit }) => {
             properties.town
           }, ${properties.postcode}</p>
         `;
-          // TODO: put in function? Search for all uses
           popup.setLngLat(coordinates).setHTML(content).addTo(map);
+        };
+
+        const popup = new mapboxgl.Popup();
+
+        map.on("mouseenter", "shopMarkers", (event) => {
+          map.getCanvas().style.cursor = "pointer";
+          const properties = event.features[0].properties;
+          createPopUp(popup, properties, map);
         });
 
         map.on("mouseleave", "shopMarkers", () => {
@@ -282,33 +293,8 @@ const Map = ({ unit }) => {
         map.on("click", "shopMarkers", (event) => {
           const properties = event.features[0].properties;
           flyToShop(properties, map);
-          const content = `<h3>${properties.fascia}</h3><p>${
-            properties.add_one
-          }, ${properties.add_two !== "" ? `${properties.add_two}, ` : ""}${
-            properties.town
-          }, ${properties.postcode}</p>
-        `;
-
-          const coordinates = new mapboxgl.LngLat(
-            properties.long,
-            properties.lat
-          );
-          popup
-            .setLngLat(coordinates) // Set the popup at the given coordinates
-            .setHTML(content) // Set the popup contents equal to the HTML elements you created
-            .addTo(map); // Add the popup to the map
-
-          // createPopUp(marker, map);
-
-          const activeItem = document.getElementsByClassName(
-            "map__shop-item--active"
-          );
-          if (activeItem[0]) {
-            activeItem[0].classList.remove("map__shop-item--active");
-          }
-          const listing = document.getElementById(`listing-${properties.id}`);
-          listing.classList.add("map__shop-item--active");
-
+          createPopUp(popup, properties, map);
+          updateActive(properties);
           setIsPopupClicked(true);
         });
       });

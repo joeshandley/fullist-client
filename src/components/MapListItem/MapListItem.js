@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import "./MapListItem.scss";
 
-const MapListItem = ({ shop, flyToShop, distance, map }) => {
-  // TODO: add active handler to change styling. Pass as props or native state?
+const MapListItem = ({ shop, updateActive, flyToShop, distance, map }) => {
   // TODO: change ids?
   return (
     <div id={`listing-${shop.id}`} className="shop-item">
@@ -10,7 +9,10 @@ const MapListItem = ({ shop, flyToShop, distance, map }) => {
         id={`link-${shop.id}`}
         className="shop-item__name"
         href="#"
-        onClick={() => flyToShop(shop, map)}
+        onClick={() => {
+          updateActive(shop);
+          flyToShop(shop, map);
+        }}
       >
         {shop.fascia}
       </a>

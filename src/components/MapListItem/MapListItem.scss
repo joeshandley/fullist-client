@@ -12,14 +12,14 @@
 
   &--active {
     background-color: #f8f8f8;
+
+    & > .shop-item__name {
+      color: $fullist-green;
+    }
   }
 
   &__name {
     &:hover {
-      color: $fullist-green;
-    }
-
-    &--active {
       color: $fullist-green;
     }
   }
