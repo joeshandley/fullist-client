@@ -23,7 +23,6 @@ const Map = ({ unit }) => {
   const [zoom, setZoom] = useState(12);
   const [shopsList, setShopsList] = useState([]);
   const [hasUserSearched, setHasUserSearched] = useState(false);
-  const [isPopupClicked, setIsPopupClicked] = useState(false);
 
   mapboxgl.accessToken = process.env.REACT_APP_MAP_TOKEN;
 
@@ -278,24 +277,27 @@ const Map = ({ unit }) => {
         const popup = new mapboxgl.Popup();
 
         map.on("mouseenter", "shopMarkers", (event) => {
+          popup.remove();
           map.getCanvas().style.cursor = "pointer";
           const properties = event.features[0].properties;
           createPopUp(popup, properties, map);
         });
 
-        map.on("mouseleave", "shopMarkers", () => {
-          if (!isPopupClicked) {
-            map.getCanvas().style.cursor = "";
-            popup.remove();
-          }
-        });
+        // TODO: Add back so that popup disappear on mouse leave, but not on leave click
+        // map.on("mouseleave", "shopMarkers", () => {
+        //   console.log(isPopupClicked);
+        //   if (!isPopupClicked) {
+        //     map.getCanvas().style.cursor = "";
+        //     popup.remove();
+        //   }
+        // });
 
         map.on("click", "shopMarkers", (event) => {
+          popup.remove();
           const properties = event.features[0].properties;
           flyToShop(properties, map);
           createPopUp(popup, properties, map);
           updateActive(properties);
-          setIsPopupClicked(true);
         });
       });
     }
