@@ -1,7 +1,14 @@
 import { useEffect, useState } from "react";
 import "./MapListItem.scss";
 
-const MapListItem = ({ shop, updateActive, flyToShop, distance, map }) => {
+const MapListItem = ({
+  shop,
+  updateActive,
+  flyToShop,
+  createPopUp,
+  distance,
+  map,
+}) => {
   // TODO: change ids?
   return (
     <div id={`listing-${shop.id}`} className="shop-item">
@@ -12,6 +19,7 @@ const MapListItem = ({ shop, updateActive, flyToShop, distance, map }) => {
         onClick={() => {
           updateActive(shop);
           flyToShop(shop, map);
+          createPopUp(shop, map);
         }}
       >
         {shop.fascia}

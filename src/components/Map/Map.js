@@ -52,6 +52,7 @@ const Map = ({ unit }) => {
           map={map}
           flyToShop={flyToShop}
           updateActive={updateActive}
+          createPopUp={createPopUp}
         />
       );
     });
@@ -170,22 +171,19 @@ const Map = ({ unit }) => {
     listing.classList.add("shop-item--active");
   };
 
-  //   function createPopUp(shop, map) {
-  //     const popUps = document.getElementsByClassName("mapboxgl-popup");
-  //     /** Check if there is already a popup on the map and if so, remove it */
-  //     if (popUps[0]) popUps[0].remove();
-
-  //     // const popup = new mapboxgl.Popup({ closeOnClick: false })
-  //     //   .setLngLat([shop.long, shop.lat])
-  //     //   .setHTML(
-  //     //     `<h3>${shop.fascia}</h3><h4>${shop.add_one}, ${
-  //     //       shop.add_two !== "" ? `${shop.add_two}, ` : ""
-  //     //     }${shop.town}, ${shop.postcode}</h4>
-  //     //     `
-  //     //   )
-  //     //   .addTo(map);
-  //     // console.log("popup");
-  //   }
+  const createPopUp = (properties, map) => {
+    const currentPopup = document.getElementsByClassName("mapboxgl-popup");
+    if (currentPopup[0]) {
+      currentPopup[0].remove();
+    }
+    const popup = new mapboxgl.Popup();
+    const coordinates = new mapboxgl.LngLat(properties.long, properties.lat);
+    const content = `<h3>${properties.fascia}</h3><p>${properties.add_one}, ${
+      properties.add_two !== "" ? `${properties.add_two}, ` : ""
+    }${properties.town}, ${properties.postcode}</p>
+        `;
+    popup.setLngLat(coordinates).setHTML(content).addTo(map);
+  };
 
   // Create map on page load
   useEffect(() => {
@@ -260,27 +258,11 @@ const Map = ({ unit }) => {
           });
         });
 
-        const createPopUp = (popup, properties, map) => {
-          const coordinates = new mapboxgl.LngLat(
-            properties.long,
-            properties.lat
-          );
-          const content = `<h3>${properties.fascia}</h3><p>${
-            properties.add_one
-          }, ${properties.add_two !== "" ? `${properties.add_two}, ` : ""}${
-            properties.town
-          }, ${properties.postcode}</p>
-        `;
-          popup.setLngLat(coordinates).setHTML(content).addTo(map);
-        };
-
-        const popup = new mapboxgl.Popup();
-
         map.on("mouseenter", "shopMarkers", (event) => {
-          popup.remove();
+          // popup.remove();
           map.getCanvas().style.cursor = "pointer";
           const properties = event.features[0].properties;
-          createPopUp(popup, properties, map);
+          createPopUp(properties, map);
         });
 
         // TODO: Add back so that popup disappear on mouse leave, but not on leave click
@@ -293,10 +275,10 @@ const Map = ({ unit }) => {
         // });
 
         map.on("click", "shopMarkers", (event) => {
-          popup.remove();
+          // popup.remove();
           const properties = event.features[0].properties;
           flyToShop(properties, map);
-          createPopUp(popup, properties, map);
+          createPopUp(properties, map);
           updateActive(properties);
         });
       });
