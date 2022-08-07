@@ -51,6 +51,7 @@ const Map = ({ unit }) => {
           flyToShop={flyToShop}
           updateActive={updateActive}
           createPopUp={createPopUp}
+          scrollList={scrollList}
         />
       );
     });
@@ -85,6 +86,10 @@ const Map = ({ unit }) => {
     }${properties.town}, ${properties.postcode}</p>
         `;
     popup.setLngLat(coordinates).setHTML(content).addTo(map);
+  };
+
+  const scrollList = (shop) => {
+    document.getElementById(`listing-${shop.id}`).scrollIntoView();
   };
 
   // Create map on page load
@@ -180,6 +185,7 @@ const Map = ({ unit }) => {
           flyToShop(properties, map);
           createPopUp(properties, map);
           updateActive(properties);
+          scrollList(properties);
         });
       });
     }

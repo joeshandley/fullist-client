@@ -6,6 +6,7 @@ const MapListItem = ({
   updateActive,
   flyToShop,
   createPopUp,
+  scrollList,
   distance,
   map,
 }) => {
@@ -20,6 +21,7 @@ const MapListItem = ({
           updateActive(shop);
           flyToShop(shop, map);
           createPopUp(shop, map);
+          scrollList(shop);
         }}
       >
         {shop.fascia}
