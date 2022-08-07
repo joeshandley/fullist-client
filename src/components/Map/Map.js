@@ -1,11 +1,9 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-// Imports for Mapbox
 import "mapbox-gl/dist/mapbox-gl.css";
 import mapboxgl from "mapbox-gl";
 import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
 import "@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css";
-
 import MapListItem from "../MapListItem/MapListItem";
 import logoIcon from "../../assets/logos/logo-filled.png";
 import supermarketColours from "../../data/SupermarketColours.json";
@@ -58,102 +56,6 @@ const Map = ({ unit }) => {
     });
     setShopsList(shopsList);
   };
-  // const listing = listings.appendChild(document.createElement("div"));
-  // listing.id = `listing-${shop.properties.id}`;
-  // listing.className = "map__shop-item";
-
-  /* Add the link to the individual listing created above. */
-  // const link = listing.appendChild(document.createElement("a"));
-  // link.href = "#";
-  // link.className = "map__shop-title";
-  // link.id = `link-${shop.properties.id}`;
-  // link.innerHTML = `${shop.properties.fascia}`;
-  // link.addEventListener("click", (event) => {
-  //   flyToShop(shop.properties, map);
-  // TODO: add this to open popup on sidebar click
-  // const popUps = document.getElementsByClassName("mapboxgl-popup");
-  // // if (popUps[0]) popUps[0].remove();
-
-  // const popup = new mapboxgl.Popup();
-
-  // const content = `<h3>${shop.properties.fascia}</h3><h4>${
-  //   shop.properties.add_one
-  // }, ${
-  //   shop.properties.add_two !== "" ? `${shop.properties.add_two}, ` : ""
-  // }${shop.properties.town}, ${shop.properties.postcode}</h4>
-  //   `;
-
-  // const coordinates = new mapboxgl.LngLat(
-  //   shop.properties.long,
-  //   shop.properties.lat
-  // );
-  // popup
-  //   .setLngLat(coordinates) // Set the popup at the given coordinates
-  //   .setHTML("test") // Set the popup contents equal to the HTML elements you created
-  //   .addTo(map);
-
-  //TODO: add active styling to title as well
-  //   const activeItem = document.getElementsByClassName(
-  //     "map__shop-item--active"
-  //   );
-  //   if (activeItem[0]) {
-  //     activeItem[0].classList.remove("map__shop-item--active");
-  //   }
-  //   event.target.parentNode.classList.add("map__shop-item--active");
-
-  //   setIsPopupClicked(true);
-  // });
-
-  // const distance = listing.appendChild(document.createElement("div"));
-  // if (props.unit === "km") {
-  //   const shopDistance =
-  //     Math.floor(shop.properties.tilequery.distance / 100) / 10;
-  //   distance.innerHTML = `${shopDistance} km`;
-  // }
-  // if (props.unit === "miles") {
-  //   const shopDistance =
-  //     Math.floor((shop.properties.tilequery.distance * 0.621371) / 100) /
-  //     10;
-  //   distance.innerHTML = `${shopDistance} miles`;
-  //   if (shopDistance === 1) {
-  //     distance.innerHTML = `${shopDistance} mile`;
-  //   }
-  // }
-
-  // const details = listing.appendChild(document.createElement("div"));
-  // details.innerHTML = `${shop.properties.add_one}`;
-  // if (shop.properties.add_two) {
-  //   details.innerHTML += `, ${shop.properties.add_two}`;
-  // }
-
-  // for (const shop of shops.features) {
-  //   /* Add a new listing section to the sidebar. */
-  //   const listings = document.getElementById("listings");
-  //   const listing = listings.appendChild(document.createElement("div"));
-  //   /* Assign a unique `id` to the listing. */
-  //   listing.id = `listing-${shop.properties.id}`;
-  //   /* Assign the `item` class to each listing for styling. */
-  //   listing.className = "item";
-
-  //   /* Add the link to the individual listing created above. */
-  //   const link = listing.appendChild(document.createElement("a"));
-  //   link.href = "#";
-  //   link.className = "title";
-  //   link.id = `link-${shop.properties.id}`;
-  //   link.innerHTML = `${shop.properties.address}`;
-  //   link.addEventListener("click", function () {
-  //     for (const feature of shops.features) {
-  //       if (this.id === `link-${feature.properties.id}`) {
-  //         flyToShop(feature, map);
-  //         createPopUp(feature, map);
-  //       }
-  //     }
-  //     const activeItem = document.getElementsByClassName("active");
-  //     if (activeItem[0]) {
-  //       activeItem[0].classList.remove("active");
-  //     }
-  //     this.parentNode.classList.add("active");
-  //   });
 
   const flyToShop = (shop, map) => {
     map.flyTo({
@@ -259,7 +161,6 @@ const Map = ({ unit }) => {
         });
 
         map.on("mouseenter", "shopMarkers", (event) => {
-          // popup.remove();
           map.getCanvas().style.cursor = "pointer";
           const properties = event.features[0].properties;
           createPopUp(properties, map);
@@ -275,7 +176,6 @@ const Map = ({ unit }) => {
         // });
 
         map.on("click", "shopMarkers", (event) => {
-          // popup.remove();
           const properties = event.features[0].properties;
           flyToShop(properties, map);
           createPopUp(properties, map);
@@ -286,7 +186,6 @@ const Map = ({ unit }) => {
   }, [unit]);
 
   return (
-    // TODO: change class names
     <div className="map">
       <div id="geocoder" className="map__geocoder"></div>
       <div id="map" className="map__container"></div>
