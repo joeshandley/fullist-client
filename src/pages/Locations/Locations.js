@@ -3,18 +3,18 @@ import Map from "../../components/Map/Map";
 import "./Locations.scss";
 
 const Locations = () => {
-  const [unit, setUnit] = useState("km");
-
-  // TODO: change class names to BEM
+  // const [unit, setUnit] = useState("km");
+  const unit = "km";
 
   return (
     <main className="locations">
       <div className="locations__top">
         <h1>Locations</h1>
-        <form className="locations__units">
+        {/* TODO: work out how to get units to change with out the map reloading */}
+        {/* <form className="locations__units">
           <label className="locations__unit-label">
             <input
-              id="kmRadio"
+              id="km"
               type="radio"
               name="unit"
               value="km"
@@ -28,7 +28,7 @@ const Locations = () => {
           </label>
           <label className="locations__unit-label">
             <input
-              id="milesRadio"
+              id="miles"
               type="radio"
               name="unit"
               value="miles"
@@ -40,7 +40,7 @@ const Locations = () => {
             />
             miles
           </label>
-        </form>
+        </form> */}
       </div>
       <Map unit={unit} />
     </main>
