@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import axios from "axios";
 import { EditText } from "react-edit-text";
 import "react-edit-text/dist/index.css";
 import ListItem from "../../components/ListItem/ListItem";
 import AddListItem from "../../components/AddListItem/AddListItem";
 import VariableArrow from "../../components/VariableArrow/VariableArrow";
+import backArrow from "../../assets/icons/back-arrow.svg";
 import "./List.scss";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
@@ -16,6 +18,7 @@ const List = (props) => {
   const [isItemAdded, setItemAdded] = useState(true);
 
   const listId = props.match.params.id;
+  const history = useHistory();
 
   const getList = async () => {
     try {
@@ -111,6 +114,12 @@ const List = (props) => {
 
   return (
     <main className="list">
+      <img
+        className="list__back"
+        src={backArrow}
+        alt="Back arrow"
+        onClick={() => history.goBack()}
+      />
       <EditText
         className="list__name"
         name="list-name"
