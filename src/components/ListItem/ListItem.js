@@ -30,7 +30,7 @@ const ListItem = ({
       <EditText
         name="quantity"
         type="number"
-        defaultValue={quantity}
+        defaultValue={quantity.toString()}
         onSave={(e) => {
           editItemHandler(e, id);
         }}
