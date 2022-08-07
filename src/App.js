@@ -7,6 +7,7 @@ import AddList from "./pages/AddList/AddList";
 import Favourites from "./pages/Favourites/Favourites";
 import List from "./pages/List/List";
 import Locations from "./pages/Locations/Locations";
+import ListLocations from "./pages/ListLocations/ListLocations";
 import "./App.scss";
 
 const App = () => {
@@ -23,6 +24,10 @@ const App = () => {
           render={(routerProps) => <List {...routerProps} />}
         />
         <Route path="/locations" exact component={Locations} />
+        <Route
+          path="/locations/:id"
+          render={(routerProps) => <ListLocations {...routerProps} />}
+        />
       </Switch>
     </>
   );
