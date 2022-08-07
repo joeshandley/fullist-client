@@ -16,15 +16,19 @@ import "./Map.scss";
  */
 const Map = ({ unit }) => {
   // TODO: set coords according to user location
-  const [lng, setLng] = useState(-0.080984);
-  const [lat, setLat] = useState(51.526167);
-  const [zoom, setZoom] = useState(12);
+  // const [lng, setLng] = useState(-0.080984);
+  // const [lat, setLat] = useState(51.526167);
+  // const [zoom, setZoom] = useState(12);
   const [shopsList, setShopsList] = useState([]);
   const [hasUserSearched, setHasUserSearched] = useState(false);
 
   mapboxgl.accessToken = process.env.REACT_APP_MAP_TOKEN;
 
   const tilesetId = "joeshandley.6hwufhbg";
+
+  const lng = -4.5;
+  const lat = 55;
+  const zoom = 3.5;
 
   const buildShopList = (shops, map) => {
     const shopsList = shops.features.map((shop) => {

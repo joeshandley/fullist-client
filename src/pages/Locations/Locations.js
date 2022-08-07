@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+// import React, { useState } from "react";
 import Map from "../../components/Map/Map";
 import "./Locations.scss";
 
@@ -10,7 +10,7 @@ const Locations = () => {
     <main className="locations">
       <div className="locations__top">
         <h1>Locations</h1>
-        {/* TODO: work out how to get units to change with out the map reloading */}
+        {/* TODO: work out how to get units to change with out the map reloading - add to settings? */}
         {/* <form className="locations__units">
           <label className="locations__unit-label">
             <input
