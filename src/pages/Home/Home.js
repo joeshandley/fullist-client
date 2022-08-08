@@ -81,99 +81,11 @@ const Home = () => {
       </div>
       <div className="home__new-in">
         <h2 className="home__subtitle">New In</h2>
-        <Carousel />
-        {/* TODO: fix carousel */}
-        <Swiper
-          // slidesPerView={numSlides}
-          slidesPerView={2.5}
-          spaceBetween={0}
-          loop={true}
-          lazy={true}
-          autoplay={{
-            delay: 4000,
-            disableOnInteraction: false,
-          }}
-          pagination={{
-            clickable: true,
-          }}
-          modules={[Autoplay, Lazy, Pagination, Navigation]}
-          className="home__slides"
-        >
-          <SwiperSlide>
-            <div className="home__slide">
-              <img
-                src={groceryBasket}
-                alt="grocery item"
-                className="home__slide-image"
-              />
-              <p className="home__slide-text">Gala Apples</p>
-            </div>
-          </SwiperSlide>
-          <SwiperSlide>
-            <div className="home__slide">
-              <img
-                src={groceryBasket}
-                alt="grocery item"
-                className="home__slide-image"
-              />
-              <p className="home__slide-text">Lemonade</p>
-            </div>
-          </SwiperSlide>
-          <SwiperSlide>
-            <div className="home__slide">
-              <img
-                src={groceryBasket}
-                alt="grocery item"
-                className="home__slide-image"
-              />
-              <p className="home__slide-text">Baguette</p>
-            </div>
-          </SwiperSlide>
-        </Swiper>
+        <Carousel type="items" />
       </div>
       <div className="home__recipes">
         <h2 className="home__subtitle">Recipes</h2>
-        {/* TODO: fix carousel */}
-        <Swiper
-          slidesPerView={"auto"}
-          //   spaceBetween={10}
-          pagination={{
-            clickable: true,
-          }}
-          modules={[Pagination]}
-          className="home__slides"
-        >
-          <SwiperSlide>
-            <div className="home__slide">
-              <img
-                src={groceries}
-                alt="grocery item"
-                className="home__slide-image"
-              />
-              <p className="home__slide-text">Spaghetti Carbonara</p>
-            </div>
-          </SwiperSlide>
-          <SwiperSlide>
-            <div className="home__slide">
-              <img
-                src={groceries}
-                alt="grocery item"
-                className="home__slide-image"
-              />
-              <p className="home__slide-text">Summer Salad</p>
-            </div>
-          </SwiperSlide>
-          <SwiperSlide>
-            <div className="home__slide">
-              <img
-                src={groceries}
-                alt="grocery item"
-                className="home__slide-image"
-              />
-              <p className="home__slide-text">Apple Crumble</p>
-            </div>
-          </SwiperSlide>
-        </Swiper>
+        <Carousel type="recipes" />
       </div>
     </main>
   );
