@@ -8,6 +8,7 @@ import "swiper/css/autoplay";
 import "swiper/css/lazy";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
+import CarouselMenu from "../CarouselMenu/CarouselMenu";
 import "./Carousel.scss";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
@@ -20,13 +21,18 @@ const Carousel = ({ type }) => {
       const { data } = await axios.get(`${BACKEND_URL}/home/${type}`);
       const slides = data.map((slide) => {
         return (
-          <SwiperSlide key={slide.id}>
+          <SwiperSlide key={slide.id} className="testing">
             <div className="carousel__slide">
-              <img
-                src={slide.src}
-                alt={slide.alt}
-                className="carousel__image"
-              />
+              <div className="carousel__image-container">
+                <img
+                  src={slide.src}
+                  alt={slide.alt}
+                  className="carousel__image"
+                />
+                <div className="carousel__menu">
+                  <CarouselMenu id={slide.id} />
+                </div>
+              </div>
               <p className="carousel__text">{slide.text}</p>
             </div>
           </SwiperSlide>

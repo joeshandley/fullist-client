@@ -1,15 +1,31 @@
+@use "../../partials/variables" as *;
+
 .carousel {
   margin-top: 1.2rem;
 
-  &__image {
+  &__image-container {
+    position: relative;
     width: 16rem;
     height: 16rem;
     border-radius: 10px;
     overflow: hidden;
+  }
+
+  &__image {
+    // position: relative;
+    width: 16rem;
+    height: 16rem;
     object-fit: cover;
   }
 
+  &__menu {
+    position: absolute;
+    bottom: 1rem;
+    right: 0;
+  }
+
   &__text {
-    margin-bottom: 3rem;
+    margin: 0.4rem 0 3rem;
+    font-size: 1.6rem;
   }
 }

@@ -1,18 +1,6 @@
-import React from "react";
-// Import Swiper dependencies
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, Lazy, Pagination, Navigation } from "swiper";
-import "swiper/css";
-import "swiper/css/autoplay";
-import "swiper/css/lazy";
-import "swiper/css/pagination";
-import "swiper/css/navigation";
-
-import heroImage from "../../assets/images/hero-image.jpeg";
-import groceries from "../../assets/images/groceries.jpeg";
-import groceryBasket from "../../assets/images/grocery-basket.jpeg";
-import "./Home.scss";
 import Carousel from "../../components/Carousel/Carousel";
+import heroImage from "../../assets/images/hero-image.jpeg";
+import "./Home.scss";
 
 const Home = () => {
   return (
