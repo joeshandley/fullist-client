@@ -9,6 +9,7 @@ const MapListItem = ({
   scrollList,
   distance,
   map,
+  inStock,
 }) => {
   // TODO: change ids?
   return (
@@ -26,6 +27,17 @@ const MapListItem = ({
       >
         {shop.fascia}
       </a>
+      <p
+        className={`shop-item__in-stock ${
+          inStock === undefined
+            ? "shop-item__in-stock--hide"
+            : inStock
+            ? "shop-item__in-stock--true"
+            : "shop-item__in-stock--false"
+        }`}
+      >
+        {inStock ? "Your list is in stock!" : "Full list not in stock"}
+      </p>
       <p className="shop-item__distance">{distance}</p>
       <p className="shop-item__address">
         {shop.add_one}

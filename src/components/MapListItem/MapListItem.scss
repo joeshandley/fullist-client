@@ -23,4 +23,18 @@
       color: $fullist-green;
     }
   }
+
+  &__in-stock {
+    &--hide {
+      display: none;
+    }
+
+    &--true {
+      color: $fullist-green;
+    }
+
+    &--false {
+      color: red;
+    }
+  }
 }

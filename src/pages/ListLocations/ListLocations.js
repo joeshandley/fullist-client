@@ -1,15 +1,50 @@
-// import React, { useState } from "react";
+import { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
+import axios from "axios";
 import Map from "../../components/Map/Map";
+import backArrow from "../../assets/icons/back-arrow.svg";
 import "./ListLocations.scss";
 
-const ListLocations = () => {
-  // const [unit, setUnit] = useState("km");
-  const unit = "km";
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+
+const ListLocations = (props) => {
+  const [itemList, setItemList] = useState([]);
+  const unit = "km"; //TODO: change to useState
+
+  const history = useHistory();
+
+  const getList = async () => {
+    try {
+      const { data } = await axios.get(
+        `${BACKEND_URL}/lists/${props.match.params.id}`
+      );
+      const itemList = data.items.map((item) => item.name);
+      setItemList(itemList);
+    } catch (err) {
+      console.log(`Error: ${err}`);
+    }
+  };
+
+  useEffect(() => {
+    getList();
+  }, []);
+
+  if (itemList.length === 0) {
+    return <p>Loading...</p>;
+  }
 
   return (
     <main className="list-locations">
-      <h1 className="list-locations__title">Locations</h1>
-      <Map unit={unit} />
+      <div className="list-locations__top">
+        <img
+          className="list-locations__back"
+          src={backArrow}
+          alt="Back arrow"
+          onClick={() => history.goBack()}
+        />
+        <h1 className="list-locations__title">Locations</h1>
+      </div>
+      <Map unit={unit} itemList={itemList} />
     </main>
   );
 };

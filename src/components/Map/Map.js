@@ -9,12 +9,14 @@ import logoIcon from "../../assets/logos/logo-filled.png";
 import supermarketColours from "../../data/SupermarketColours.json";
 import "./Map.scss";
 
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+
 /**
  * Much of the code for this component was adapted from the below Mapbox tutorials:
  * https://docs.mapbox.com/help/tutorials/building-a-store-locator
  * https://docs.mapbox.com/help/tutorials/tilequery-healthy-food-finder
  */
-const Map = ({ unit }) => {
+const Map = ({ unit, itemList }) => {
   // TODO: set coords according to user location
   // const [lng, setLng] = useState(-0.080984);
   // const [lat, setLat] = useState(51.526167);
@@ -23,43 +25,54 @@ const Map = ({ unit }) => {
   const [hasUserSearched, setHasUserSearched] = useState(false);
 
   mapboxgl.accessToken = process.env.REACT_APP_MAP_TOKEN;
-
   const tilesetId = "joeshandley.6hwufhbg";
 
   const lng = -4.5;
   const lat = 55;
   const zoom = 3.5;
 
-  const buildShopList = (shops, map) => {
-    const shopsList = shops.features.map((shop) => {
-      let shopDistance = "";
-      if (unit === "km") {
-        shopDistance = `${
-          Math.floor(shop.properties.tilequery.distance / 100) / 10
-        } km`;
-      }
-      if (unit === "miles") {
-        shopDistance = `${
-          Math.floor((shop.properties.tilequery.distance * 0.621371) / 100) / 10
-        } miles`;
-        if (shopDistance === "1 miles") {
-          shopDistance = "1 mile";
+  const buildShopList = async (shops, map) => {
+    try {
+      const shopNames = shops.features.map((shop) => shop.properties.retailer);
+      const inStock = await axios.post(`${BACKEND_URL}/stock`, {
+        shops: shopNames,
+        list: itemList,
+      });
+      console.log("instock->", inStock);
+      const shopsList = shops.features.map((shop, i) => {
+        let shopDistance = "";
+        if (unit === "km") {
+          shopDistance = `${
+            Math.floor(shop.properties.tilequery.distance / 100) / 10
+          } km`;
         }
-      }
-      return (
-        <MapListItem
-          key={shop.properties.id}
-          shop={shop.properties}
-          distance={shopDistance}
-          map={map}
-          flyToShop={flyToShop}
-          updateActive={updateActive}
-          createPopUp={createPopUp}
-          scrollList={scrollList}
-        />
-      );
-    });
-    setShopsList(shopsList);
+        if (unit === "miles") {
+          shopDistance = `${
+            Math.floor((shop.properties.tilequery.distance * 0.621371) / 100) /
+            10
+          } miles`;
+          if (shopDistance === "1 miles") {
+            shopDistance = "1 mile";
+          }
+        }
+        return (
+          <MapListItem
+            key={shop.properties.id}
+            shop={shop.properties}
+            distance={shopDistance}
+            map={map}
+            inStock={inStock[i] || undefined}
+            flyToShop={flyToShop}
+            updateActive={updateActive}
+            createPopUp={createPopUp}
+            scrollList={scrollList}
+          />
+        );
+      });
+      setShopsList(shopsList);
+    } catch (err) {
+      console.log(`Error: ${err}`);
+    }
   };
 
   const flyToShop = (shop, map) => {
