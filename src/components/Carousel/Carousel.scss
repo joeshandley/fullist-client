@@ -2,6 +2,9 @@
 
 .carousel {
   margin-top: 1.2rem;
+  background-color: rgba(160, 160, 160, 0.3);
+  padding: 1.2rem 1.2rem 0;
+  border-radius: 5px;
 
   &__image-container {
     position: relative;
@@ -9,6 +12,7 @@
     height: 16rem;
     border-radius: 10px;
     overflow: hidden;
+    border: 1px solid $fullist-black;
   }
 
   &__image {
@@ -23,6 +27,7 @@
     bottom: 1rem;
     right: 0;
     background-color: $fullist-grey;
+    border-radius: 5px 0 0 5px;
   }
 
   &__text {

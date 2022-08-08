@@ -8,6 +8,7 @@ import Favourites from "./pages/Favourites/Favourites";
 import List from "./pages/List/List";
 import Locations from "./pages/Locations/Locations";
 import ListLocations from "./pages/ListLocations/ListLocations";
+import Footer from "./components/Footer/Footer";
 import "./App.scss";
 
 const App = () => {
@@ -31,6 +32,7 @@ const App = () => {
           />
         </Switch>
       </main>
+      <Footer />
     </>
   );
 };

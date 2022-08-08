@@ -12,14 +12,14 @@
 
   &__hero-text {
     margin-top: -1.6rem;
-    font-size: 3rem;
+    font-size: 3.2rem;
     color: $fullist-black;
   }
 
   &__list-buttons {
     display: flex;
-    justify-content: space-around;
-    margin-top: 2.4rem;
+    justify-content: space-evenly;
+    margin: 2.4rem 0 2rem;
   }
 
   &__list-button {
