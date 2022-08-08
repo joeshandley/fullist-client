@@ -66,7 +66,10 @@ const CarouselMenu = ({ id, type, addToExistingList }) => {
             key={list.id}
             id={list.id}
             className="menu__item"
-            onClick={(e) => addToExistingList(e)}
+            onClick={(e) => {
+              addToExistingList(e);
+              handleClose();
+            }}
           >
             {list.name}
           </MenuItem>

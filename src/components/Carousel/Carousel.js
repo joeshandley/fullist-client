@@ -29,7 +29,7 @@ const Carousel = ({ type }) => {
               }
             );
             console.log(res);
-            alert(`Items added to ${e.target.value}`);
+            alert(`Items added to: ${e.target.textContent}`);
           } catch (err) {
             console.log(`Error: ${err}`);
           }
