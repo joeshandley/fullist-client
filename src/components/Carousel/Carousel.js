@@ -21,13 +21,13 @@ const Carousel = ({ type }) => {
       const slides = data.map((slide) => {
         return (
           <SwiperSlide key={slide.id}>
-            <div className="home__slide">
+            <div className="carousel__slide">
               <img
                 src={slide.src}
                 alt={slide.alt}
-                className="home__slide-image"
+                className="carousel__image"
               />
-              <p className="home__slide-text">{slide.text}</p>
+              <p className="carousel__text">{slide.text}</p>
             </div>
           </SwiperSlide>
         );
@@ -49,7 +49,7 @@ const Carousel = ({ type }) => {
   }
   const marginPx = convertRemToPixels(2.4);
   const slidePx = convertRemToPixels(16);
-  const spaceBetweenPx = convertRemToPixels(1.2);
+  const spaceBetweenPx = convertRemToPixels(2.4);
   const numSlides =
     Math.floor((vw - marginPx - 0.5 * slidePx) / (slidePx + spaceBetweenPx)) +
     0.5;
@@ -69,7 +69,7 @@ const Carousel = ({ type }) => {
         clickable: true,
       }}
       modules={[Autoplay, Lazy, Pagination, Navigation]}
-      className="home__slides"
+      className="carousel"
     >
       {slides}
     </Swiper>
