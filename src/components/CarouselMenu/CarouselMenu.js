@@ -2,11 +2,14 @@ import { useState } from "react";
 import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
+import arrow from "../../assets/icons/back-arrow.svg";
 import "./CarouselMenu.scss";
 
 const CarouselMenu = ({ id }) => {
   const [anchorEl, setAnchorEl] = useState(null);
+  const [listAnchorEl, setListAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
+  const listOpen = Boolean(listAnchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -14,53 +17,18 @@ const CarouselMenu = ({ id }) => {
     setAnchorEl(null);
   };
 
-  //   const StyledMenu = styled((props) => (
-  //     <Menu
-  //       elevation={0}
-  //       anchorOrigin={{
-  //         vertical: "bottom",
-  //         horizontal: "right",
-  //       }}
-  //       transformOrigin={{
-  //         vertical: "top",
-  //         horizontal: "right",
-  //       }}
-  //       {...props}
-  //     />
-  //   ))(({ theme }) => ({
-  //     "& .MuiPaper-root": {
-  //       borderRadius: 6,
-  //       marginTop: theme.spacing(1),
-  //       minWidth: 180,
-  //       color:
-  //         theme.palette.mode === "light"
-  //           ? "rgb(55, 65, 81)"
-  //           : theme.palette.grey[300],
-  //       boxShadow:
-  //         "rgb(255, 255, 255) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px",
-  //       "& .MuiMenu-list": {
-  //         padding: "4px 0",
-  //       },
-  //       "& .MuiMenuItem-root": {
-  //         "& .MuiSvgIcon-root": {
-  //           fontSize: 18,
-  //           color: theme.palette.text.secondary,
-  //           marginRight: theme.spacing(1.5),
-  //         },
-  //         "&:active": {
-  //           backgroundColor: alpha(
-  //             theme.palette.primary.main,
-  //             theme.palette.action.selectedOpacity
-  //           ),
-  //         },
-  //       },
-  //     },
-  //   }));
+  const addToNewList = () => {};
+
+  const addToExistingList = () => {};
+
+  const expandLists = (event) => {
+    setListAnchorEl(event.currentTarget);
+  };
 
   return (
     <div id={id} className="menu">
       <Button
-        id="basic-button"
+        // id="basic-button"
         className="menu__button"
         aria-controls={open ? "basic-menu" : undefined}
         aria-haspopup="true"
@@ -70,7 +38,7 @@ const CarouselMenu = ({ id }) => {
         + Add to List
       </Button>
       <Menu
-        id="basic-menu"
+        // id="basic-menu"
         className="menu__list"
         anchorEl={anchorEl}
         open={open}
@@ -82,7 +50,32 @@ const CarouselMenu = ({ id }) => {
         <MenuItem className="menu__item" onClick={handleClose}>
           New List
         </MenuItem>
-        <MenuItem onClick={handleClose}>Existing Lists</MenuItem>
+        <MenuItem
+          className="menu__item"
+          aria-controls={listOpen ? "basic-menu" : undefined}
+          aria-haspopup="true"
+          aria-expanded={listOpen ? "true" : undefined}
+          onClick={expandLists}
+        >
+          Existing Lists
+          <img src={arrow} alt="" className="menu__item-arrow" />
+          <Menu
+            // id="basic-menu"
+            className="menu__list"
+            anchorEl={listAnchorEl}
+            open={listOpen}
+            onClose={handleClose}
+            MenuListProps={{
+              "aria-labelledby": "basic-button",
+            }}
+          >
+            <MenuItem className="menu__item">List 1</MenuItem>
+            <MenuItem className="menu__item">List 2</MenuItem>
+            <MenuItem className="menu__item">List 3</MenuItem>
+            <MenuItem className="menu__item">List 4</MenuItem>
+          </Menu>
+        </MenuItem>
+        {/* <MenuItem onClick={expandLists}>Existing Lists</MenuItem> */}
       </Menu>
     </div>
   );

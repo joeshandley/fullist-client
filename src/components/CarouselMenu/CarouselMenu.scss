@@ -10,4 +10,9 @@
     font-size: 1.3rem;
     color: $fullist-black;
   }
+
+  &__item-arrow {
+    height: 20px;
+    transform: scaleX(-1);
+  }
 }
