@@ -47,7 +47,6 @@ const Carousel = ({ type }) => {
                 <div className="carousel__menu">
                   <CarouselMenu
                     id={slide.id}
-                    type={type}
                     addToExistingList={addToExistingList}
                   />
                 </div>

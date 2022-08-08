@@ -8,20 +8,25 @@ import "./CarouselMenu.scss";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
-const CarouselMenu = ({ id, type, addToExistingList }) => {
-  const [anchorEl, setAnchorEl] = useState(null);
+const CarouselMenu = ({ id, addToExistingList }) => {
+  const [menuAnchorEl, setMenuAnchorEl] = useState(null);
   const [listAnchorEl, setListAnchorEl] = useState(null);
   const [menuLists, setMenuLists] = useState([]);
 
-  const open = Boolean(anchorEl);
+  const menuOpen = Boolean(menuAnchorEl);
   const listOpen = Boolean(listAnchorEl);
   const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
+    setMenuAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
-    setAnchorEl(null);
+    setMenuAnchorEl(null);
     setListAnchorEl(null);
   };
+
+  /**
+   * TODO: add code back to handle creating a new shopping list on carousel click
+   * Will want to create new page, push items to it, then history.push - or similar - to send the user to that page to name the list
+   */
 
   //   const addToNewList = async () => {
   //     try {
@@ -45,7 +50,7 @@ const CarouselMenu = ({ id, type, addToExistingList }) => {
   //         //   });
   //         console.log(res3);
   //         alert("Items added to new list");
-  //         setAnchorEl(null);
+  //         setMenuAnchorEl(null);
   //         setListAnchorEl(null);
   //       }
   //     } catch (err) {
@@ -90,9 +95,9 @@ const CarouselMenu = ({ id, type, addToExistingList }) => {
       <Button
         // id="basic-button"
         className="menu__button"
-        aria-controls={open ? "basic-menu" : undefined}
-        aria-haspopup="true"
-        aria-expanded={open ? "true" : undefined}
+        // aria-controls={open ? "basic-menu" : undefined}
+        // aria-haspopup="true"
+        // aria-expanded={open ? "true" : undefined}
         onClick={handleClick}
       >
         + Add to List
@@ -100,20 +105,18 @@ const CarouselMenu = ({ id, type, addToExistingList }) => {
       <Menu
         // id="basic-menu"
         className="menu__list"
-        anchorEl={anchorEl}
-        open={open}
+        anchorEl={menuAnchorEl}
+        open={menuOpen}
         onClose={handleClose}
-        MenuListProps={{
-          "aria-labelledby": "basic-button",
-        }}
+        // MenuListProps={{
+        //   "aria-labelledby": "basic-button",
+        // }}
       >
-        {/* onClick={addToNewList} */}
-        <MenuItem className="menu__item">New List</MenuItem>
         <MenuItem
           className="menu__item"
-          aria-controls={listOpen ? "basic-menu" : undefined}
-          aria-haspopup="true"
-          aria-expanded={listOpen ? "true" : undefined}
+          //   aria-controls={listOpen ? "basic-menu" : undefined}
+          //   aria-haspopup="true"
+          //   aria-expanded={listOpen ? "true" : undefined}
           onClick={expandLists}
         >
           Existing Lists
@@ -124,14 +127,13 @@ const CarouselMenu = ({ id, type, addToExistingList }) => {
             anchorEl={listAnchorEl}
             open={listOpen}
             onClose={handleClose}
-            MenuListProps={{
-              "aria-labelledby": "basic-button",
-            }}
+            // MenuListProps={{
+            //   "aria-labelledby": "basic-button",
+            // }}
           >
             {menuLists}
           </Menu>
         </MenuItem>
-        {/* <MenuItem onClick={expandLists}>Existing Lists</MenuItem> */}
       </Menu>
     </div>
   );
