@@ -57,6 +57,8 @@
   &__slide-image {
     height: 16rem;
     border-radius: 10px;
+    overflow: hidden;
+    object-fit: cover;
   }
 
   &__slide-text {

@@ -1,16 +1,70 @@
 import React from "react";
 // Import Swiper dependencies
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Pagination } from "swiper";
+import { Autoplay, Lazy, Pagination, Navigation } from "swiper";
 import "swiper/css";
+import "swiper/css/autoplay";
+import "swiper/css/lazy";
 import "swiper/css/pagination";
+import "swiper/css/navigation";
 
 import heroImage from "../../assets/images/hero-image.jpeg";
 import groceries from "../../assets/images/groceries.jpeg";
 import groceryBasket from "../../assets/images/grocery-basket.jpeg";
 import "./Home.scss";
+import Carousel from "../../components/Carousel/Carousel";
 
 const Home = () => {
+  // const vw = Math.max(
+  //   document.documentElement.clientWidth || 0,
+  //   window.innerWidth || 0
+  // );
+  // function convertRemToPixels(rem) {
+  //   return (
+  //     rem * parseFloat(getComputedStyle(document.documentElement).fontSize)
+  //   );
+  // }
+  // const marginPx = convertRemToPixels(2.4);
+  // const slidePx = convertRemToPixels(16);
+  // const numSlides = Math.floor((vw - marginPx) / slidePx);
+
+  const slidesPerView = [2.5, 2.5, 3.5];
+
+  // const swiper = new Swiper(".swiper", {
+  //   // Default parameters
+  //   slidesPerView: slidesPerView[0],
+  //   spaceBetween: 10,
+  //   breakpoints: {
+  //     768: {
+  //       slidesPerView: slidesPerView[1],
+  //     },
+  //     1200: {
+  //       slidesPerView: slidesPerView[2],
+  //     },
+  //   },
+  // });
+
+  // const swiper = new Swiper(".new-swiper", {
+  //   slidesPerView: slidesPerView[0],
+  //   spaceBetween: 15,
+  //   loop: true,
+  //   lazyLoading: true,
+  //   keyboard: {
+  //     enabled: true,
+  //   },
+  //   pagination: {
+  //     clickable: true,
+  //   },
+  //   breakpoints: {
+  //     768: {
+  //       slidesPerView: slidesPerView[1],
+  //     },
+  //     1200: {
+  //       slidesPerView: slidesPerView[2],
+  //     },
+  //   },
+  // });
+
   return (
     <main className="home">
       <div className="home__hero">
@@ -27,14 +81,22 @@ const Home = () => {
       </div>
       <div className="home__new-in">
         <h2 className="home__subtitle">New In</h2>
+        <Carousel />
         {/* TODO: fix carousel */}
         <Swiper
-          slidesPerView={"auto"}
-          spaceBetween={80}
+          // slidesPerView={numSlides}
+          slidesPerView={2.5}
+          spaceBetween={0}
+          loop={true}
+          lazy={true}
+          autoplay={{
+            delay: 4000,
+            disableOnInteraction: false,
+          }}
           pagination={{
             clickable: true,
           }}
-          modules={[Pagination]}
+          modules={[Autoplay, Lazy, Pagination, Navigation]}
           className="home__slides"
         >
           <SwiperSlide>

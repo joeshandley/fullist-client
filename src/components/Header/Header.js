@@ -9,14 +9,20 @@ const Header = () => {
         <Logo />
       </a>
       <ul className="header__nav">
-        <li className="header__nav-link">
-          <a href="/">Home</a>
+        <li>
+          <a className="header__nav-link" href="/">
+            Home
+          </a>
         </li>
-        <li className="header__nav-link">
-          <a href="/lists">My Lists</a>
+        <li>
+          <a className="header__nav-link" href="/lists">
+            My Lists
+          </a>
         </li>
-        <li className="header__nav-link">
-          <a href="/locations">Locations</a>
+        <li>
+          <a className="header__nav-link" href="/locations">
+            Locations
+          </a>
         </li>
       </ul>
     </header>
