@@ -34,11 +34,11 @@ const Map = ({ unit, itemList }) => {
   const buildShopList = async (shops, map) => {
     try {
       const shopNames = shops.features.map((shop) => shop.properties.retailer);
-      const inStock = await axios.post(`${BACKEND_URL}/stock`, {
+      const response = await axios.post(`${BACKEND_URL}/stock`, {
         shops: shopNames,
         list: itemList,
       });
-      console.log("instock->", inStock);
+      const inStock = response.data;
       const shopsList = shops.features.map((shop, i) => {
         let shopDistance = "";
         if (unit === "km") {
@@ -61,7 +61,7 @@ const Map = ({ unit, itemList }) => {
             shop={shop.properties}
             distance={shopDistance}
             map={map}
-            inStock={inStock[i] || undefined}
+            inStock={inStock[i] === undefined ? undefined : inStock[i]}
             flyToShop={flyToShop}
             updateActive={updateActive}
             createPopUp={createPopUp}
