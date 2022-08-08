@@ -14,21 +14,23 @@ const App = () => {
   return (
     <>
       <Header />
-      <Switch>
-        <Route path="/" exact component={Home} />
-        <Route path="/lists" exact component={MyLists} />
-        <Route path="/lists/add" exact component={AddList} />
-        <Route path="/lists/favourites" exact component={Favourites} />
-        <Route
-          path="/lists/:id"
-          render={(routerProps) => <List {...routerProps} />}
-        />
-        <Route path="/locations" exact component={Locations} />
-        <Route
-          path="/locations/:id"
-          render={(routerProps) => <ListLocations {...routerProps} />}
-        />
-      </Switch>
+      <main className="app__content">
+        <Switch>
+          <Route path="/" exact component={Home} />
+          <Route path="/lists" exact component={MyLists} />
+          <Route path="/lists/add" exact component={AddList} />
+          <Route path="/lists/favourites" exact component={Favourites} />
+          <Route
+            path="/lists/:id"
+            render={(routerProps) => <List {...routerProps} />}
+          />
+          <Route path="/locations" exact component={Locations} />
+          <Route
+            path="/locations/:id"
+            render={(routerProps) => <ListLocations {...routerProps} />}
+          />
+        </Switch>
+      </main>
     </>
   );
 };

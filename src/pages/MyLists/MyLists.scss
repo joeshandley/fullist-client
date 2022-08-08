@@ -30,7 +30,7 @@
     position: relative;
     top: 30%;
     width: 70%;
-    height: 30%;
+    height: 20%;
     margin: auto;
     z-index: 5;
     background-color: $fullist-white;
@@ -39,9 +39,33 @@
     padding: 2.4rem;
   }
 
+  &__delete-modal-title {
+    margin-top: 0.8rem;
+  }
+
   &__delete-modal-buttons {
     display: flex;
     justify-content: space-between;
+    margin: 0 0.8rem;
+  }
+
+  &__delete-modal-button {
+    padding: 0.4rem 0.8rem;
+    border: 1px solid transparent;
+    border-radius: 20px;
+    cursor: pointer;
+
+    &--cancel {
+      &:hover {
+        background-color: $fullist-grey-light;
+      }
+    }
+
+    &--delete {
+      &:hover {
+        background-color: $fullist-red-transparent;
+      }
+    }
   }
 
   &__nav {

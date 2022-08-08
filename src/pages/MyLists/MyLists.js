@@ -63,22 +63,26 @@ const MyLists = () => {
         className={`lists__delete-modal${isModalOpen ? "--show" : "--hide"}`}
       >
         <div className="lists__delete-modal-content">
-          <h2>Are you sure you want to delete this list?</h2>
+          <h2 className="lists__delete-modal-title">
+            Are you sure you want to delete this list?
+          </h2>
           <div className="lists__delete-modal-buttons">
-            <button
+            <div
+              className="lists__delete-modal-button lists__delete-modal-button--cancel"
               onClick={() => {
                 deleteModalDisplayHandler();
               }}
             >
               Cancel
-            </button>
-            <button
+            </div>
+            <div
+              className="lists__delete-modal-button lists__delete-modal-button--delete"
               onClick={() => {
                 deleteListHandler(deleteListId);
               }}
             >
               Delete
-            </button>
+            </div>
           </div>
         </div>
       </div>

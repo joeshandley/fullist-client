@@ -6,3 +6,9 @@
 body {
   background-color: $fullist-white;
 }
+
+.app {
+  &__content {
+    margin-top: 10rem;
+  }
+}
