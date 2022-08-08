@@ -20,6 +20,21 @@ const Carousel = ({ type }) => {
     try {
       const { data } = await axios.get(`${BACKEND_URL}/home/${type}`);
       const slides = data.map((slide) => {
+        const addToExistingList = async (e) => {
+          try {
+            const res = await axios.post(
+              `${BACKEND_URL}/lists/${e.target.id}/add-items`,
+              {
+                items: slide.items,
+              }
+            );
+            console.log(res);
+            alert(`Items added to ${e.target.value}`);
+          } catch (err) {
+            console.log(`Error: ${err}`);
+          }
+        };
+
         return (
           <SwiperSlide key={slide.id} className="testing">
             <div className="carousel__slide">
@@ -30,7 +45,11 @@ const Carousel = ({ type }) => {
                   className="carousel__image"
                 />
                 <div className="carousel__menu">
-                  <CarouselMenu id={slide.id} type={type} />
+                  <CarouselMenu
+                    id={slide.id}
+                    type={type}
+                    addToExistingList={addToExistingList}
+                  />
                 </div>
               </div>
               <p className="carousel__text">{slide.text}</p>

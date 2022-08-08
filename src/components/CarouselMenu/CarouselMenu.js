@@ -8,7 +8,7 @@ import "./CarouselMenu.scss";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
-const CarouselMenu = ({ id, type }) => {
+const CarouselMenu = ({ id, type, addToExistingList }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [listAnchorEl, setListAnchorEl] = useState(null);
   const [menuLists, setMenuLists] = useState([]);
@@ -53,8 +53,6 @@ const CarouselMenu = ({ id, type }) => {
   //     }
   //   };
 
-  const addToExistingList = () => {};
-
   const expandLists = (event) => {
     setListAnchorEl(event.currentTarget);
   };
@@ -64,7 +62,12 @@ const CarouselMenu = ({ id, type }) => {
       const { data } = await axios.get(`${BACKEND_URL}/lists`);
       const menuLists = data.map((list) => {
         return (
-          <MenuItem key={list.id} id={list.id} className="menu__item">
+          <MenuItem
+            key={list.id}
+            id={list.id}
+            className="menu__item"
+            onClick={(e) => addToExistingList(e)}
+          >
             {list.name}
           </MenuItem>
         );
@@ -123,10 +126,6 @@ const CarouselMenu = ({ id, type }) => {
             }}
           >
             {menuLists}
-            {/* <MenuItem className="menu__item">List 1</MenuItem>
-            <MenuItem className="menu__item">List 2</MenuItem>
-            <MenuItem className="menu__item">List 3</MenuItem>
-            <MenuItem className="menu__item">List 4</MenuItem> */}
           </Menu>
         </MenuItem>
         {/* <MenuItem onClick={expandLists}>Existing Lists</MenuItem> */}
