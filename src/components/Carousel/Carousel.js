@@ -38,6 +38,22 @@ const Carousel = ({ type }) => {
     }
   };
 
+  const vw = Math.max(
+    document.documentElement.clientWidth || 0,
+    window.innerWidth || 0
+  );
+  function convertRemToPixels(rem) {
+    return (
+      rem * parseFloat(getComputedStyle(document.documentElement).fontSize)
+    );
+  }
+  const marginPx = convertRemToPixels(2.4);
+  const slidePx = convertRemToPixels(16);
+  const spaceBetweenPx = convertRemToPixels(1.2);
+  const numSlides =
+    Math.floor((vw - marginPx - 0.5 * slidePx) / (slidePx + spaceBetweenPx)) +
+    0.5;
+
   useEffect(() => {
     getCarousel();
   });
@@ -45,14 +61,10 @@ const Carousel = ({ type }) => {
   return (
     <Swiper
       // slidesPerView={numSlides}
-      slidesPerView={2.5}
+      slidesPerView={numSlides}
       spaceBetween={0}
       loop={true}
       lazy={true}
-      // autoplay={{
-      //   delay: 4000,
-      //   disableOnInteraction: false,
-      // }}
       pagination={{
         clickable: true,
       }}

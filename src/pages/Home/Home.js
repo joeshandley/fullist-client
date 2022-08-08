@@ -15,56 +15,6 @@ import "./Home.scss";
 import Carousel from "../../components/Carousel/Carousel";
 
 const Home = () => {
-  // const vw = Math.max(
-  //   document.documentElement.clientWidth || 0,
-  //   window.innerWidth || 0
-  // );
-  // function convertRemToPixels(rem) {
-  //   return (
-  //     rem * parseFloat(getComputedStyle(document.documentElement).fontSize)
-  //   );
-  // }
-  // const marginPx = convertRemToPixels(2.4);
-  // const slidePx = convertRemToPixels(16);
-  // const numSlides = Math.floor((vw - marginPx) / slidePx);
-
-  const slidesPerView = [2.5, 2.5, 3.5];
-
-  // const swiper = new Swiper(".swiper", {
-  //   // Default parameters
-  //   slidesPerView: slidesPerView[0],
-  //   spaceBetween: 10,
-  //   breakpoints: {
-  //     768: {
-  //       slidesPerView: slidesPerView[1],
-  //     },
-  //     1200: {
-  //       slidesPerView: slidesPerView[2],
-  //     },
-  //   },
-  // });
-
-  // const swiper = new Swiper(".new-swiper", {
-  //   slidesPerView: slidesPerView[0],
-  //   spaceBetween: 15,
-  //   loop: true,
-  //   lazyLoading: true,
-  //   keyboard: {
-  //     enabled: true,
-  //   },
-  //   pagination: {
-  //     clickable: true,
-  //   },
-  //   breakpoints: {
-  //     768: {
-  //       slidesPerView: slidesPerView[1],
-  //     },
-  //     1200: {
-  //       slidesPerView: slidesPerView[2],
-  //     },
-  //   },
-  // });
-
   return (
     <main className="home">
       <div className="home__hero">
