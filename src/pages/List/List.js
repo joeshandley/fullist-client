@@ -80,10 +80,14 @@ const List = (props) => {
   const addItemHandler = async (e) => {
     try {
       const response = await axios.post(
-        `${BACKEND_URL}/lists/${listId}/add-item`,
+        `${BACKEND_URL}/lists/${listId}/add-items`,
         {
-          name: e.value,
-          quantity: "1",
+          items: [
+            {
+              name: e.value,
+              quantity: "1",
+            },
+          ],
         }
       );
       setIsUserAddingItem(false);

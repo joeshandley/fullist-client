@@ -30,7 +30,7 @@ const Carousel = ({ type }) => {
                   className="carousel__image"
                 />
                 <div className="carousel__menu">
-                  <CarouselMenu id={slide.id} />
+                  <CarouselMenu id={slide.id} type={type} />
                 </div>
               </div>
               <p className="carousel__text">{slide.text}</p>
