@@ -1,0 +1,13 @@
+@use "../../partials/variables" as *;
+
+.menu {
+  & .menu__button {
+    color: $fullist-green;
+  }
+
+  &__list li {
+    min-height: 3.2rem;
+    font-size: 1.3rem;
+    color: $fullist-black;
+  }
+}
