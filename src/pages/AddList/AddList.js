@@ -151,6 +151,7 @@ const AddList = () => {
       <EditText
         className="list__name"
         name="list-name"
+        type="text"
         placeholder="Enter your list name"
         defaultValue={list.name}
         onSave={(e) => {
@@ -162,7 +163,6 @@ const AddList = () => {
           style: {
             marginLeft: "5px",
             backgroundColor: "#fbfbfb",
-            fill: "#1c0f13",
             cursor: "pointer",
           },
         }}

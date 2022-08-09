@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import "react-edit-text/dist/index.css";
 import ListNameItem from "../../components/ListNameItem/ListNameItem";
@@ -15,12 +15,15 @@ const MyLists = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [deleteListId, setDeleteListId] = useState("");
 
-  const deleteModalDisplayHandler = (e) => {
-    if (!isModalOpen) {
-      setDeleteListId(e.target.parentNode.id);
-    }
-    isModalOpen ? setIsModalOpen(false) : setIsModalOpen(true);
-  };
+  const deleteModalDisplayHandler = useCallback(
+    (e) => {
+      if (!isModalOpen) {
+        setDeleteListId(e.target.parentNode.id);
+      }
+      isModalOpen ? setIsModalOpen(false) : setIsModalOpen(true);
+    },
+    [isModalOpen]
+  );
 
   const deleteListHandler = async (listId) => {
     try {
@@ -35,7 +38,7 @@ const MyLists = () => {
     }
   };
 
-  const getLists = async () => {
+  const getLists = useCallback(async () => {
     try {
       const response = await axios.get(`${BACKEND_URL}/lists`);
       if (response) {
@@ -56,11 +59,11 @@ const MyLists = () => {
     } catch (err) {
       console.log(`Error: `, err);
     }
-  };
+  }, [deleteModalDisplayHandler]);
 
   useEffect(() => {
     getLists();
-  }, []);
+  }, [getLists]);
 
   return (
     <main className="lists">

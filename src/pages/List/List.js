@@ -140,7 +140,6 @@ const List = (props) => {
           style: {
             marginLeft: "5px",
             backgroundColor: "#fbfbfb",
-            fill: "#1c0f13",
             cursor: "pointer",
           },
         }}
