@@ -63,7 +63,7 @@ const MyLists = () => {
 
   useEffect(() => {
     getLists();
-  }, [getLists]);
+  }, [getLists, isFavSelected]);
 
   return (
     <main className="lists">
