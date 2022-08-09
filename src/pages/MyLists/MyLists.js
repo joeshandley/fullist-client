@@ -96,17 +96,6 @@ const MyLists = () => {
       </div>
       <div className="lists__top">
         <h1 className="lists__title">My Lists</h1>
-        <label className="lists__favourites-label" htmlFor="favourites">
-          Favourites only
-          <input
-            className="lists__favourites-check"
-            name="favourites"
-            type="checkbox"
-            onClick={() => {
-              setisFavSelected(!isFavSelected);
-            }}
-          />
-        </label>
         <select
           className="lists__sort"
           onChange={(e) => {
@@ -118,9 +107,22 @@ const MyLists = () => {
           {/* <option value="alphabetical">Alphabetical</option> */}
         </select>
       </div>
-      <a className="lists__add-new" href="/lists/add">
-        + New List
-      </a>
+      <div className="lists__mid">
+        <a className="lists__add-new" href="/lists/add">
+          + New List
+        </a>
+        <label className="lists__favourites-label" htmlFor="favourites">
+          Favourites only
+          <input
+            className="lists__favourites-check"
+            name="favourites"
+            type="checkbox"
+            onClick={() => {
+              setisFavSelected(!isFavSelected);
+            }}
+          />
+        </label>
+      </div>
       <div
         className={`lists__list ${
           sortType === "newest" ? "lists__list--newest" : "lists__list--oldest"

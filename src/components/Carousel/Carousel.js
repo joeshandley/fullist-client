@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 // Import Swiper dependencies
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -16,7 +16,7 @@ const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const Carousel = ({ type, slideWidthRem, showToast }) => {
   const [slides, setSlides] = useState([]);
 
-  const getCarousel = async () => {
+  const getCarousel = useCallback(async () => {
     try {
       const { data } = await axios.get(`${BACKEND_URL}/home/${type}`);
       const slides = data.map((slide) => {
@@ -64,7 +64,7 @@ const Carousel = ({ type, slideWidthRem, showToast }) => {
     } catch (err) {
       console.log(`Error: ${err}`);
     }
-  };
+  }, [showToast, type]);
 
   const vw = Math.max(
     document.documentElement.clientWidth || 0,
@@ -84,7 +84,7 @@ const Carousel = ({ type, slideWidthRem, showToast }) => {
 
   useEffect(() => {
     getCarousel();
-  });
+  }, [getCarousel]);
 
   return (
     <Swiper
