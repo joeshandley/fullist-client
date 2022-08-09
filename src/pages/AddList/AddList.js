@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
 import { EditText } from "react-edit-text";
@@ -17,6 +17,7 @@ const AddList = () => {
   const [itemList, setItemList] = useState([]);
   const [isUserAddingItem, setIsUserAddingItem] = useState(false);
   const [isItemAdded, setItemAdded] = useState(true);
+  const [isItemDeleted, setIsItemDeleted] = useState(true);
 
   const history = useHistory();
 
@@ -34,35 +35,6 @@ const AddList = () => {
     }
   };
 
-  const getList = async () => {
-    try {
-      const response = await axios.get(`${BACKEND_URL}/lists/${listId}`);
-      if (response) {
-        console.log(response);
-        if (response.data.items.length === 0) {
-          return;
-        }
-        const itemList = response.data.items.map((item) => {
-          return (
-            <ListItem
-              key={item.id}
-              id={item.id}
-              quantity={item.quantity}
-              name={item.name}
-              editItemHandler={editItem}
-              deleteItemHandler={deleteItemHandler}
-            />
-          );
-        });
-        setList(response.data);
-        setItemList(itemList);
-        setItemAdded(false);
-      }
-    } catch (err) {
-      console.log(`Error: `, err);
-    }
-  };
-
   const editListName = async (e) => {
     try {
       const response = await axios.patch(`${BACKEND_URL}/lists/${listId}`, {
@@ -74,26 +46,29 @@ const AddList = () => {
     }
   };
 
-  const editItem = async (e, itemId) => {
-    try {
-      if (e.name === "quantity") {
-        const response = await axios.patch(
-          `${BACKEND_URL}/lists/${listId}/${itemId}`,
-          { quantity: e.value }
-        );
-        console.log(response);
+  const editItem = useCallback(
+    async (e, itemId) => {
+      try {
+        if (e.name === "quantity") {
+          const response = await axios.patch(
+            `${BACKEND_URL}/lists/${listId}/${itemId}`,
+            { quantity: e.value }
+          );
+          console.log(response);
+        }
+        if (e.name === "itemName") {
+          const response = await axios.patch(
+            `${BACKEND_URL}/lists/${listId}/${itemId}`,
+            { name: e.value }
+          );
+          console.log(response);
+        }
+      } catch (err) {
+        console.log(`Error: `, err);
       }
-      if (e.name === "itemName") {
-        const response = await axios.patch(
-          `${BACKEND_URL}/lists/${listId}/${itemId}`,
-          { name: e.value }
-        );
-        console.log(response);
-      }
-    } catch (err) {
-      console.log(`Error: `, err);
-    }
-  };
+    },
+    [listId]
+  );
 
   const addItemHandler = async (e) => {
     try {
@@ -116,17 +91,52 @@ const AddList = () => {
     }
   };
 
-  const deleteItemHandler = async (e) => {
+  const deleteItemHandler = useCallback(
+    async (e) => {
+      try {
+        if (e.target.parentNode.id) {
+          const response = await axios.delete(
+            `${BACKEND_URL}/lists/${listId}/${e.target.parentNode.id}`
+          );
+          console.log(response);
+          setIsItemDeleted(true);
+        }
+      } catch (err) {
+        console.log(`Error: ${err}`);
+      }
+    },
+    [listId]
+  );
+
+  const getList = useCallback(async () => {
     try {
-      const response = await axios.delete(
-        `${BACKEND_URL}/lists/${listId}/${e.target.parentNode.id}`
-      );
-      console.log(response);
-      getList();
+      const response = await axios.get(`${BACKEND_URL}/lists/${listId}`);
+      if (response) {
+        console.log(response);
+        if (response.data.items.length === 0) {
+          return;
+        }
+        const itemList = response.data.items.map((item) => {
+          return (
+            <ListItem
+              key={item.id}
+              id={item.id}
+              quantity={item.quantity}
+              name={item.name}
+              editItemHandler={editItem}
+              deleteItemHandler={deleteItemHandler}
+            />
+          );
+        });
+        setList(response.data);
+        setItemList(itemList);
+        setItemAdded(false);
+        setIsItemDeleted(false);
+      }
     } catch (err) {
-      console.log(`Error: ${err}`);
+      console.log(`Error: `, err);
     }
-  };
+  }, [listId, editItem, deleteItemHandler]);
 
   useEffect(() => {
     addList();
@@ -134,11 +144,11 @@ const AddList = () => {
 
   useEffect(() => {
     if (listId !== "") {
-      if (isItemAdded) {
+      if (isItemAdded || isItemDeleted) {
         getList();
       }
     }
-  }, [isItemAdded]);
+  }, [listId, getList, isItemAdded, isItemDeleted]);
 
   return (
     <main className="list">

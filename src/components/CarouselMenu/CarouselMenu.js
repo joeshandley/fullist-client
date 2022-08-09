@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
@@ -62,7 +62,7 @@ const CarouselMenu = ({ id, addToExistingList }) => {
     setListAnchorEl(event.currentTarget);
   };
 
-  const getLists = async () => {
+  const getLists = useCallback(async () => {
     try {
       const { data } = await axios.get(`${BACKEND_URL}/lists`);
       const menuLists = data.map((list) => {
@@ -84,11 +84,11 @@ const CarouselMenu = ({ id, addToExistingList }) => {
     } catch (err) {
       console.log(`Error: ${err}`);
     }
-  };
+  }, [addToExistingList]);
 
   useEffect(() => {
     getLists();
-  }, []);
+  }, [getLists]);
 
   return (
     <div id={id} className="menu">

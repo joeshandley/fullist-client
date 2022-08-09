@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import "mapbox-gl/dist/mapbox-gl.css";
 import mapboxgl from "mapbox-gl";
@@ -31,49 +31,55 @@ const Map = ({ unit, itemList }) => {
   const lat = 55;
   const zoom = 3.5;
 
-  const buildShopList = async (shops, map) => {
-    try {
-      const shopNames = shops.features.map((shop) => shop.properties.retailer);
-      const response = await axios.post(`${BACKEND_URL}/stock`, {
-        shops: shopNames,
-        list: itemList,
-      });
-      const inStock = response.data;
-      const shopsList = shops.features.map((shop, i) => {
-        let shopDistance = "";
-        if (unit === "km") {
-          shopDistance = `${
-            Math.floor(shop.properties.tilequery.distance / 100) / 10
-          } km`;
-        }
-        if (unit === "miles") {
-          shopDistance = `${
-            Math.floor((shop.properties.tilequery.distance * 0.621371) / 100) /
-            10
-          } miles`;
-          if (shopDistance === "1 miles") {
-            shopDistance = "1 mile";
-          }
-        }
-        return (
-          <MapListItem
-            key={shop.properties.id}
-            shop={shop.properties}
-            distance={shopDistance}
-            map={map}
-            inStock={inStock[i] === undefined ? undefined : inStock[i]}
-            flyToShop={flyToShop}
-            updateActive={updateActive}
-            createPopUp={createPopUp}
-            scrollList={scrollList}
-          />
+  const buildShopList = useCallback(
+    async (shops, map) => {
+      try {
+        const shopNames = shops.features.map(
+          (shop) => shop.properties.retailer
         );
-      });
-      setShopsList(shopsList);
-    } catch (err) {
-      console.log(`Error: ${err}`);
-    }
-  };
+        const response = await axios.post(`${BACKEND_URL}/stock`, {
+          shops: shopNames,
+          list: itemList,
+        });
+        const inStock = response.data;
+        const shopsList = shops.features.map((shop, i) => {
+          let shopDistance = "";
+          if (unit === "km") {
+            shopDistance = `${
+              Math.floor(shop.properties.tilequery.distance / 100) / 10
+            } km`;
+          }
+          if (unit === "miles") {
+            shopDistance = `${
+              Math.floor(
+                (shop.properties.tilequery.distance * 0.621371) / 100
+              ) / 10
+            } miles`;
+            if (shopDistance === "1 miles") {
+              shopDistance = "1 mile";
+            }
+          }
+          return (
+            <MapListItem
+              key={shop.properties.id}
+              shop={shop.properties}
+              distance={shopDistance}
+              map={map}
+              inStock={inStock[i] === undefined ? undefined : inStock[i]}
+              flyToShop={flyToShop}
+              updateActive={updateActive}
+              createPopUp={createPopUp}
+              scrollList={scrollList}
+            />
+          );
+        });
+        setShopsList(shopsList);
+      } catch (err) {
+        console.log(`Error: ${err}`);
+      }
+    },
+    [itemList, unit]
+  );
 
   const flyToShop = (shop, map) => {
     map.flyTo({
@@ -206,7 +212,7 @@ const Map = ({ unit, itemList }) => {
         });
       });
     }
-  }, [unit]);
+  }, [unit, buildShopList, lng]);
 
   return (
     <div className="map">
