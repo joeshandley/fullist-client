@@ -18,14 +18,16 @@
   &__container {
     height: 60%;
     border-radius: 5px 5px 0 0;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
   }
 
   &__sidebar {
     height: 40%;
     overflow: hidden;
-    border: 1px solid $fullist-black;
     background-color: white;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
     border-radius: 0 0 5px 5px;
+    z-index: 1;
 
     &--show {
       display: inline-block;
