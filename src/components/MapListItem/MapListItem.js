@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import "./MapListItem.scss";
 
 const MapListItem = ({
@@ -11,13 +10,11 @@ const MapListItem = ({
   map,
   inStock,
 }) => {
-  // TODO: change ids?
   return (
     <div id={`listing-${shop.id}`} className="shop-item">
-      <a
+      <p
         id={`link-${shop.id}`}
         className="shop-item__name"
-        href="#"
         onClick={() => {
           updateActive(shop);
           flyToShop(shop, map);
@@ -26,7 +23,7 @@ const MapListItem = ({
         }}
       >
         {shop.fascia}
-      </a>
+      </p>
       <p
         className={`shop-item__in-stock ${
           inStock === undefined

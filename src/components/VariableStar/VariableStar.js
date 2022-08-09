@@ -1,5 +1,3 @@
-import axios from "axios";
-import { useState } from "react";
 import "./VariableStar.scss";
 
 export default function VariableStar({ clickHandler, isFavourite }) {

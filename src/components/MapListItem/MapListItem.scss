@@ -19,6 +19,10 @@
   }
 
   &__name {
+    font-size: 1.6rem;
+    margin-bottom: 0.4rem;
+    cursor: pointer;
+
     &:hover {
       color: $fullist-green;
     }

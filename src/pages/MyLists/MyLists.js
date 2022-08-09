@@ -49,17 +49,8 @@ const MyLists = () => {
           );
         });
         setAllLists(lists);
-        const favourites = response.data.map((list) => {
-          if (list.favourite) {
-            return (
-              <ListNameItem
-                key={list.id}
-                list={list}
-                deleteModalDisplayHandler={deleteModalDisplayHandler}
-              />
-            );
-          }
-        });
+        console.log(lists);
+        const favourites = lists.filter((list) => list.props.list.favourite);
         setFilteredLists(favourites);
       }
     } catch (err) {

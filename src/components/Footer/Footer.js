@@ -3,7 +3,6 @@ import "./Footer.scss";
 const Footer = () => {
   const currentDate = new Date();
   const currentYear = currentDate.getFullYear();
-  const year = "";
   return (
     <section className="footer">
       <p className="footer__text">{`Copyright © ${
