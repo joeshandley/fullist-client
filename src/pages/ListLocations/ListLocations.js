@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
 import Map from "../../components/Map/Map";
@@ -13,7 +13,7 @@ const ListLocations = (props) => {
 
   const history = useHistory();
 
-  const getList = async () => {
+  const getList = useCallback(async () => {
     try {
       const { data } = await axios.get(
         `${BACKEND_URL}/lists/${props.match.params.id}`
@@ -23,11 +23,11 @@ const ListLocations = (props) => {
     } catch (err) {
       console.log(`Error: ${err}`);
     }
-  };
+  }, [props.match.params.id]);
 
   useEffect(() => {
     getList();
-  }, []);
+  }, [getList]);
 
   if (itemList.length === 0) {
     return <p>Loading...</p>;
