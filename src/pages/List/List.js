@@ -100,11 +100,13 @@ const List = (props) => {
 
   const deleteItemHandler = async (e) => {
     try {
-      const response = await axios.delete(
-        `${BACKEND_URL}/lists/${listId}/${e.target.parentNode.id}`
-      );
-      console.log(response);
-      getList();
+      if (e.target.parentNode.id) {
+        const response = await axios.delete(
+          `${BACKEND_URL}/lists/${listId}/${e.target.parentNode.id}`
+        );
+        console.log(response);
+        getList();
+      }
     } catch (err) {
       console.log(`Error: ${err}`);
     }

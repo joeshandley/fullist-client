@@ -1,0 +1,15 @@
+@use "../../partials/variables" as *;
+
+svg {
+  fill: $fullist-black;
+  z-index: 1;
+  margin-right: 0.4rem;
+
+  &:hover {
+    fill: $fullist-red;
+  }
+}
+
+path {
+  pointer-events: none;
+}

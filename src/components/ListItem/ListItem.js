@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { EditText } from "react-edit-text";
 import "react-edit-text/dist/index.css";
+import VariableDelete from "../VariableDelete/VariableDelete";
 import deleteIcon from "../../assets/icons/delete-icon.svg";
 import "./ListItem.scss";
 
@@ -19,14 +20,7 @@ const ListItem = ({
 
   return (
     <div id={id} className={`item${isItemChecked ? " item--checked" : ""}`}>
-      <img
-        className="item__delete"
-        src={deleteIcon}
-        alt="Delete icon"
-        onClick={(e) => {
-          deleteItemHandler(e);
-        }}
-      />
+      <VariableDelete deleteHandler={deleteItemHandler} />
       <EditText
         name="quantity"
         type="number"
