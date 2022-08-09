@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { EditText } from "react-edit-text";
 import "react-edit-text/dist/index.css";
 import VariableDelete from "../VariableDelete/VariableDelete";
-import deleteIcon from "../../assets/icons/delete-icon.svg";
 import "./ListItem.scss";
 
 const ListItem = ({

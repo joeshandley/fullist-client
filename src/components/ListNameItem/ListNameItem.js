@@ -1,7 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import VariableStar from "../VariableStar/VariableStar";
-import deleteIcon from "../../assets/icons/delete-icon.svg";
+import VariableDelete from "../VariableDelete/VariableDelete";
 import "./ListNameItem.scss";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
@@ -32,14 +32,7 @@ const ListNameItem = ({ list, deleteModalDisplayHandler }) => {
       <a className="list-name__link" href={`/lists/${listId}`}>
         <h2>{list.name}</h2>
       </a>
-      <img
-        className="list-name__delete"
-        src={deleteIcon}
-        alt="Delete icon"
-        onClick={(e) => {
-          deleteModalDisplayHandler(e);
-        }}
-      />
+      <VariableDelete deleteHandler={deleteModalDisplayHandler} />
     </div>
   );
 };
