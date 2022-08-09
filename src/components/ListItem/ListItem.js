@@ -60,7 +60,7 @@ const ListItem = ({
           name="itemName"
           type="checkbox"
           onClick={() => {
-            isItemChecked ? setIsItemChecked(false) : setIsItemChecked(true);
+            setIsItemChecked(!isItemChecked);
           }}
         />
       </div>

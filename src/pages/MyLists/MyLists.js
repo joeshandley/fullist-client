@@ -9,6 +9,8 @@ const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
 const MyLists = () => {
   const [allLists, setAllLists] = useState([]);
+  const [filteredLists, setFilteredLists] = useState([]);
+  const [isFavSelected, setisFavSelected] = useState(false);
   const [sortType, setSortType] = useState("newest");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [deleteListId, setDeleteListId] = useState("");
@@ -47,6 +49,18 @@ const MyLists = () => {
           );
         });
         setAllLists(lists);
+        const favourites = response.data.map((list) => {
+          if (list.favourite) {
+            return (
+              <ListNameItem
+                key={list.id}
+                list={list}
+                deleteModalDisplayHandler={deleteModalDisplayHandler}
+              />
+            );
+          }
+        });
+        setFilteredLists(favourites);
       }
     } catch (err) {
       console.log(`Error: `, err);
@@ -55,7 +69,7 @@ const MyLists = () => {
 
   useEffect(() => {
     getLists();
-  }, [sortType]);
+  }, []);
 
   return (
     <main className="lists">
@@ -86,16 +100,19 @@ const MyLists = () => {
           </div>
         </div>
       </div>
-      <nav className="lists__nav">
-        <a className="lists__nav-item" href="/lists/add">
-          + New List
-        </a>
-        <a className="lists__nav-item" href="/lists/favourites">
-          Favourites
-        </a>
-      </nav>
       <div className="lists__top">
         <h1 className="lists__title">My Lists</h1>
+        <label className="lists__favourites-label" htmlFor="favourites">
+          Favourites only
+          <input
+            className="lists__favourites-check"
+            name="favourites"
+            type="checkbox"
+            onClick={() => {
+              setisFavSelected(!isFavSelected);
+            }}
+          />
+        </label>
         <select
           className="lists__sort"
           onChange={(e) => {
@@ -107,12 +124,15 @@ const MyLists = () => {
           {/* <option value="alphabetical">Alphabetical</option> */}
         </select>
       </div>
+      <a className="lists__add-new" href="/lists/add">
+        + New List
+      </a>
       <div
         className={`lists__list ${
           sortType === "newest" ? "lists__list--newest" : "lists__list--oldest"
         }`}
       >
-        {allLists}
+        {isFavSelected ? filteredLists : allLists}
       </div>
     </main>
   );

@@ -4,7 +4,12 @@
   display: flex;
   align-items: center;
   padding: 1.6rem;
-  border-bottom: 1px solid $fullist-black;
+  // border-bottom: 1px solid $fullist-black;
+  background-color: $fullist-grey-lightest;
+
+  &:hover {
+    background-color: $fullist-lilac;
+  }
 
   &__link {
     flex-grow: 1;
