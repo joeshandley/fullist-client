@@ -13,25 +13,38 @@
     border-radius: 10px;
     overflow: hidden;
     border: 1px solid $fullist-black;
+
+    &--items {
+      width: 10rem;
+      height: 10rem;
+    }
   }
 
   &__image {
-    // position: relative;
     width: 16rem;
     height: 16rem;
     object-fit: cover;
+
+    &--items {
+      width: 10rem;
+      height: 10rem;
+    }
   }
 
   &__menu {
     position: absolute;
-    bottom: 1rem;
+    bottom: 0.4rem;
     right: 0;
-    background-color: $fullist-grey;
+    background-color: #606060e0;
     border-radius: 5px 0 0 5px;
   }
 
   &__text {
     margin: 0.4rem 0 3rem;
-    font-size: 1.6rem;
+    font-size: 1.4rem;
+
+    &--items {
+      font-size: 1.4rem;
+    }
   }
 }

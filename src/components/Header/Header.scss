@@ -14,12 +14,13 @@
   &__nav {
     display: flex;
     margin-top: 1.2rem;
+    column-gap: 1.6rem;
   }
 
   &__nav-link {
     color: $fullist-white;
-    padding: 0.8rem 1.6rem;
-    border-radius: 20px;
+    padding: 0.4rem 1.2rem;
+    border-radius: 12px;
 
     &:hover {
       color: $fullist-white;

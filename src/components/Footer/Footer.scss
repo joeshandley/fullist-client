@@ -1,8 +1,10 @@
 @use "../../partials/variables" as *;
 
 .footer {
-  padding: 4rem 0 2.4rem;
+  margin-top: 4rem;
+  padding: 2rem 0 2.4rem;
   text-align: center;
   font-size: 1.2rem;
   color: $fullist-grey;
+  background-color: #eeeeee;
 }

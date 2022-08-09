@@ -13,7 +13,7 @@ import "./Carousel.scss";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
-const Carousel = ({ type }) => {
+const Carousel = ({ type, slideWidthRem, showToast }) => {
   const [slides, setSlides] = useState([]);
 
   const getCarousel = async () => {
@@ -29,29 +29,33 @@ const Carousel = ({ type }) => {
               }
             );
             console.log(res);
-            alert(`Items added to: ${e.target.textContent}`);
+            showToast(e.target.textContent);
           } catch (err) {
             console.log(`Error: ${err}`);
           }
         };
 
         return (
-          <SwiperSlide key={slide.id} className="testing">
-            <div className="carousel__slide">
-              <div className="carousel__image-container">
+          <SwiperSlide key={slide.id}>
+            <div className={`carousel__slide carousel__slide--${type}`}>
+              <div
+                className={`carousel__image-container carousel__image-container--${type}`}
+              >
                 <img
                   src={slide.src}
                   alt={slide.alt}
-                  className="carousel__image"
+                  className={`carousel__image carousel__image--${type}`}
                 />
-                <div className="carousel__menu">
+                <div className={`carousel__menu carousel__menu--${type}`}>
                   <CarouselMenu
                     id={slide.id}
                     addToExistingList={addToExistingList}
                   />
                 </div>
               </div>
-              <p className="carousel__text">{slide.text}</p>
+              <p className={`carousel__text carousel__text--${type}`}>
+                {slide.text}
+              </p>
             </div>
           </SwiperSlide>
         );
@@ -72,7 +76,7 @@ const Carousel = ({ type }) => {
     );
   }
   const marginPx = convertRemToPixels(2.4);
-  const slidePx = convertRemToPixels(16);
+  const slidePx = convertRemToPixels(slideWidthRem);
   const spaceBetweenPx = convertRemToPixels(2.4);
   const numSlides =
     Math.floor((vw - marginPx - 0.5 * slidePx) / (slidePx + spaceBetweenPx)) +
@@ -84,7 +88,6 @@ const Carousel = ({ type }) => {
 
   return (
     <Swiper
-      // slidesPerView={numSlides}
       slidesPerView={numSlides}
       spaceBetween={0}
       loop={true}
