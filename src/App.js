@@ -13,7 +13,7 @@ import "./App.scss";
 
 const App = () => {
   return (
-    <>
+    <div className="app">
       <Header />
       <main className="app__content">
         <Switch>
@@ -33,7 +33,7 @@ const App = () => {
         </Switch>
       </main>
       <Footer />
-    </>
+    </div>
   );
 };
 

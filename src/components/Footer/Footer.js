@@ -5,9 +5,11 @@ const Footer = () => {
   const currentYear = currentDate.getFullYear();
   const year = "";
   return (
-    <section className="footer">{`Copyright © ${
-      currentYear === 2022 ? "2022" : `2022-${currentYear}`
-    } Joe Shandley`}</section>
+    <section className="footer">
+      <p className="footer__text">{`Copyright © ${
+        currentYear === 2022 ? "2022" : `2022-${currentYear}`
+      } Joe Shandley`}</p>
+    </section>
   );
 };
 
