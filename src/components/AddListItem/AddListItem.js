@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { EditText } from "react-edit-text";
 import "react-edit-text/dist/index.css";
-import deleteIcon from "../../assets/icons/delete-icon.svg";
+import VariableDelete from "../VariableDelete/VariableDelete";
 import "./AddListItem.scss";
 
 const AddListItem = ({ addItemHandler, isAddingItem, deleteHandler }) => {
@@ -19,14 +19,7 @@ const AddListItem = ({ addItemHandler, isAddingItem, deleteHandler }) => {
 
   return (
     <div className="add-item">
-      <img
-        className="add-item__delete"
-        src={deleteIcon}
-        alt="Delete icon"
-        onClick={() => {
-          deleteHandler();
-        }}
-      />
+      <VariableDelete deleteHandler={deleteHandler} />
       <EditText
         className="add-item__name"
         name="itemName"
