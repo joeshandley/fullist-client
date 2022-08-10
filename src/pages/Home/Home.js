@@ -11,24 +11,14 @@ const Home = () => {
       autoClose: 3000,
       hideProgressBar: false,
       closeOnClick: true,
-      pauseOnHover: true,
+      pauseOnHover: false,
       draggable: true,
       progress: undefined,
     });
   };
   return (
     <main className="home">
-      <ToastContainer
-        position="top-center"
-        autoClose={3000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
+      <ToastContainer />
       <div className="home__hero">
         <img src={heroImage} alt="Shopping basket" className="home__hero-img" />
         <h1 className="home__hero-text">One trip.&nbsp; No fuss.</h1>
