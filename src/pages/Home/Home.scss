@@ -11,9 +11,19 @@
   }
 
   &__hero-text {
+    // margin-top: -3.6rem;
+    // width: 100%;
+    // padding-bottom: 0.4rem;
+    // text-align: center;
     margin-top: -1.8rem;
     font-size: 3.2rem;
     color: $fullist-black;
+    // background: rgb(8, 96, 95);
+    // background: linear-gradient(
+    //   0deg,
+    //   rgba(51, 188, 106, 0.5) 0%,
+    //   transparent 100%
+    // );
   }
 
   &__list-buttons {

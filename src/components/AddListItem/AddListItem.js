@@ -25,7 +25,8 @@ const AddListItem = ({ addItemHandler, isAddingItem, deleteHandler }) => {
         name="itemName"
         placeholder="Enter item name"
         value={itemText}
-        style={{ margin: "0 2.8rem 0 5.8rem", minHeight: "3.75rem" }}
+        style={{ margin: "0 2.8rem 0 5rem", minHeight: "3.75rem" }}
+        inputClassName="add-item__name-input"
         onChange={(e) => handleChange(e)}
         onSave={(e) => addItemHandler(e)}
       />

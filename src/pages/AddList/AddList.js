@@ -16,7 +16,7 @@ const AddList = () => {
   const [listId, setListId] = useState("");
   const [itemList, setItemList] = useState([]);
   const [isUserAddingItem, setIsUserAddingItem] = useState(false);
-  const [isItemAdded, setItemAdded] = useState(true);
+  const [isItemAdded, setIsItemAdded] = useState(true);
   const [isItemDeleted, setIsItemDeleted] = useState(true);
 
   const history = useHistory();
@@ -26,9 +26,10 @@ const AddList = () => {
       const response = await axios.post(`${BACKEND_URL}/lists`);
       console.log(response);
       if (response) {
+        const listId = response.data.newListCreated.id;
         setList(response.data.newListCreated);
-        setListId(response.data.newListCreated.id);
-        setItemAdded(false);
+        setListId(listId);
+        setIsItemAdded(false);
       }
     } catch (err) {
       console.log(`Error: ${err}`);
@@ -84,7 +85,7 @@ const AddList = () => {
         }
       );
       setIsUserAddingItem(false);
-      setItemAdded(true);
+      setIsItemAdded(true);
       console.log(response);
     } catch (err) {
       console.log(`Error: `, err);
@@ -130,7 +131,7 @@ const AddList = () => {
         });
         setList(response.data);
         setItemList(itemList);
-        setItemAdded(false);
+        setIsItemAdded(false);
         setIsItemDeleted(false);
       }
     } catch (err) {
@@ -139,12 +140,14 @@ const AddList = () => {
   }, [listId, editItem, deleteItemHandler]);
 
   useEffect(() => {
+    console.log("first");
     addList();
   }, []);
 
   useEffect(() => {
     if (listId !== "") {
       if (isItemAdded || isItemDeleted) {
+        console.log("second");
         getList();
       }
     }

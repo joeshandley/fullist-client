@@ -28,7 +28,8 @@ const ListItem = ({
           editItemHandler(e, id);
         }}
         style={{
-          width: "3.4rem",
+          fontSize: "1.2rem",
+          width: "2.8rem",
           backgroundColor: "#fbfbfb",
           border: "1px solid #1c0f13",
           borderRadius: "5px",
