@@ -1,0 +1,119 @@
+// Import partials
+@use "./mixins" as *;
+@use "./variables" as *;
+
+// Define fonts
+@font-face {
+  font-family: "Nobile";
+  src: url(../assets/fonts/Nobile-Regular.ttf);
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: "Nobile";
+  src: url(../assets/fonts/Nobile-Medium.ttf);
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: "Nobile";
+  src: url(../assets/fonts/Nobile-Bold.ttf);
+  font-weight: 700;
+}
+
+// Italics
+@font-face {
+  font-family: "Nobile";
+  src: url(../assets/fonts/Nobile-Italic.ttf);
+  font-weight: 400;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "Nobile";
+  src: url(../assets/fonts/Nobile-MediumItalic.ttf);
+  font-weight: 500;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "Nobile";
+  src: url(../assets/fonts/Nobile-BoldItalic.ttf);
+  font-weight: 700;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "Lato";
+  src: url(../assets/fonts/Lato-Thin.ttf);
+  font-weight: 100;
+}
+@font-face {
+  font-family: "Lato";
+  src: url(../assets/fonts/Lato-Light.ttf);
+  font-weight: 300;
+}
+@font-face {
+  font-family: "Lato";
+  src: url(../assets/fonts/Lato-Regular.ttf);
+  font-weight: 400;
+}
+@font-face {
+  font-family: "Lato";
+  src: url(../assets/fonts/Lato-Bold.ttf);
+  font-weight: 700;
+}
+@font-face {
+  font-family: "Lato";
+  src: url(../assets/fonts/Lato-Black.ttf);
+  font-weight: 900;
+}
+
+$font-stack: "Lato", "Nobile", Verdana, sans-serif;
+
+// Text styling
+body {
+  font-family: $font-stack;
+  color: $fullist-black;
+}
+
+h1 {
+  @include font-sizing(2.4rem, 3.2rem, 700);
+
+  @include med-lrg() {
+    @include font-sizing(3.3rem, 4.4rem, 700);
+  }
+}
+
+h2 {
+  @include font-sizing(2rem, 2.6rem, 700);
+
+  @include med-lrg() {
+    @include font-sizing(2.4rem, 3.2rem, 700);
+  }
+}
+
+h3 {
+  @include font-sizing(1.3rem, 1.8rem, 700);
+
+  @include med-lrg() {
+    @include font-sizing(1.4rem, 2.2rem, 700);
+  }
+}
+
+p,
+input,
+textarea {
+  font-family: $font-stack;
+  @include font-sizing(1.3rem, 1.8rem, 400);
+
+  @include med-lrg() {
+    @include font-sizing(1.4rem, 2.2rem, 400);
+  }
+}
+
+button,
+label {
+  font-family: $font-stack;
+  @include font-sizing(1.6rem, 2.2rem, 700);
+}

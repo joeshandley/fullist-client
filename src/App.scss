@@ -1,0 +1,16 @@
+@use "./partials/resets" as *;
+@use "./partials/variables" as *;
+@use "./partials/mixins" as *;
+@use "./partials/typography" as *;
+
+.app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: $fullist-white;
+
+  &__content {
+    flex-grow: 1;
+    padding-top: $header-height;
+  }
+}

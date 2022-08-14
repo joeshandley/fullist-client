@@ -1,0 +1,50 @@
+@use "../../partials/variables" as *;
+
+.carousel {
+  margin-top: 1.2rem;
+  background-color: rgba(160, 160, 160, 0.3);
+  padding: 1.2rem 1.2rem 0;
+  border-radius: 5px;
+
+  &__image-container {
+    position: relative;
+    width: 16rem;
+    height: 16rem;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+
+    &--items {
+      width: 10rem;
+      height: 10rem;
+    }
+  }
+
+  &__image {
+    width: 16rem;
+    height: 16rem;
+    object-fit: cover;
+
+    &--items {
+      width: 10rem;
+      height: 10rem;
+    }
+  }
+
+  &__menu {
+    position: absolute;
+    bottom: 0.4rem;
+    right: 0;
+    background-color: #606060e0;
+    border-radius: 5px 0 0 5px;
+  }
+
+  &__text {
+    margin: 0.4rem 0 3rem;
+    font-size: 1.4rem;
+
+    &--items {
+      font-size: 1.4rem;
+    }
+  }
+}

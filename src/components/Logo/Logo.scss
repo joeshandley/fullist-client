@@ -1,0 +1,28 @@
+@use "../../partials/variables" as *;
+@use "../../partials/typography" as *;
+
+.logo {
+  &__container {
+    display: flex;
+    color: $fullist-green;
+    margin-left: 1rem;
+
+    &:hover .logo__image {
+      animation: bounce;
+      animation-duration: 1s;
+    }
+  }
+
+  &__text {
+    font-family: "Nobile";
+    font-size: 2.8rem;
+    color: $fullist-green;
+    padding-bottom: 2px;
+  }
+
+  &__image {
+    height: 26px;
+    margin-top: -4px;
+    margin-left: 2px;
+  }
+}

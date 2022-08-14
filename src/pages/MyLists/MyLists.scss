@@ -1,0 +1,133 @@
+@use "../../partials/variables" as *;
+
+.lists {
+  margin: 0 1.2rem;
+
+  &__delete-modal {
+    &--hide {
+      display: none;
+    }
+
+    &--show {
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: #1c0f13b0;
+      z-index: 10;
+
+      body {
+        overflow: hidden;
+      }
+    }
+  }
+
+  &__delete-modal-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    top: 30%;
+    width: 70%;
+    height: 20%;
+    margin: auto;
+    z-index: 5;
+    background-color: $fullist-white;
+    opacity: 1;
+    border-radius: 10px;
+    padding: 2.4rem;
+  }
+
+  &__delete-modal-title {
+    margin-top: 0.8rem;
+  }
+
+  &__delete-modal-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin: 0 0.8rem;
+  }
+
+  &__delete-modal-button {
+    padding: 0.4rem 0.8rem;
+    border: 1px solid transparent;
+    border-radius: 20px;
+    cursor: pointer;
+
+    &--cancel {
+      &:hover {
+        background-color: $fullist-grey-light;
+      }
+    }
+
+    &--delete {
+      &:hover {
+        background-color: $fullist-red-transparent;
+      }
+    }
+  }
+
+  &__top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 2rem 1.2rem 1.2rem;
+  }
+
+  // &__title {
+  //   flex-grow: 1;
+  // }
+
+  &__sort {
+    width: 12rem;
+    border-radius: 5px;
+    padding-left: 0.4rem;
+  }
+
+  &__mid {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 3.2rem;
+  }
+
+  &__add-new {
+    font-size: 1.4rem;
+
+    &:hover {
+      color: $fullist-green;
+    }
+  }
+
+  &__favourites-label {
+    display: flex;
+    align-items: center;
+    font-size: 1.4rem;
+  }
+
+  &__favourites-check {
+    margin: 0.1rem 0 0 0.8rem;
+    -ms-transform: scale(1.1);
+    -moz-transform: scale(1.1);
+    -webkit-transform: scale(1.1);
+    -o-transform: scale(1.1);
+    transform: scale(1.1);
+  }
+
+  &__list {
+    display: flex;
+    margin: 1.2rem;
+    border-radius: 10px;
+    overflow: hidden;
+
+    &--newest {
+      flex-direction: column-reverse;
+    }
+
+    &--oldest {
+      flex-direction: column;
+    }
+  }
+}

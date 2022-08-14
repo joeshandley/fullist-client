@@ -1,0 +1,12 @@
+@use "../../partials/variables" as *;
+
+.footer {
+  &__text {
+    margin-top: 4rem;
+    padding: 2rem 0 2.4rem;
+    text-align: center;
+    font-size: 1.2rem;
+    color: $fullist-grey;
+    background-color: $fullist-grey-lightest;
+  }
+}

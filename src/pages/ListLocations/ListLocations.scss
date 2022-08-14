@@ -1,0 +1,15 @@
+.list-locations {
+  margin: 1.2rem;
+
+  &__top {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1.2rem;
+  }
+
+  &__back {
+    height: 24px;
+    cursor: pointer;
+    margin-right: 0.4rem;
+  }
+}

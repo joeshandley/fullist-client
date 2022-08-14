@@ -1,0 +1,15 @@
+@use "../../partials/variables" as *;
+
+.star {
+  width: 2rem;
+  height: 2rem;
+  &__fill {
+    fill: $fullist-grey;
+    opacity: 0.5;
+
+    &--favourite {
+      fill: $fullist-gold;
+      opacity: 1;
+    }
+  }
+}

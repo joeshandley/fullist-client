@@ -1,0 +1,31 @@
+@use "../../partials/variables" as *;
+
+.header {
+  position: fixed;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: $header-height;
+  background-color: $fullist-violet;
+  padding: 2.4rem 0 1.6rem;
+
+  &__nav {
+    display: flex;
+    margin-top: 1.2rem;
+    column-gap: 1.6rem;
+  }
+
+  &__nav-link {
+    color: $fullist-white;
+    padding: 0.4rem 1.2rem;
+    border-radius: 12px;
+
+    &:hover {
+      color: $fullist-white;
+      background-color: $fullist-green;
+    }
+  }
+}
