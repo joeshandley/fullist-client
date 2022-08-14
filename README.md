@@ -1,70 +1,55 @@
-# Getting Started with Create React App
+# Fullist - BrainStation Capstone
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+![Fullist logo](./src/assets/logos/logo-filled.png)
 
-## Available Scripts
+An application for finding the closest supermarket that has everything you need!
 
-In the project directory, you can run:
+## Project Description
 
-### `npm start`
+This application was created for the final Capstone project during my BrainStation web development bootcamp, with the inital version being created in under two weeks.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### The Problem
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+The problem I was looking to solve was that often I might go to the supermarket with a long list of items, and when I get there I realise the shop does not have everything I want, which leads to a second trip to another shop and considerable frustration 😖
 
-### `npm test`
+### The Solution
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Fullist aims to solve this problem by way of an application that the user can enter in their full shopping list. Then along with the given location, a list of nearest shops is returned letting the user know which locations have their full list in stock 🛒
 
-### `npm run build`
+### Technologies
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+For this project I created a full-stack application with React for the client and Express for the server. Along with that I used the following npm packages:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- sass
+- axios
+- mapbox-gl
+- swiper
+- animate.css
+- react-toastify
+- mui
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Future Additions
 
-### `npm run eject`
+Going forward I would like to add:
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+- Responsive design for all screen sizes
+- Create a React Native version
+- Improve accessiilty by way of ARIA labels and ensuring all colours are colour-blind appropriate
+- Deploy using Heroku
+- Add autocomplete for user-added items, using the Spoonacular API
+- Add pages for recipes
+- Add user profiles to save individual lists
+- Create a database for storing all data securely
+- And so much more... 🚀
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Instructions for running
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+1. Clone this repo along with the accompanying server, found here: <https://github.com/joeshandley/fullist-server>
+2. Input `npm i` into the console to download all required npm packages
+3. Create a .env file using the .env.example file as a template
+4. Input `npm start` into the console to initate the client
+5. Enjoy finding where you can get your full list! 🥳
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## About me
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+My name is Joe Shandley and this is my first fully fledged project created from scratch. I am an eager front-end developer looking to take on new and exciting projects. Check me out on my LinkedIn here: http://www.linkedin.com/in/joseph-shandley
