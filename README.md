@@ -1,6 +1,4 @@
-# Fullist - BrainStation Capstone
-
-![Fullist logo](./src/assets/logos/logo-filled.png)
+# Fullist ![Fullist logo](./src/assets/logos/logo-filled.png) - BrainStation Capstone
 
 An application for finding the closest supermarket that has everything you need!
 
@@ -44,7 +42,7 @@ Going forward I would like to add:
 
 ## Instructions for running
 
-1. Clone this repo along with the accompanying server, found here: <https://github.com/joeshandley/fullist-server>
+1. Clone this repo along with the accompanying server, found here: https://github.com/joeshandley/fullist-server
 2. Input `npm i` into the console to download all required npm packages
 3. Create a .env file using the .env.example file as a template
 4. Input `npm start` into the console to initate the client
