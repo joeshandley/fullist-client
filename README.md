@@ -1,7 +1,18 @@
-# Fullist ![Fullist logo](./src/assets/logos/logo-filled.png) - BrainStation Capstone
+![Fullist logo](./src/assets/logos/logo-filled.png)
+
+# Fullist - BrainStation Capstone
 
 An application for finding the closest supermarket that has everything you need!
 
+##### Table of Contents
+
+[Project Description](#desc)  
+[How to run](#how)  
+[About me](#about)
+
+## Headers
+
+<a name="desc"/>
 ## Project Description
 
 This application was created for the final Capstone project during my BrainStation web development bootcamp, with the inital version being created in under two weeks.
@@ -40,7 +51,8 @@ Going forward I would like to add:
 - Create a database for storing all data securely
 - And so much more... 🚀
 
-## Instructions for running
+<a name="how"/>
+## How to run
 
 1. Clone this repo along with the accompanying server, found here: https://github.com/joeshandley/fullist-server
 2. Input `npm i` into the console to download all required npm packages
@@ -48,6 +60,7 @@ Going forward I would like to add:
 4. Input `npm start` into the console to initate the client
 5. Enjoy finding where you can get your full list! 🥳
 
+<a name="about"/>
 ## About me
 
 My name is Joe Shandley and this is my first fully fledged project created from scratch. I am an eager front-end developer looking to take on new and exciting projects. Check me out on my LinkedIn here: http://www.linkedin.com/in/joseph-shandley
