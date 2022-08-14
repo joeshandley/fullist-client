@@ -1,6 +1,4 @@
-![Fullist logo](./src/assets/logos/logo-filled.png)
-
-# Fullist - BrainStation Capstone
+# Fullist <img src="./src/assets/logos/logo-filled.png" alt="Fullist logo" width="24"/> - BrainStation Capstone
 
 An application for finding the closest supermarket that has everything you need!
 
@@ -9,8 +7,6 @@ An application for finding the closest supermarket that has everything you need!
 [Project Description](#description)  
 [How to run](#how-to-run)  
 [About me](#about)
-
-## Headers
 
 ## Project Description <a name="description"/>
 
